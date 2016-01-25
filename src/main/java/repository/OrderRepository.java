@@ -7,5 +7,4 @@ import domain.order.Order;
  */
 public interface OrderRepository {
     Order saveOrder(Order newOrder);
-
-    }
+}

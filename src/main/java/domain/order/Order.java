@@ -1,11 +1,11 @@
 package domain.order;
 
+import domain.customer.Customer;
+import domain.pizza.Pizza;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import domain.customer.Customer;
-import domain.pizza.Pizza;
 
 /**
  * Created by Oleksandra_Dmytrenko on 1/21/2016.

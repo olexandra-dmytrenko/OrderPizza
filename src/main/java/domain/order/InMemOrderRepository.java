@@ -9,6 +9,5 @@ public class InMemOrderRepository implements OrderRepository {
     public Order saveOrder(Order newOrder) {
         Order.getOrders().add(newOrder);
         return newOrder;
-
     }
 }

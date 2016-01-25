@@ -1,7 +1,5 @@
 package domain.pizza;
 
-import domain.order.Order;
-import repository.OrderRepository;
 import repository.PizzaRepository;
 
 /**
@@ -10,6 +8,6 @@ import repository.PizzaRepository;
 public class InMemPizzaRepository implements PizzaRepository {
 
     public Pizza find(int id) {
-        return find(id);
+        return Pizza.getPizzas().get(id);
     }
 }
