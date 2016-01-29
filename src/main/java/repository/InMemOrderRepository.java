@@ -1,6 +1,6 @@
-package domain.order;
+package repository;
 
-import repository.OrderRepository;
+import domain.Order;
 
 /**
  * Created by Oleksandra_Dmytrenko on 1/21/2016.

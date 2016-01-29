@@ -1,4 +1,4 @@
-package domain.customer;
+package domain;
 
 /**
  * Created by Oleksandra_Dmytrenko on 1/21/2016.

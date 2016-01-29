@@ -1,6 +1,6 @@
 package service;
 
-import domain.pizza.Pizza;
+import domain.Pizza;
 import repository.PizzaRepository;
 
 /**
@@ -9,15 +9,18 @@ import repository.PizzaRepository;
 public class SimplePizzaService implements PizzaService {
     PizzaRepository pizzaRepository;
 
-    public SimplePizzaService() {
-        JavaConfig config = new JavaConfig();
-        try {
-            pizzaRepository = (PizzaRepository) config.getImpl("pizzaRepository");
-        } catch (Exception e) {
-            System.out.print(e);
-        }
-    }
+//    public SimplePizzaService() {
+//        JavaConfig config = new JavaConfig();
+//        try {
+//            pizzaRepository = (PizzaRepository) config.getImpl("pizzaRepository");
+//        } catch (Exception e) {
+//            System.out.print(e);
+//        }
+//    }
 
+    public SimplePizzaService(PizzaRepository pizzaRepository) {
+        this.pizzaRepository = pizzaRepository;
+    }
 
     public Pizza find(int id) {
 

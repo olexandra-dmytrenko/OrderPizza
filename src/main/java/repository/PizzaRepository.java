@@ -1,6 +1,6 @@
 package repository;
 
-import domain.pizza.Pizza;
+import domain.Pizza;
 
 /**
  * Created by Oleksandra_Dmytrenko on 1/21/2016.

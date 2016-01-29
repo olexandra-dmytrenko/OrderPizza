@@ -1,7 +1,4 @@
-package domain.order;
-
-import domain.customer.Customer;
-import domain.pizza.Pizza;
+package domain;
 
 import java.util.ArrayList;
 import java.util.List;

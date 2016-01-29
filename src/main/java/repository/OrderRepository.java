@@ -1,6 +1,6 @@
 package repository;
 
-import domain.order.Order;
+import domain.Order;
 
 /**
  * Created by Oleksandra_Dmytrenko on 1/21/2016.

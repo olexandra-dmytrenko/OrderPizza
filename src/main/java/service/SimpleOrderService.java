@@ -1,8 +1,9 @@
 package service;
 
-import domain.customer.Customer;
-import domain.order.Order;
-import domain.pizza.Pizza;
+import domain.Customer;
+import domain.Order;
+import domain.Pizza;
+import infrastructure.JavaConfig;
 import repository.OrderRepository;
 
 import java.util.ArrayList;
@@ -11,22 +12,28 @@ import java.util.List;
 /**
  * Created by Oleksandra_Dmytrenko on 1/21/2016.
  */
-public class SimpleOrderService implements Service {
+public class SimpleOrderService implements OrderService {
     private OrderRepository orderRepository;// = new InMemOrderRepository();
-//    private PizzaRepository pizzaRepository; //= new InMemPizzaRepository();
-    private SimplePizzaService simplePizzaService = new SimplePizzaService();
+    //    private PizzaRepository pizzaRepository; //= new InMemPizzaRepository();
+    private PizzaService simplePizzaService;// = new SimplePizzaService();
 
-    public SimpleOrderService() {
-        JavaConfig config = new JavaConfig();
-        orderRepository = (OrderRepository) config.getImpl("orderRepository");
-  //      pizzaRepository = (PizzaRepository) config.getImpl("pizzaRepository");
+    public SimpleOrderService(OrderRepository orderRepository, PizzaService pizzaService) {
+        this.orderRepository = orderRepository;
+        this.simplePizzaService = pizzaService;
     }
 
-    public Order placeNewOrder(Customer customer, Integer... pizzasID) {
+    public SimpleOrderService() {
+//        JavaConfig config = new JavaConfig();
+//        orderRepository = (OrderRepository) config.getImpl("orderRepository");
+        //      pizzaRepository = (PizzaRepository) config.getImpl("pizzaRepository");
+    }
+
+    @Override
+    public Order placeNewOrder(Customer customer, int... pizzasID) {
         List<Pizza> pizzas = new ArrayList();
 
         for (Integer id : pizzasID) {
-            pizzas.add(find(id)); // get Pizza from predifined in-memory list
+            pizzas.add(findPizzaByID(id)); // get Pizza from predifined in-memory list
         }
         Order newOrder = new Order(customer, pizzas);
 
@@ -38,9 +45,9 @@ public class SimpleOrderService implements Service {
         return orderRepository.saveOrder(newOrder);
     }
 
-    private Pizza find(int id) {
+    private Pizza findPizzaByID(int id) {
 //        return Pizza.getPizzas().get(id);
-//        return pizzaRepository.find(id);
+//        return pizzaRepository.findPizzaByID(id);
         return simplePizzaService.find(id);
     }
 }

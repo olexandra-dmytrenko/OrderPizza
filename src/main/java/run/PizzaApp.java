@@ -1,8 +1,11 @@
 package run;
 
-import domain.customer.Customer;
-import domain.order.Order;
+import domain.Customer;
+import repository.InMemOrderRepository;
+import domain.Order;
+import repository.InMemPizzaRepository;
 import service.SimpleOrderService;
+import service.SimplePizzaService;
 
 /**
  * Created by Oleksandra_Dmytrenko on 1/21/2016.
@@ -12,7 +15,8 @@ public class PizzaApp {
         Customer customer = null;
         Order order;
 
-        SimpleOrderService orderService = new SimpleOrderService();
+//        SimpleOrderService orderService = new SimpleOrderService();
+        SimpleOrderService orderService = new SimpleOrderService(new InMemOrderRepository(), new SimplePizzaService(new InMemPizzaRepository()));
         order = orderService.placeNewOrder(customer, 1, 2, 3);
 
         System.out.println(order);
