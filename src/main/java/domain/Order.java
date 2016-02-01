@@ -14,7 +14,9 @@ public class Order {
     List<Pizza> pizzas;
     int id = 0;
 
-    public Order(Customer customer, List<Pizza> pizzas) {
+    public Order(Customer customer
+            , List<Pizza> pizzas
+                 ) {
         this.customer = customer;
         this.pizzas = pizzas;
         id += 1;
@@ -32,6 +34,7 @@ public class Order {
                 ", id=" + id +
                 '}';
     }
+
 
     public void setOrders(List<Order> orders) {
         this.orders = orders;

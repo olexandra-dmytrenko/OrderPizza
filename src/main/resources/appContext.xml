@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="pizzaRepo" class="repository.InMemPizzaRepository"
+          init-method="init">
+        <property name="pizzas">
+            <map>
+                <entry key="1">
+                    <bean class="domain.Pizza">
+                        <constructor-arg value="Sea"/>
+                    </bean>
+                </entry>
+            </map>
+        </property>
+    </bean>
+    <bean id="customerService" class="service.SimpleCustomerService"/>
+    <!-- method - the one we call to get new instance of Customer-->
+    <bean id="pizzaService" class="service.SimplePizzaService">
+        <constructor-arg ref="pizzaRepo"/>
+    </bean>
+
+    <bean id="order1" class="domain.Order">
+        <constructor-arg ref="newCustomer"/>
+        <constructor-arg>
+            <list>
+                <ref bean="pizza1"/>
+                <ref bean="pizza2"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <bean id="orderService" class="service.SimpleOrderService">
+        <constructor-arg index="0">
+            <ref parent="orderRepo"/>
+        </constructor-arg>
+        <!--<constructor-arg index="0" ref="orderRepo"/>-->
+        <constructor-arg index="1" ref="pizzaService"/>
+        <property name="order" ref="order1"/>
+        <!--<property name="order">-->
+        <!--<bean class="domain.Order">-->
+        <!--<constructor-arg ref="newCustomer"/>-->
+        <!--&lt;!&ndash;<constructor-arg>&ndash;&gt;-->
+        <!--&lt;!&ndash;<list>&ndash;&gt;-->
+        <!--&lt;!&ndash;<ref bean="pizza1"/>&ndash;&gt;-->
+        <!--&lt;!&ndash;<ref bean="pizza2"/>&ndash;&gt;-->
+        <!--&lt;!&ndash;</list>&ndash;&gt;-->
+        <!--&lt;!&ndash;</constructor-arg>&ndash;&gt;-->
+        <!--</bean>-->
+        <!--</property>-->
+    </bean>
+
+    <bean id="pizza1" class="domain.Pizza">
+        <constructor-arg value="Sea"/>
+    </bean>
+
+    <bean id="pizza2" class="domain.Pizza">
+        <constructor-arg value="Meat"/>
+    </bean>
+
+    <bean name="customer" factory-bean="customerService" factory-method="createCustomer" scope="singleton">
+        <constructor-arg index="0" value="Sasha"/>
+        <property name="address">
+            <!--Внутренний бин-->
+            <bean class="domain.Address" destroy-method="destroy">
+                <constructor-arg value="Kyiv"/>
+            </bean>
+        </property>
+    </bean>
+
+    <bean name="newCustomer" class="domain.Customer">
+        <constructor-arg value="Sasha"/>
+        <property name="address" value="MyAddress"/>
+    </bean>
+
+
+</beans>

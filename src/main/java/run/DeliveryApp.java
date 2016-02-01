@@ -28,7 +28,7 @@ public class DeliveryApp {
         System.out.println(pizzaRepository.find(1).getName());
 
         OrderService orderService = (OrderService) context.getBean("orderService");
-        Order order = orderService.placeNewOrder(new Customer(), 3, 2, 5);
+        Order order = orderService.placeNewOrder(new Customer("Olexandra"), 3, 2, 5);
         System.out.println(order);
 
         //  getBean(orderService)

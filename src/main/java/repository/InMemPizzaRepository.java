@@ -8,27 +8,31 @@ import java.util.HashMap;
  * Created by Oleksandra_Dmytrenko on 1/21/2016.
  */
 public class InMemPizzaRepository implements PizzaRepository {
-    private static HashMap<Integer, Pizza> pizzas;
+    private HashMap<Integer, Pizza> pizzas;
 
     public InMemPizzaRepository() {
-        init();
+
+        //init();
     }
 
     void init(){
-
-        pizzas = new HashMap<Integer, Pizza>();
-        pizzas.put(new Integer(1), new Pizza("Sea"));
-        pizzas.put(new Integer(2), new Pizza("Meat"));
-        pizzas.put(new Integer(3), new Pizza("Cheese"));
-        pizzas.put(new Integer(4), new Pizza("Margarita"));
-        pizzas.put(new Integer(5), new Pizza("Tropic"));
+        System.out.println("Init pizzas currently does nothing");
+//        pizzas = new HashMap<Integer, Pizza>();
+//        pizzas.put(new Integer(1), new Pizza("Sea"));
+//        pizzas.put(new Integer(2), new Pizza("Meat"));
+//        pizzas.put(new Integer(3), new Pizza("Cheese"));
+//        pizzas.put(new Integer(4), new Pizza("Margarita"));
+//        pizzas.put(new Integer(5), new Pizza("Tropic"));
     }
 
     public Pizza find(int id) {
         return pizzas.get(id);
     }
-    public static HashMap<Integer, Pizza> getPizzas() {
+    public HashMap<Integer, Pizza> getPizzas() {
         return pizzas;
     }
 
+    public void setPizzas(HashMap<Integer, Pizza> pizzas) {
+        this.pizzas = pizzas;
+    }
 }

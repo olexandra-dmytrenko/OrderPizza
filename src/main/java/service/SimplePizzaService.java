@@ -26,5 +26,4 @@ public class SimplePizzaService implements PizzaService {
 
         return pizzaRepository.find(id);
     }
-
 }

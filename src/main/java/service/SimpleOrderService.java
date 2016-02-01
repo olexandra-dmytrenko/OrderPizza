@@ -3,7 +3,6 @@ package service;
 import domain.Customer;
 import domain.Order;
 import domain.Pizza;
-import infrastructure.JavaConfig;
 import repository.OrderRepository;
 
 import java.util.ArrayList;
@@ -13,6 +12,7 @@ import java.util.List;
  * Created by Oleksandra_Dmytrenko on 1/21/2016.
  */
 public class SimpleOrderService implements OrderService {
+    Order order;
     private OrderRepository orderRepository;// = new InMemOrderRepository();
     //    private PizzaRepository pizzaRepository; //= new InMemPizzaRepository();
     private PizzaService simplePizzaService;// = new SimplePizzaService();
@@ -35,7 +35,9 @@ public class SimpleOrderService implements OrderService {
         for (Integer id : pizzasID) {
             pizzas.add(findPizzaByID(id)); // get Pizza from predifined in-memory list
         }
-        Order newOrder = new Order(customer, pizzas);
+        Order newOrder = new Order(customer
+                , pizzas
+                );
 
         saveOrder(newOrder); // set Order Id and save Order to in-memory list
         return newOrder;
@@ -49,5 +51,13 @@ public class SimpleOrderService implements OrderService {
 //        return Pizza.getPizzas().get(id);
 //        return pizzaRepository.findPizzaByID(id);
         return simplePizzaService.find(id);
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 }
