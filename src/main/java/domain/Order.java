@@ -2,6 +2,7 @@ package domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
 /**
@@ -12,14 +13,14 @@ public class Order {
 
     private final Customer customer;
     List<Pizza> pizzas;
-    int id = 0;
+    AtomicLong id = new AtomicLong(0);
 
     public Order(Customer customer
             , List<Pizza> pizzas
                  ) {
         this.customer = customer;
         this.pizzas = pizzas;
-        id += 1;
+        id.incrementAndGet();
     }
 
     public static List<Order> getOrders() {

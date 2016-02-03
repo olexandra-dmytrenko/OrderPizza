@@ -4,11 +4,15 @@ package domain;
  * Created by olexandra on 1/29/16.
  */
 public class Address {
-    String city;
-    String country;
+    private String city;
+    private String country;
 
     public Address(String city) {
         this.city = city;
+    }
+    public Address(String city, String country) {
+        this.city = city;
+        this.country = country;
     }
 
     public String getCity() {
@@ -29,5 +33,10 @@ public class Address {
 
     private void destroy(){
         System.out.println("destroy address");
+    }
+
+    @Override
+    public String toString() {
+        return city + ", " + country;
     }
 }

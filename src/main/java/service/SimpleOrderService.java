@@ -20,6 +20,7 @@ public class SimpleOrderService implements OrderService {
     public SimpleOrderService(OrderRepository orderRepository, PizzaService pizzaService) {
         this.orderRepository = orderRepository;
         this.simplePizzaService = pizzaService;
+
     }
 
     public SimpleOrderService() {
@@ -59,5 +60,10 @@ public class SimpleOrderService implements OrderService {
 
     public void setOrder(Order order) {
         this.order = order;
+    }
+
+    @Override
+    public String toString() {
+        return Order.getOrders().toString();
     }
 }

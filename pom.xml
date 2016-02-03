@@ -28,8 +28,8 @@
             </plugin>
         </plugins>
     </build>
-     
-    <dependencies>
+
+   <dependencies>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
@@ -43,6 +43,5 @@
         </dependency>
     </dependencies>
 </project>
-        <!--File -> Settings -> Compiler -> Java Compiler -> Target bytecode version-->
 
 
