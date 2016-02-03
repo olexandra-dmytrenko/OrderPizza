@@ -11,9 +11,25 @@ import java.util.stream.Collectors;
 public class Order {
     private static List<Order> orders = new ArrayList<Order>();
 
-    private final Customer customer;
+    private Customer customer;
     List<Pizza> pizzas;
     AtomicLong id = new AtomicLong(0);
+
+    public Order() {
+
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public List<Pizza> getPizzas() {
+        return pizzas;
+    }
+
+    public void setPizzas(List<Pizza> pizzas) {
+        this.pizzas = pizzas;
+    }
 
     public Order(Customer customer
             , List<Pizza> pizzas
@@ -31,7 +47,7 @@ public class Order {
     public String toString() {
         return "Order{" +
                 "customer=" + customer +
-                ", pizzas=" + pizzas.stream().map(p -> p.getName()).collect(Collectors.joining(", ")) +
+                ", pizzas=" + pizzas.stream().map(Pizza::getName).collect(Collectors.joining(", ")) +
                 ", id=" + id +
                 '}';
     }
@@ -39,5 +55,9 @@ public class Order {
 
     public void setOrders(List<Order> orders) {
         this.orders = orders;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 }

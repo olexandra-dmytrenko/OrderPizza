@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-
+<!--<context: annotation-config/>-->
+    <!-- используем, когда экземпляры объекта через фектори создаются-->
+    <!--вставить в мапу, fix-->
+    <bean name = "pizzaFactoryBean" class="infrastructure.PizzaFactoryBean">
+        <property name="name" value="Sea"/>
+        <property name="id"  value="1"/>
+    </bean>
+    <!--&lt;!&ndash; for our Benchmark which has to be added and work Может использоваться как логгер, когда какой бин был создан&ndash;&gt;-->
+<bean class="infrastructure.BenchMarkBeanPostProcessor"/>
     <bean id="pizzaRepo" class="repository.InMemPizzaRepository"
           init-method="init">
         <property name="pizzas">
             <map>
                 <entry key="1">
                     <bean class="domain.Pizza">
-                        <constructor-arg value="Sea"/>
+                        <constructor-arg type="java.lang.String" value="Sea"/>
+                        <constructor-arg type="int" value="1"/>
                     </bean>
                 </entry>
             </map>
@@ -21,7 +31,7 @@
         <constructor-arg ref="pizzaRepo"/>
     </bean>
 
-    <bean id="order1" class="domain.Order">
+    <bean id="order1" class="domain.Order" scope="prototype">
         <constructor-arg ref="newCustomer"/>
         <constructor-arg>
             <list>
@@ -31,35 +41,43 @@
         </constructor-arg>
     </bean>
 
-    <bean id="orderService" class="service.SimpleOrderService">
-        <constructor-arg index="0">
-            <ref parent="orderRepo"/>
-        </constructor-arg>
-        <!--<constructor-arg index="0" ref="orderRepo"/>-->
-        <constructor-arg index="1" ref="pizzaService"/>
-        <property name="order" ref="order1"/>
-        <!--<property name="order">-->
-        <!--<bean class="domain.Order">-->
-        <!--<constructor-arg ref="newCustomer"/>-->
-        <!--&lt;!&ndash;<constructor-arg>&ndash;&gt;-->
-        <!--&lt;!&ndash;<list>&ndash;&gt;-->
-        <!--&lt;!&ndash;<ref bean="pizza1"/>&ndash;&gt;-->
-        <!--&lt;!&ndash;<ref bean="pizza2"/>&ndash;&gt;-->
-        <!--&lt;!&ndash;</list>&ndash;&gt;-->
-        <!--&lt;!&ndash;</constructor-arg>&ndash;&gt;-->
-        <!--</bean>-->
-        <!--</property>-->
+    <!--<bean id="orderService" class="service.SimpleOrderService" autowire="constructor">-->
+        <!--<constructor-arg index="0">-->
+            <!--<ref parent="orderRepo"/>-->
+        <!--</constructor-arg>-->
+        <!--&lt;!&ndash;<constructor-arg index="0" ref="orderRepo"/>&ndash;&gt;-->
+        <!--<constructor-arg index="1" ref="pizzaService"/>-->
+        <!--&lt;!&ndash; само генерирует тело метода &ndash;&gt;-->
+        <!--<lookup-method name = "createNewOrder" bean = "order"/>-->
+        <!--<property name="order" ref="order1"/>-->
+
+        <!--&lt;!&ndash;<property name="order">&ndash;&gt;-->
+        <!--&lt;!&ndash;<bean class="domain.Order">&ndash;&gt;-->
+        <!--&lt;!&ndash;<constructor-arg ref="newCustomer"/>&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<constructor-arg>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<list>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<ref bean="pizza1"/>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;<ref bean="pizza2"/>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;</list>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;</constructor-arg>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;</bean>&ndash;&gt;-->
+        <!--&lt;!&ndash;</property>&ndash;&gt;-->
+    <!--</bean>-->
+
+    <bean id="orderService" class="service.SimpleOrderService" >
     </bean>
 
     <bean id="pizza1" class="domain.Pizza">
-        <constructor-arg value="Sea"/>
+        <constructor-arg type="java.lang.String" value="Sea"/>
+        <constructor-arg type="int" value="1"/>
     </bean>
 
     <bean id="pizza2" class="domain.Pizza">
-        <constructor-arg value="Meat"/>
+        <constructor-arg type="java.lang.String" value="Meat"/>
+        <constructor-arg type="int" value="2"/>
     </bean>
 
-    <bean name="customer" factory-bean="customerService" factory-method="createCustomer" scope="singleton">
+    <bean name="customer" factory-bean="customerService" factory-method="createCustomer" scope="prototype" autowire="byType">
         <constructor-arg index="0" value="Sasha"/>
         <property name="address">
             <!--Внутренний бин-->
@@ -74,6 +92,7 @@
         <constructor-arg value="Sasha"/>
         <property name="address" value="MyAddress"/>
     </bean>
-
+<!--регистрируем бин для сета велюз из екстернал сорс (БД) -->
+<bean class="infrastructure.CustomBeanFactoryPostProcessor"/>
 
 </beans>

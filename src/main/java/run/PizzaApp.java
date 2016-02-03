@@ -1,6 +1,7 @@
 package run;
 
 import domain.Customer;
+import org.springframework.beans.factory.annotation.Autowired;
 import repository.InMemOrderRepository;
 import domain.Order;
 import repository.InMemPizzaRepository;
@@ -16,10 +17,10 @@ public class PizzaApp {
         Order order;
 
 //        SimpleOrderService orderService = new SimpleOrderService();
-        SimpleOrderService orderService = new SimpleOrderService(new InMemOrderRepository(), new SimplePizzaService(new InMemPizzaRepository()));
-        order = orderService.placeNewOrder(customer, 1, 2, 3);
+//        SimpleOrderService orderService = new SimpleOrderService(new InMemOrderRepository(), new SimplePizzaService(new InMemPizzaRepository()));
+//        order = orderService.placeNewOrder(customer, 1, 2, 3);
 
-        System.out.println(order);
+ //       System.out.println(order);
     }
 
 }
