@@ -15,8 +15,10 @@ public class InMemPizzaRepository implements PizzaRepository {
         //init();
     }
 
-    void init(){
+    void init() {
         System.out.println("Init pizzas currently does nothing");
+        setPizzas(pizzas);
+
 //        pizzas = new HashMap<Integer, Pizza>();
 //        pizzas.put(new Integer(1), new Pizza("Sea"));
 //        pizzas.put(new Integer(2), new Pizza("Meat"));
@@ -28,6 +30,7 @@ public class InMemPizzaRepository implements PizzaRepository {
     public Pizza find(int id) {
         return pizzas.get(id);
     }
+
     public HashMap<Integer, Pizza> getPizzas() {
         return pizzas;
     }
