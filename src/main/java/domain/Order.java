@@ -23,6 +23,10 @@ public class Order {
         this.orders = orders;
     }
 
+    public static List<Order> getOrders() {
+        return orders;
+    }
+
     public Customer getCustomer() {
         return customer;
     }
@@ -39,10 +43,6 @@ public class Order {
         this.customer = customer;
         this.pizzas = pizzas;
         id.incrementAndGet();
-    }
-
-    public static List<Order> getOrders() {
-        return orders;
     }
 
 

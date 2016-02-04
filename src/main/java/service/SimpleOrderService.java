@@ -1,16 +1,15 @@
 package service;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
 import domain.Customer;
 import domain.Order;
 import domain.Pizza;
 import infrastructure.ApplicationContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import repository.OrderRepository;
+
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Oleksandra_Dmytrenko on 1/21/2016.
@@ -82,6 +81,6 @@ public class SimpleOrderService implements OrderService// , ApplicationContextAw
 
     @Override
     public String toString() {
-        return Order.getOrders().toString();
+        return order.getOrders().toString();
     }
 }
