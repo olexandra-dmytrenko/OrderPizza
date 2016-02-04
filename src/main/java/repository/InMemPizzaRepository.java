@@ -16,7 +16,7 @@ public class InMemPizzaRepository implements PizzaRepository {
     }
 
     void init() {
-        System.out.println("Init pizzas currently does nothing");
+        System.out.println("All pizzas have been initialized through init method");
         setPizzas(pizzas);
 
 //        pizzas = new HashMap<Integer, Pizza>();

@@ -1,13 +1,10 @@
 package domain;
 
-import java.util.HashMap;
-import java.util.concurrent.atomic.AtomicLong;
-
 /**
  * Created by Oleksandra_Dmytrenko on 1/21/2016.
  */
+@BenchMark
 public class Pizza {
-
 
     private final String name;
     private int id;
@@ -16,6 +13,7 @@ public class Pizza {
 //    public Pizza(String name) {
 //        this.name = name;
 //    }
+
     public Pizza(String name, int id) {
         this.name = name;
         this.id = id;
@@ -25,7 +23,7 @@ public class Pizza {
         return id;
     }
 
-    public void setId(int id) {
+ public void setId(int id) {
         this.id = id;
     }
 

@@ -13,31 +13,7 @@
     </bean>
     <!--&lt;!&ndash; for our Benchmark which has to be added and work Может использоваться как логгер, когда какой бин был создан&ndash;&gt;-->
     <bean class="infrastructure.BenchMarkBeanPostProcessor"/>
-    <bean id="pizzaRepo" class="repository.InMemPizzaRepository"
-          init-method="init">
-        <property name="pizzas">
-            <map>
-                <entry key="1">
-                    <bean class="domain.Pizza">
-                        <constructor-arg type="java.lang.String" value="Sea"/>
-                        <constructor-arg type="int" value="1"/>
-                    </bean>
-                </entry>
-                <entry key="2">
-                    <bean class="domain.Pizza">
-                        <constructor-arg type="java.lang.String" value="Meat"/>
-                        <constructor-arg type="int" value="2"/>
-                    </bean>
-                </entry>
-                <entry key="3">
-                    <bean class="domain.Pizza">
-                        <constructor-arg type="java.lang.String" value="Tropic"/>
-                        <constructor-arg type="int" value="3"/>
-                    </bean>
-                </entry>
-            </map>
-        </property>
-    </bean>
+
     <bean id="customerService" class="service.SimpleCustomerService"/>
     <!-- method - the one we call to get new instance of Customer-->
     <bean id="pizzaService" class="service.SimplePizzaService">

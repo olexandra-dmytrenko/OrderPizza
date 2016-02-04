@@ -13,4 +13,30 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 
     <bean id="orderRepo" class="repository.InMemOrderRepository"/>
 
+    <bean id="pizzaRepo" class="repository.InMemPizzaRepository"
+          init-method="init">
+        <property name="pizzas">
+            <map>
+                <entry key="1">
+                    <bean class="domain.Pizza">
+                        <constructor-arg type="java.lang.String" value="Sea"/>
+                        <constructor-arg type="int" value="1"/>
+                    </bean>
+                </entry>
+                <entry key="2">
+                    <bean class="domain.Pizza">
+                        <constructor-arg type="java.lang.String" value="Meat"/>
+                        <constructor-arg type="int" value="2"/>
+                    </bean>
+                </entry>
+                <entry key="3">
+                    <bean class="domain.Pizza">
+                        <constructor-arg type="java.lang.String" value="Tropic"/>
+                        <constructor-arg type="int" value="3"/>
+                    </bean>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
 </beans>

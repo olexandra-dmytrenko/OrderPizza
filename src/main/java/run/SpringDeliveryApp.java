@@ -27,6 +27,7 @@ public class SpringDeliveryApp {
                 new String[]{"appContext.xml"}, appContextParent);
 
         /****************** Parent ******************/
+        System.out.println(SEPARATOR);
         ApplicationContext parent = appContext.getParent();
         System.out.println("Parent = " + parent);
 
