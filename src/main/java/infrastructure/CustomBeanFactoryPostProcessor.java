@@ -18,7 +18,6 @@ public class CustomBeanFactoryPostProcessor implements BeanFactoryPostProcessor 
         System.out.println("CustomBeanFactoryPostProcessor Val = " + cav.getArgumentValue(0, null).getValue());
         cav.getArgumentValue(0, null).setValue("Nick");
         bd.setScope("singleton");
-        System.out.println("CustomBeanFactoryPostProcessor Val set = " + cav.getArgumentValue(0, null).getValue() );
-
+        System.out.println("CustomBeanFactoryPostProcessor Val set = " + cav.getArgumentValue(0, null).getValue());
     }
 }

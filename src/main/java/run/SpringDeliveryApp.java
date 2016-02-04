@@ -42,11 +42,15 @@ public class SpringDeliveryApp {
         System.out.println("Using find method" + pizzaRepository.find(1));
         System.out.println(SEPARATOR);
 
-        ///////// customers/////////
+        /****************** Customers ******************/
+        System.out.println(SEPARATOR);
+        System.out.println("The Customers");
         Customer customer = appContext.getBean("customer", Customer.class);
-        Customer newCustomer = appContext.getBean("newCustomer", Customer.class);
+        Customer newCustomerContext = appContext.getBean("newCustomer", Customer.class);
+        Customer newCustomerParent = appContext.getParent().getBean("newCustomer", Customer.class);
         System.out.println(customer.toString());
-        System.out.println(newCustomer.toString());
+        System.out.println(newCustomerContext.toString());
+        System.out.println(newCustomerParent.toString());
 
         SimpleOrderService os = appContext.getBean("orderService", SimpleOrderService.class);
         // os.placeNewOrder(customer, os.getOrder());

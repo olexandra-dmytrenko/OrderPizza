@@ -7,8 +7,13 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
     <bean name = "newCustomer" class="domain.Customer">
-        <constructor-arg value = "Sasha"/>
-        <property name="address" value="MyAddress"/>
+        <constructor-arg value = "SashaParent"/>
+        <property name="address">
+            <bean class="domain.Address">
+                <constructor-arg index="0" value="Minsk"/>
+                <constructor-arg index="1" value="Belarus"/>
+            </bean>
+        </property>
     </bean>
 
     <bean id="orderRepo" class="repository.InMemOrderRepository"/>

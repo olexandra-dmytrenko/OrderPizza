@@ -12,11 +12,12 @@ import java.lang.annotation.Annotation;
 //вызывается на этапе создания бинов после методов пост, инит, афтерПропертиз
 //    на вход идет бин с засечеными конструктором и сеттерами
 public class BenchMarkBeanPostProcessor implements BeanPostProcessor {
-    long startTime;
+
+    private long startTime;
 
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-        System.out.println("Before: " + beanName);
+        System.out.println("Before in postProcessBeforeInitialization: " + beanName);
         Annotation annotation = bean.getClass().getAnnotation(BenchMark.class);
         try {
             BenchMark benchMark = (BenchMark) annotation;
@@ -43,7 +44,7 @@ public class BenchMarkBeanPostProcessor implements BeanPostProcessor {
                 //  System.out.println("Benchmark Annotation is present but no time count is needed: " + benchMark.toString());
             }
         } finally {
-            System.out.println("After: " + beanName);
+            System.out.println("After from postProcessAfterInitialization: " + beanName);
             return bean;
         }
     }

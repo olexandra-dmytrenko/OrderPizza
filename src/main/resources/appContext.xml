@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-    <!--<context: annotation-config/>-->
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+<!--<context: annotation-config/>-->
 
     <!-- используем, когда экземпляры объекта через фектори создаются-->
     <!--вставить в мапу, fix-->
@@ -73,7 +76,7 @@
 
     <bean name="customer" factory-bean="customerService" factory-method="createCustomer" scope="prototype"
           autowire="byType">
-        <constructor-arg index="0" value="Sasha"/>
+        <constructor-arg index="0" value="Ваня"/>
         <property name="address">
             <!--Внутренний бин-->
             <bean class="domain.Address" destroy-method="destroy">
@@ -87,7 +90,7 @@
         <constructor-arg value="Sasha"/>
         <property name="address" value="MyAddress"/>
     </bean>
-    <!--регистрируем бин для сета велюз из екстернал сорс (БД) -->
+    <!--регистрируем бин примером для сета велюз из екстернал сорс (БД) -->
     <bean class="infrastructure.CustomBeanFactoryPostProcessor"/>
 
 </beans>
