@@ -39,9 +39,9 @@ public class BenchMarkBeanPostProcessor implements BeanPostProcessor {
             if (benchMark.countTime()) {
                 long resultTime = System.nanoTime() - startTime;
                 System.out.println("Benchmark annotation: The process of " + beanName + " creation took " + resultTime / 1000 + " mks");
-            } else
-                System.out.println("Benchmark Annotation is present but no time count is needed: " + benchMark.toString());
-
+            } else {
+                //  System.out.println("Benchmark Annotation is present but no time count is needed: " + benchMark.toString());
+            }
         } finally {
             System.out.println("After: " + beanName);
             return bean;
