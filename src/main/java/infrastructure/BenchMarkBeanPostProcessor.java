@@ -27,8 +27,8 @@ public class BenchMarkBeanPostProcessor implements BeanPostProcessor {
                 System.out.println("Benchmark Annotation is present but no time count is needed:" + benchMark.toString());
 
         } finally {
+            return bean;
         }
-        return bean;
     }
 
     @Override
@@ -44,7 +44,7 @@ public class BenchMarkBeanPostProcessor implements BeanPostProcessor {
 
         } finally {
             System.out.println("After: " + beanName);
+            return bean;
         }
-        return bean;
     }
 }
