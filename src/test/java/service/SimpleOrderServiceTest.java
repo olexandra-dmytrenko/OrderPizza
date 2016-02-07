@@ -35,7 +35,7 @@ public class SimpleOrderServiceTest {
 
     public SimpleOrderServiceTest() {
         this.appContextParent
-                // = new ClassPathXmlApplicationContext("src/main/repository/appContext.xml");
+                // = new ClassPathXmlApplicationContext("src/test/repository/appContext.xml");
                 = new ClassPathXmlApplicationContext(new String[]{"repoContext.xml"});
         // указали что у апп контекста есть родитель репозитори контекст
         this.appContext = new ClassPathXmlApplicationContext(
