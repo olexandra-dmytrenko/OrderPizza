@@ -9,6 +9,8 @@ import java.lang.reflect.InvocationTargetException;
  * Created by Oleksandra_Dmytrenko on 1/21/2016.
  */
 public interface OrderService {
+
+    // оставить этот метод, fine grained but not core grained. Customer may already exist. Should be fine for CRUD opsn
     Order placeNewOrder(Customer customer, int... pizzasID) throws InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException;
 //    default Order placeNewOrder(Customer customer, int... pizzasID){
 //        List<Pizza> pizzas = new ArrayList();

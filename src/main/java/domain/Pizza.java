@@ -3,12 +3,13 @@ package domain;
 /**
  * Created by Oleksandra_Dmytrenko on 1/21/2016.
  */
-@BenchMark
+
+//@BenchMark
 public class Pizza {
 
     private final String name;
     private int id;
-  //  private PizzaType type;
+    //  private PizzaType type;
 
 //    public Pizza(String name) {
 //        this.name = name;
@@ -23,7 +24,8 @@ public class Pizza {
         return id;
     }
 
- public void setId(int id) {
+    @BenchMark
+    public void setId(int id) {
         this.id = id;
     }
 

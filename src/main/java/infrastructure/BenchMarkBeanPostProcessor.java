@@ -5,6 +5,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
 
 /**
  * Created by Oleksandra_Dmytrenko on 2/3/2016.
@@ -18,14 +19,17 @@ public class BenchMarkBeanPostProcessor implements BeanPostProcessor {
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
         System.out.println("Before in postProcessBeforeInitialization: " + beanName);
-        Annotation annotation = bean.getClass().getAnnotation(BenchMark.class);
+     //   Annotation annotation = bean.getClass().getAnnotation(BenchMark.class);
         try {
-            BenchMark benchMark = (BenchMark) annotation;
-            if (benchMark.countTime()) {
-                startTime = System.nanoTime();
-                //      System.out.println("Benchmark Annotation is present: " + benchMark.toString() + " Start time =" + startTime);
-            } else
-                System.out.println("Benchmark Annotation is present but no time count is needed:" + benchMark.toString());
+       //     BenchMark benchMark = (BenchMark) annotation;
+            for (Method method : bean.getClass().getDeclaredMethods()){
+                BenchMark benchMark = (BenchMark) method.getAnnotation(BenchMark.class);
+                if (benchMark.countTime()) {
+                    startTime = System.nanoTime();
+                    //      System.out.println("Benchmark Annotation is present: " + benchMark.toString() + " Start time =" + startTime);
+                } else
+                    System.out.println("Benchmark Annotation is present but no time count is needed:" + benchMark.toString());
+            }
 
         } finally {
             return bean;

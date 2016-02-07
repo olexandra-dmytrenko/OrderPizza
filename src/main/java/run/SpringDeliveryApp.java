@@ -1,14 +1,18 @@
 package run;
 
 import domain.Customer;
+import domain.Order;
 import domain.Pizza;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationEvent;
+import org.springframework.context.ApplicationListener;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import repository.InMemPizzaRepository;
 import repository.PizzaRepository;
 import service.SimpleOrderService;
+
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * Created by olexandra on 1/27/16a
@@ -17,7 +21,7 @@ public class SpringDeliveryApp {
 
     public static final String SEPARATOR = "------------------------------------------------";
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
 
         ConfigurableApplicationContext appContextParent
                 // = new ClassPathXmlApplicationContext("src/main/repository/appContext.xml");
@@ -53,11 +57,12 @@ public class SpringDeliveryApp {
         System.out.println(newCustomerParent.toString());
 
         SimpleOrderService os = appContext.getBean("orderService", SimpleOrderService.class);
-        // os.placeNewOrder(customer, os.getOrder());
-//        System.out.println(os.getOrder().toString());
+        int [] pizzaIds1 = (int[]) appContext.getBean("pizzaIdsList");
+        Order order1 = os.placeNewOrder(customer, pizzaIds1);
+        System.out.println(order1);
+        System.out.println(os.getOrder().toString());
         System.out.println(os.toString());
 
-        /* `Не сработают дистрой методы если не закрыть контекст */
 
         // appContext.getBeanDefinionNames().stream().forEach(e->System.out.println(e));
         System.out.println(SEPARATOR);
@@ -66,9 +71,15 @@ public class SpringDeliveryApp {
         System.out.println(pizza);
         System.out.println(SEPARATOR);
         // надо реализовать подписчиков и тогда сможем получать сообщения
-        //     appContext.addApplicationListener();
-        appContext.publishEvent(new ApplicationEvent(appContext) {
-        });
+             appContext.addApplicationListener(new ApplicationListener<ApplicationEvent>() {
+                 @Override
+                 public void onApplicationEvent(ApplicationEvent event) {
+                     System.out.println("event");
+                 }
+             });
+//        appContext.publishEvent(new ApplicationEvent(appContext) {
+//        });
+        /* `Не сработают дистрой методы если не закрыть контекст */
         appContext.close();
         appContextParent.close();
 

@@ -30,11 +30,11 @@ public class SimpleOrderService implements OrderService// , ApplicationContextAw
 
     }
 
-    public SimpleOrderService() {
+//    public SimpleOrderService() {
         // JavaConfig config = new JavaConfig();
         // orderRepository = (OrderRepository) config.getImpl("orderRepository");
         // pizzaRepository = (PizzaRepository) config.getImpl("pizzaRepository");
-    }
+ //   }
 
     public void setAppContext(ApplicationContext appContext) {
         this.appContext = appContext;
@@ -58,7 +58,8 @@ public class SimpleOrderService implements OrderService// , ApplicationContextAw
 
     //abstract
     Order createNewOrder() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-     return (Order) appContext.getBean("order");}
+        return (Order) appContext.getBean("order");
+    }
     // return new Order();
 
     private Order saveOrder(Order newOrder) {

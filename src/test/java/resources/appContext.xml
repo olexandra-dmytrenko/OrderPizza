@@ -1,13 +1,14 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
     http://www.springframework.org/schema/context
     http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
     <context:annotation-config/>
-
+    <context:component-scan base-package="com.demo.spring" />
     <!-- используем, когда экземпляры объекта через фектори создаются-->
     <!--вставить в мапу, fix-->
 
@@ -34,31 +35,38 @@
         </constructor-arg>
     </bean>
 
-    <!--<bean id="orderService" class="service.SimpleOrderService" autowire="constructor">-->
-    <!--<constructor-arg index="0">-->
-    <!--<ref parent="orderRepo"/>-->
-    <!--</constructor-arg>-->
-    <!--&lt;!&ndash;<constructor-arg index="0" ref="orderRepo"/>&ndash;&gt;-->
-    <!--<constructor-arg index="1" ref="pizzaService"/>-->
-    <!--&lt;!&ndash; само генерирует тело метода &ndash;&gt;-->
-    <!--<lookup-method name = "createNewOrder" bean = "order"/>-->
-    <!--<property name="order" ref="order1"/>-->
-
-    <!--&lt;!&ndash;<property name="order">&ndash;&gt;-->
-    <!--&lt;!&ndash;<bean class="domain.Order">&ndash;&gt;-->
-    <!--&lt;!&ndash;<constructor-arg ref="newCustomer"/>&ndash;&gt;-->
-    <!--&lt;!&ndash;&lt;!&ndash;<constructor-arg>&ndash;&gt;&ndash;&gt;-->
-    <!--&lt;!&ndash;&lt;!&ndash;<list>&ndash;&gt;&ndash;&gt;-->
-    <!--&lt;!&ndash;&lt;!&ndash;<ref bean="pizza1"/>&ndash;&gt;&ndash;&gt;-->
-    <!--&lt;!&ndash;&lt;!&ndash;<ref bean="pizza2"/>&ndash;&gt;&ndash;&gt;-->
-    <!--&lt;!&ndash;&lt;!&ndash;</list>&ndash;&gt;&ndash;&gt;-->
-    <!--&lt;!&ndash;&lt;!&ndash;</constructor-arg>&ndash;&gt;&ndash;&gt;-->
-    <!--&lt;!&ndash;</bean>&ndash;&gt;-->
-    <!--&lt;!&ndash;</property>&ndash;&gt;-->
-    <!--</bean>-->
+        <util:list id="pizzaIdsList" value-type="int">
+            <array>
+                <ref bean="pizza1"/>
+                <ref bean="pizza2"/>
+            </array>
+        </util:list>
 
     <bean id="orderService" class="service.SimpleOrderService">
+        <!--autowire="constructor">-->
+        <constructor-arg index="0">
+            <ref parent="orderRepo"/>
+        </constructor-arg>
+        <!--<constructor-arg index="0" ref="orderRepo"/>-->
+        <constructor-arg index="1" ref="pizzaService"/>
+        <!-- само генерирует тело метода -->
+        <lookup-method name="createNewOrder" bean="order"/>
+        <property name="order" ref="order1"/>
+
+        <!--<property name="order">-->
+        <!--<bean class="domain.Order">-->
+        <!--<constructor-arg ref="newCustomer"/>-->
+        <!--&lt;!&ndash;<constructor-arg>&ndash;&gt;-->
+        <!--&lt;!&ndash;<list>&ndash;&gt;-->
+        <!--&lt;!&ndash;<ref bean="pizza1"/>&ndash;&gt;-->
+        <!--&lt;!&ndash;<ref bean="pizza2"/>&ndash;&gt;-->
+        <!--&lt;!&ndash;</list>&ndash;&gt;-->
+        <!--&lt;!&ndash;</constructor-arg>&ndash;&gt;-->
+        <!--</bean>-->
+        <!--</property>-->
     </bean>
+
+    <!--<bean id="orderService" class="service.SimpleOrderService"></bean>-->
 
     <bean id="pizza1" class="domain.Pizza">
         <constructor-arg type="java.lang.String" value="Sea"/>
