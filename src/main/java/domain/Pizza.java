@@ -9,6 +9,7 @@ public class Pizza {
 
     private final String name;
     private int id;
+//    private double price;
     //  private PizzaType type;
 
 //    public Pizza(String name) {

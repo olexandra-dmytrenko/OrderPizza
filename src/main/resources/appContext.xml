@@ -28,24 +28,13 @@
         <constructor-arg ref="pizzaRepo"/>
     </bean>
 
-    <bean id="order1" class="domain.Order" scope="prototype">
-        <constructor-arg ref="newCustomer"/>
-        <constructor-arg>
-            <list>
-                <ref bean="pizza1"/>
-                <ref bean="pizza2"/>
-            </list>
-        </constructor-arg>
-    </bean>
 
-    <bean id="pizzaIdsList">
-        <util:list id="pizzaIdsList" value-type="int">
-            <array>
-                <ref bean="pizza1"/>
-                <ref bean="pizza2"/>
-            </array>
-        </util:list>
-    </bean>
+    <util:list id="pizzaIdsList" value-type="int">
+        <array>
+            <value>1</value>
+            <value>2</value>
+        </array>
+    </util:list>
 
     <bean id="orderService" class="service.SimpleOrderService">
         <!--autowire="constructor">-->
@@ -56,19 +45,55 @@
         <constructor-arg index="1" ref="pizzaService"/>
         <!-- само генерирует тело метода -->
         <lookup-method name="createNewOrder" bean="order"/>
-        <property name="order" ref="order1"/>
+        <property name="order" ref="order"/>
+    </bean>
 
-        <!--<property name="order">-->
-        <!--<bean class="domain.Order">-->
-        <!--<constructor-arg ref="newCustomer"/>-->
-        <!--&lt;!&ndash;<constructor-arg>&ndash;&gt;-->
-        <!--&lt;!&ndash;<list>&ndash;&gt;-->
-        <!--&lt;!&ndash;<ref bean="pizza1"/>&ndash;&gt;-->
-        <!--&lt;!&ndash;<ref bean="pizza2"/>&ndash;&gt;-->
-        <!--&lt;!&ndash;</list>&ndash;&gt;-->
-        <!--&lt;!&ndash;</constructor-arg>&ndash;&gt;-->
-        <!--</bean>-->
-        <!--</property>-->
+    <bean id="order2" class="domain.Order" scope="prototype">
+        <constructor-arg>
+            <ref bean="customer"/>
+        </constructor-arg>
+        <constructor-arg>
+            <list>
+                <ref bean="pizza3"/>
+                <ref bean="pizza2"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <bean id="order1" class="domain.Order" scope="prototype">
+        <constructor-arg>
+            <ref parent="newCustomer"/>
+        </constructor-arg>
+        <constructor-arg>
+            <list>
+                <ref bean="pizza1"/>
+                <ref bean="pizza2"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <bean id="order" factory-bean="orderService" factory-method="placeNewOrder" scope="prototype" autowire="byName">
+        <constructor-arg>
+            <ref bean="customer"/>
+        </constructor-arg>
+        <constructor-arg>
+            <array>
+                <value>1</value>
+                <value>3</value>
+            </array>
+        </constructor-arg>
+
+    </bean>
+    <bean name="customer" factory-bean="customerService" factory-method="createCustomer" scope="prototype"
+          autowire="byType">
+        <constructor-arg index="0" value="Ваня"/>
+        <property name="address">
+            <!--Внутренний бин-->
+            <bean class="domain.Address" destroy-method="destroy">
+                <constructor-arg value="Kyiv"/>
+                <property name="country" value="Ukraine"/>
+            </bean>
+        </property>
     </bean>
 
     <!--<bean id="orderService" class="service.SimpleOrderService"></bean>-->
@@ -88,17 +113,6 @@
         <constructor-arg type="int" value="3"/>
     </bean>
 
-    <bean name="customer" factory-bean="customerService" factory-method="createCustomer" scope="prototype"
-          autowire="byType">
-        <constructor-arg index="0" value="Ваня"/>
-        <property name="address">
-            <!--Внутренний бин-->
-            <bean class="domain.Address" destroy-method="destroy">
-                <constructor-arg value="Kyiv"/>
-                <property name="country" value="Ukraine"/>
-            </bean>
-        </property>
-    </bean>
 
     <bean name="newCustomer" class="domain.Customer">
         <constructor-arg value="Sasha"/>

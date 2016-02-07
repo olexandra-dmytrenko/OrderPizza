@@ -9,18 +9,18 @@ import java.util.stream.Collectors;
  * Created by Oleksandra_Dmytrenko on 1/21/2016.
  */
 public class Order {
-    private static List<Order> orders = new ArrayList();
+    private static List<Order> orders = new ArrayList<>();
 
     private Customer customer;
     List<Pizza> pizzas;
-    AtomicLong id = new AtomicLong(0);
+    long number;
+    static AtomicLong id = new AtomicLong(0);
 
-    public Order() {
+//    public Order() {
+//    }
 
-    }
-
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
+    public void setOrders(List<Order> newOrders) {
+        orders = newOrders;
     }
 
     public static List<Order> getOrders() {
@@ -42,7 +42,7 @@ public class Order {
     public Order(Customer customer, List<Pizza> pizzas) {
         this.customer = customer;
         this.pizzas = pizzas;
-        id.incrementAndGet();
+        this.number = id.incrementAndGet();
     }
 
 
@@ -51,7 +51,7 @@ public class Order {
         return "Order{" +
                 "customer=" + customer +
                 ", pizzas=" + pizzas.stream().map(Pizza::getName).collect(Collectors.joining(", ")) +
-                ", id=" + id +
+                ", order number=" + number +
                 '}';
     }
 

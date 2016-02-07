@@ -15,7 +15,7 @@ import java.util.List;
  * Created by Oleksandra_Dmytrenko on 1/21/2016.
  */
 // put abstract infront of class
-public class SimpleOrderService implements OrderService// , ApplicationContextAware
+public abstract class SimpleOrderService implements OrderService// , ApplicationContextAware
 {
     Order order;
     private OrderRepository orderRepository;// = new InMemOrderRepository();
@@ -31,10 +31,10 @@ public class SimpleOrderService implements OrderService// , ApplicationContextAw
     }
 
 //    public SimpleOrderService() {
-        // JavaConfig config = new JavaConfig();
-        // orderRepository = (OrderRepository) config.getImpl("orderRepository");
-        // pizzaRepository = (PizzaRepository) config.getImpl("pizzaRepository");
- //   }
+    // JavaConfig config = new JavaConfig();
+    // orderRepository = (OrderRepository) config.getImpl("orderRepository");
+    // pizzaRepository = (PizzaRepository) config.getImpl("pizzaRepository");
+    //   }
 
     public void setAppContext(ApplicationContext appContext) {
         this.appContext = appContext;
@@ -43,23 +43,23 @@ public class SimpleOrderService implements OrderService// , ApplicationContextAw
     @Override
     public Order placeNewOrder(Customer customer, int... pizzasID)
             throws InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
-        List<Pizza> pizzas = new ArrayList();
+        List<Pizza> pizzas = new ArrayList<>();
 
         for (Integer id : pizzasID) {
             pizzas.add(findPizzaByID(id)); // get Pizza from predifined in-memory list
         }
-        Order newOrder = createNewOrder();
-        newOrder.setCustomer(customer);
-        newOrder.setPizzas(pizzas);// new Order(customer, pizzas);
-
+        //Order newOrder = createNewOrder();
+//        newOrder.setCustomer(customer);
+//        newOrder.setPizzas(pizzas);// new Order(customer, pizzas);
+        Order newOrder = new Order(customer, pizzas);
+        System.out.println("ORDER = " + newOrder.toString());
         saveOrder(newOrder); // set Order Id and save Order to in-memory list
         return newOrder;
     }
 
-    //abstract
-    Order createNewOrder() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        return (Order) appContext.getBean("order");
-    }
+    public abstract Order createNewOrder() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException
+            ;
+    //  {return (Order) appContext.getBean("order");}
     // return new Order();
 
     private Order saveOrder(Order newOrder) {
@@ -82,6 +82,6 @@ public class SimpleOrderService implements OrderService// , ApplicationContextAw
 
     @Override
     public String toString() {
-        return order.getOrders().toString();
+        return "All orders: " + Order.getOrders().toString();
     }
 }

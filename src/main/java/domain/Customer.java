@@ -1,5 +1,7 @@
 package domain;
 
+import java.util.concurrent.atomic.AtomicLong;
+
 /**
  * Created by Oleksandra_Dmytrenko on 1/21/2016.
  */
@@ -7,9 +9,12 @@ package domain;
 public class Customer {
     String name;
     Address address;
+    long number;
+    static AtomicLong id = new AtomicLong(0);
 
     public Customer(String name) {
         this.name = name;
+        this.number = id.incrementAndGet();
     }
 
     public void setAddress(Address address) {
@@ -18,6 +23,6 @@ public class Customer {
 
     @Override
     public String toString() {
-        return "Customer: " + name + " from " + address.toString();
+        return "Customer: " + name + " from " + address.toString() + ", customer number = " + number;
     }
 }

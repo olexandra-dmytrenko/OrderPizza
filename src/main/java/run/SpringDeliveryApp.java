@@ -1,11 +1,8 @@
 package run;
 
 import domain.Customer;
-import domain.Order;
 import domain.Pizza;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationEvent;
-import org.springframework.context.ApplicationListener;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import repository.InMemPizzaRepository;
@@ -56,10 +53,17 @@ public class SpringDeliveryApp {
         System.out.println(newCustomerContext.toString());
         System.out.println(newCustomerParent.toString());
 
+        /****************** SimpleOrderService ******************/
+        System.out.println(SEPARATOR);
+        System.out.println("SimpleOrderService");
         SimpleOrderService os = appContext.getBean("orderService", SimpleOrderService.class);
-        int [] pizzaIds1 = (int[]) appContext.getBean("pizzaIdsList");
-        Order order1 = os.placeNewOrder(customer, pizzaIds1);
-        System.out.println(order1);
+     //   int [] pizzaIdsList = (int[]) appContext.getBean("pizzaIdsList");
+      //  LinkedList pizzaIds1 = (LinkedList) appContext.getBean("pizzaIdsList");
+     //   Order order1 = os.placeNewOrder(customer, pizzaIds1);
+       // System.out.println(order1);
+        os.createNewOrder();
+        System.out.println(os.getOrder().toString());
+        os.createNewOrder();
         System.out.println(os.getOrder().toString());
         System.out.println(os.toString());
 
@@ -71,12 +75,7 @@ public class SpringDeliveryApp {
         System.out.println(pizza);
         System.out.println(SEPARATOR);
         // надо реализовать подписчиков и тогда сможем получать сообщения
-             appContext.addApplicationListener(new ApplicationListener<ApplicationEvent>() {
-                 @Override
-                 public void onApplicationEvent(ApplicationEvent event) {
-                     System.out.println("event");
-                 }
-             });
+             appContext.addApplicationListener(event -> System.out.println("event"));
 //        appContext.publishEvent(new ApplicationEvent(appContext) {
 //        });
         /* `Не сработают дистрой методы если не закрыть контекст */
