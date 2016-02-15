@@ -1,5 +1,7 @@
 package domain;
 
+import org.springframework.beans.factory.annotation.Required;
+
 /**
  * Created by olexandra on 1/29/16.
  */
@@ -10,6 +12,7 @@ public class Address {
     public Address(String city) {
         this.city = city;
     }
+
     public Address(String city, String country) {
         this.city = city;
         this.country = country;
@@ -27,11 +30,12 @@ public class Address {
         return country;
     }
 
+    @Required
     public void setCountry(String country) {
         this.country = country;
     }
 
-    private void destroy(){
+    private void destroy() {
         System.out.println("destroy address");
     }
 

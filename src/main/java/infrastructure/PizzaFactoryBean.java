@@ -2,6 +2,7 @@ package infrastructure;
 
 import domain.Pizza;
 import org.springframework.beans.factory.FactoryBean;
+import org.springframework.beans.factory.annotation.Required;
 
 /**
  * Created by Oleksandra_Dmytrenko on 2/3/2016.
@@ -15,6 +16,7 @@ public class PizzaFactoryBean implements FactoryBean<Pizza> {
         return name;
     }
 
+    @Required
     public void setName(String name) {
         this.name = name;
     }
@@ -23,6 +25,7 @@ public class PizzaFactoryBean implements FactoryBean<Pizza> {
         return id;
     }
 
+    @Required
     public void setId(int id) {
         this.id = id;
     }

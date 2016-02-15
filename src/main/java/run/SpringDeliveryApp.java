@@ -13,6 +13,11 @@ import java.lang.reflect.InvocationTargetException;
 
 /**
  * Created by olexandra on 1/27/16a
+ * Might be useful:
+ * http://www.programcreek.com/java-api-examples/index.php?class=org.springframework.context.ConfigurableApplicationContext&method=addApplicationListener
+ * http://learningviacode.blogspot.com/2012/07/spring-and-events-and-listeners.html
+ * http://www.mkyong.com/java/java-custom-annotations-example/
+ * http://www.tutorialspoint.com/spring/spring_annotation_based_configuration.htm
  */
 public class SpringDeliveryApp {
 
