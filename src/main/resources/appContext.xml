@@ -51,6 +51,18 @@
         <property name="order" ref="order"/>
     </bean>
 
+    <bean id="orderServiceNoDiscount" class="service.SimpleOrderService">
+        <!--autowire="constructor">-->
+        <constructor-arg index="0">
+            <ref parent="orderRepo"/>
+        </constructor-arg>
+        <!--<constructor-arg index="0" ref="orderRepo"/>-->
+        <constructor-arg index="1" ref="pizzaService"/>
+        <!-- само генерирует тело метода -->
+        <lookup-method name="createNewOrder" bean="order"/>
+        <property name="order" ref="orderNoDiscount"/>
+    </bean>
+
     <bean id="order2" class="domain.Order" scope="prototype">
         <constructor-arg>
             <ref bean="customer"/>
@@ -92,6 +104,22 @@
         </constructor-arg>
     </bean>
 
+    <bean id="orderNoDiscount" factory-bean="orderService" factory-method="placeNewOrder" scope="prototype" autowire="byName">
+        <constructor-arg>
+            <ref bean="customer"/>
+        </constructor-arg>
+        <constructor-arg>
+            <list>
+                <ref bean="suborder1"/>
+                <ref bean="suborder4"/>
+            </list>
+            <!--<array>-->
+            <!--<value>1</value>-->
+            <!--<value>3</value>-->
+            <!--</array>-->
+        </constructor-arg>
+    </bean>
+
     <bean id="suborder1" class="domain.PizzaAmount">
         <constructor-arg name="pizzaId" value="1"/>
     </bean>
@@ -104,6 +132,11 @@
     <bean id="suborder3" class="domain.PizzaAmount">
         <constructor-arg value="2"/>
         <property name="amount" value="4"/>
+    </bean>
+
+    <bean id="suborder4" class="domain.PizzaAmount">
+        <constructor-arg value="2"/>
+        <property name="amount" value="2"/>
     </bean>
     <!-- factory-method="createCustomer" - the method we call to get new instance of Customer-->
     <bean name="customer" factory-bean="customerService" factory-method="createCustomer" scope="prototype"

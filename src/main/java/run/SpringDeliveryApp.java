@@ -60,7 +60,7 @@ public class SpringDeliveryApp {
 
         /****************** SimpleOrderService ******************/
         System.out.println(SEPARATOR);
-        System.out.println("SimpleOrderService");
+        System.out.println("SimpleOrderService With Discount");
         SimpleOrderService os = appContext.getBean("orderService", SimpleOrderService.class);
      //   int [] pizzaIdsList = (int[]) appContext.getBean("pizzaIdsList");
       //  LinkedList pizzaIds1 = (LinkedList) appContext.getBean("pizzaIdsList");
@@ -71,9 +71,15 @@ public class SpringDeliveryApp {
         os.createNewOrder();
         System.out.println(os.getOrder().toString());
         System.out.println(os.toString());
-
         System.out.println("Total Price = $" + os.countTotalPrice());
         System.out.println("Total Price with discount = $" + os.countTotalPriceWithPossibleDiscount());
+
+        System.out.println(SEPARATOR);
+        System.out.println("SimpleOrderService No Discount");
+        SimpleOrderService osNoDiscount = appContext.getBean("orderServiceNoDiscount", SimpleOrderService.class);
+        osNoDiscount.createNewOrder();
+        System.out.println("Total Price = $" + osNoDiscount.countTotalPrice());
+        System.out.println("Total Price with discount = $" + osNoDiscount.countTotalPriceWithPossibleDiscount());
 
 
         // appContext.getBeanDefinionNames().stream().forEach(e->System.out.println(e));
