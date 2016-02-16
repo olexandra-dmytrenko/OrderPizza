@@ -2,16 +2,64 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+
+    http://www.springframework.org/schema/beans/spring-beans.xsd
     http://www.springframework.org/schema/context
-    http://www.springframework.org/schema/context/spring-context-3.0.xsd
+    http://www.springframework.org/schema/context/spring-context.xsd
     http://www.springframework.org/schema/util
-    http://www.springframework.org/schema/util/spring-util-3.1.xsd">
+    http://www.springframework.org/schema/util/spring-util.xsd
+        http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/jdbc
+       http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+       http://www.springframework.org/schema/tx/spring-tx.xsd"
+       profile="prod" >
 
 
-    <context:annotation-config/>
     <context:component-scan base-package="com.demo.spring"/>
+    <context:component-scan base-package="repository"/>
+    <context:property-placeholder system-properties-mode="NEVER" location="classpath:/jdbc.properties"/>
+    <jdbc: embedded-database id = "dataSource" type = "H2"/>
+    <!--<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">-->
+    <!--<property name="location" value="classpath:/jdbc.properties"/>-->
+    <!--</bean>-->
+
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="${driver}"/>
+        <property name="url" value="${url}"/>
+        <property name="username" value="${username}"/>
+        <property name="password" value="${password}"/>
+        <property name="initialSize" value="5"/>
+    </bean>
+
+    <bean id="entityManagerFctory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="jpaVendorAdapter">
+            <!-- can add persistence unit here-->
+            <!-- this thing will work with hibernate by itself-->
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
+        </property>
+        <!-- for Entity search to work faster-->
+        <property name="packagesToScan" value="domain"/>
+        <property name="jpaProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</prop>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <!-- To turn off when reasonable-->
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.format_sql">true</prop>
+            </props>
+        </property>
+    </bean>
+    <!-- To set up how to treat transactions-->
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
     <!-- используем, когда экземпляры объекта через фектори создаются-->
     <!--вставить в мапу, fix-->
 
@@ -32,12 +80,12 @@
     </bean>
 
 
-    <util:list id="pizzaIdsList" value-type="int">
-        <array>
-            <value>1</value>
-            <value>2</value>
-        </array>
-    </util:list>
+    <!--<util:list id="pizzaIdsList" value-type="int">-->
+    <!--<array>-->
+    <!--<value>1</value>-->
+    <!--<value>2</value>-->
+    <!--</array>-->
+    <!--</util:list>-->
 
     <bean id="orderService" class="service.SimpleOrderService">
         <!--autowire="constructor">-->
@@ -104,7 +152,8 @@
         </constructor-arg>
     </bean>
 
-    <bean id="orderNoDiscount" factory-bean="orderService" factory-method="placeNewOrder" scope="prototype" autowire="byName">
+    <bean id="orderNoDiscount" factory-bean="orderService" factory-method="placeNewOrder" scope="prototype"
+          autowire="byName">
         <constructor-arg>
             <ref bean="customer"/>
         </constructor-arg>

@@ -1,5 +1,7 @@
 package domain;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -14,6 +16,7 @@ public class Order implements OrderActions {
     public static final double DISCOUNT_30_PERCENT = 0.3;
     public static final int PIZZA_AMOUNT_FOR_DISCOUNT = 4;
     private static List<Order> orders = new ArrayList<>();
+    @Enumerated(EnumType.ORDINAL)
     private Status status;
 
     private Customer customer;

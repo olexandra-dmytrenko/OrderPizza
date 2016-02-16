@@ -24,20 +24,21 @@ public class SpringDeliveryApp {
 
     public static final String SEPARATOR = "------------------------------------------------";
 
-    public static void main(String[] args) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public static void main(String[] args)
+            throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
 
         ConfigurableApplicationContext appContextParent
-                // = new ClassPathXmlApplicationContext("src/main/repository/appContext.xml");
-                = new ClassPathXmlApplicationContext(new String[]{"repoContext.xml"});
+        // = new ClassPathXmlApplicationContext("src/main/repository/appContext.xml");
+        = new ClassPathXmlApplicationContext(new String[] { "repoContext.xml" });
         // указали что у апп контекста есть родитель репозитори контекст
         ConfigurableApplicationContext appContext = new ClassPathXmlApplicationContext(
-                new String[]{"appContext.xml"}, appContextParent);
+                new String[] { "appContext.xml" }, appContextParent);
 
         /****************** Parent ******************/
         System.out.println(SEPARATOR);
         ApplicationContext parent = appContext.getParent();
         System.out.println("Parent = " + parent);
-
+        appContextParent.getEnvironment().setActiveProfiles("prod");
         /****************** Pizzas (Repo) ******************/
         System.out.println(SEPARATOR);
         System.out.println("The list of available pizzas");
@@ -63,10 +64,10 @@ public class SpringDeliveryApp {
         System.out.println(SEPARATOR);
         System.out.println("SimpleOrderService With Discount");
         SimpleOrderService os = appContext.getBean("orderService", SimpleOrderService.class);
-     //   int [] pizzaIdsList = (int[]) appContext.getBean("pizzaIdsList");
-      //  LinkedList pizzaIds1 = (LinkedList) appContext.getBean("pizzaIdsList");
-     //   Order order1 = os.placeNewOrder(customer, pizzaIds1);
-       // System.out.println(order1);
+        // int [] pizzaIdsList = (int[]) appContext.getBean("pizzaIdsList");
+        // LinkedList pizzaIds1 = (LinkedList) appContext.getBean("pizzaIdsList");
+        // Order order1 = os.placeNewOrder(customer, pizzaIds1);
+        // System.out.println(order1);
         os.createNewOrder();
         System.out.println(os.getOrder().toString());
         os.createNewOrder();
@@ -83,7 +84,6 @@ public class SpringDeliveryApp {
         System.out.println("Total Price with discount = $" + osNoDiscount.countTotalPriceWithPossibleDiscount());
         System.out.println("Move order to Progress =" + osNoDiscount.getOrder().switchStatusTo(Status.IN_PROGRESS));
 
-
         // appContext.getBeanDefinionNames().stream().forEach(e->System.out.println(e));
         System.out.println(SEPARATOR);
         System.out.println("Initializing using pizzaFactoryBean");
@@ -91,10 +91,12 @@ public class SpringDeliveryApp {
         System.out.println(pizza);
         System.out.println(SEPARATOR);
         // надо реализовать подписчиков и тогда сможем получать сообщения
-             appContext.addApplicationListener(event -> System.out.println("event"));
-//        appContext.publishEvent(new ApplicationEvent(appContext) {
-//        });
+        appContext.addApplicationListener(event -> System.out.println("event"));
+        // appContext.publishEvent(new ApplicationEvent(appContext) {
+        // });
         /* `Не сработают дистрой методы если не закрыть контекст */
+
+        // PizzaRepository
         appContext.close();
         appContextParent.close();
 
