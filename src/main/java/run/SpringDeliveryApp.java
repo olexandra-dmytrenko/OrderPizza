@@ -2,6 +2,7 @@ package run;
 
 import domain.Customer;
 import domain.Pizza;
+import domain.Status;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -80,6 +81,7 @@ public class SpringDeliveryApp {
         osNoDiscount.createNewOrder();
         System.out.println("Total Price = $" + osNoDiscount.countTotalPrice());
         System.out.println("Total Price with discount = $" + osNoDiscount.countTotalPriceWithPossibleDiscount());
+        System.out.println("Move order to Progress =" + osNoDiscount.getOrder().switchStatusTo(Status.IN_PROGRESS));
 
 
         // appContext.getBeanDefinionNames().stream().forEach(e->System.out.println(e));
