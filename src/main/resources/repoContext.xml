@@ -26,18 +26,21 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
                     <bean class="domain.Pizza">
                         <constructor-arg type="java.lang.String" value="Sea"/>
                         <constructor-arg type="int" value="1"/>
+                        <property name="price" value="240"/>
                     </bean>
                 </entry>
                 <entry key="2">
                     <bean class="domain.Pizza">
                         <constructor-arg type="java.lang.String" value="Meat"/>
                         <constructor-arg type="int" value="2"/>
+                        <property name="price" value="220"/>
                     </bean>
                 </entry>
                 <entry key="3">
                     <bean class="domain.Pizza">
                         <constructor-arg type="java.lang.String" value="Tropic"/>
                         <constructor-arg type="int" value="3"/>
+                        <property name="price" value="200"/>
                     </bean>
                 </entry>
             </map>

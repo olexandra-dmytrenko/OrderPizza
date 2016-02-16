@@ -21,6 +21,7 @@
     <bean name="pizzaFactoryBean" class="infrastructure.PizzaFactoryBean">
         <property name="name" value="Sea"/>
         <property name="id" value="1"/>
+        <property name="price" value="100"/>
     </bean>
 
 
@@ -79,14 +80,31 @@
             <ref bean="customer"/>
         </constructor-arg>
         <constructor-arg>
-            <array>
-                <value>1</value>
-                <value>3</value>
-            </array>
+            <list>
+                <ref bean="suborder1"/>
+                <ref bean="suborder2"/>
+                <ref bean="suborder3"/>
+            </list>
+            <!--<array>-->
+            <!--<value>1</value>-->
+            <!--<value>3</value>-->
+            <!--</array>-->
         </constructor-arg>
-
     </bean>
 
+    <bean id="suborder1" class="domain.PizzaAmount">
+        <constructor-arg name="pizzaId" value="1"/>
+    </bean>
+
+    <bean id="suborder2" class="domain.PizzaAmount">
+        <constructor-arg value="3"/>
+        <property name="amount" value="3"/>
+    </bean>
+
+    <bean id="suborder3" class="domain.PizzaAmount">
+        <constructor-arg value="2"/>
+        <property name="amount" value="4"/>
+    </bean>
     <!-- factory-method="createCustomer" - the method we call to get new instance of Customer-->
     <bean name="customer" factory-bean="customerService" factory-method="createCustomer" scope="prototype"
           autowire="byType">

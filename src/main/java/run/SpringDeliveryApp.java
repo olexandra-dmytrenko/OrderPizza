@@ -72,6 +72,9 @@ public class SpringDeliveryApp {
         System.out.println(os.getOrder().toString());
         System.out.println(os.toString());
 
+        System.out.println("Total Price = $" + os.countTotalPrice());
+        System.out.println("Total Price with discount = $" + os.countTotalPriceWithPossibleDiscount());
+
 
         // appContext.getBeanDefinionNames().stream().forEach(e->System.out.println(e));
         System.out.println(SEPARATOR);

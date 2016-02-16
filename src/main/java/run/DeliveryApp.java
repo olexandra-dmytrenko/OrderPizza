@@ -2,13 +2,14 @@ package run;
 
 import domain.Customer;
 import domain.Order;
-import repository.PizzaRepository;
 import infrastructure.ApplicationContext;
 import infrastructure.JavaConfig;
 import infrastructure.JavaConfigApplicationContext;
+import repository.PizzaRepository;
 import service.OrderService;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 
 /**
  * Created by Oleksandra_Dmytrenko on 1/21/2016.
@@ -28,7 +29,8 @@ public class DeliveryApp {
         System.out.println(pizzaRepository.find(1).getName());
 
         OrderService orderService = (OrderService) context.getBean("orderService");
-        Order order = orderService.placeNewOrder(new Customer("Olexandra"), 3, 2, 5);
+        //  Order order = orderService.placeNewOrder(new Customer("Olexandra"), 3, 2, 5);
+          Order order = orderService.placeNewOrder(new Customer("Olexandra"), new ArrayList<>());
         System.out.println(order);
 
         //  getBean(orderService)

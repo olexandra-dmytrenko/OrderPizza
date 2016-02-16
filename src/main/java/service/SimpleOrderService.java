@@ -1,8 +1,6 @@
 package service;
 
-import domain.Customer;
-import domain.Order;
-import domain.Pizza;
+import domain.*;
 import infrastructure.ApplicationContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import repository.OrderRepository;
@@ -41,13 +39,10 @@ public abstract class SimpleOrderService implements OrderService// , Application
     }
 
     @Override
-    public Order placeNewOrder(Customer customer, int... pizzasID)
+    public Order placeNewOrder(Customer customer, List<PizzaAmount> pizzaAmountList)
             throws InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         List<Pizza> pizzas = new ArrayList<>();
-
-        for (Integer id : pizzasID) {
-            pizzas.add(findPizzaByID(id)); // get Pizza from predifined in-memory list
-        }
+        fillPizzasList(pizzaAmountList, pizzas);
         //Order newOrder = createNewOrder();
 //        newOrder.setCustomer(customer);
 //        newOrder.setPizzas(pizzas);// new Order(customer, pizzas);
@@ -55,6 +50,26 @@ public abstract class SimpleOrderService implements OrderService// , Application
         System.out.println("ORDER = " + newOrder.toString());
         saveOrder(newOrder); // set Order Id and save Order to in-memory list
         return newOrder;
+    }
+
+    private void fillPizzasList(List<PizzaAmount> pizzaAmountList, List<Pizza> pizzas) {
+        int allPizzasAmount = Utils.countPizzaAmount(pizzaAmountList);
+        (new Utils() {}).ifPizzaAmountIsGreaterThanMax(allPizzasAmount);
+        for (PizzaAmount pizzaAmount : pizzaAmountList) {
+            for (int amount = 1; amount <= pizzaAmount.getAmount(); amount++) {
+                pizzas.add(findPizzaByID(pizzaAmount.getPizzaId())); // get Pizza from predifined in-memory list
+            }
+        }
+    }
+
+    @Override
+    public double countTotalPrice() {
+        return order.countTotalPrice();
+    }
+
+    @Override
+    public double countTotalPriceWithPossibleDiscount() {
+        return order.countTotalPriceWithPossibleDiscount();
     }
 
     public abstract Order createNewOrder() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException

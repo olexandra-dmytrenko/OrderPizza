@@ -4,17 +4,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
+import java.util.stream.DoubleStream;
 
 /**
  * Created by Oleksandra_Dmytrenko on 1/21/2016.
  */
-public class Order {
+public class Order implements OrderPrices {
+    public static final double DISCOUNT_30_PERCENT = 0.3;
+    public static final int PIZZA_AMOUNT_FOR_DISCOUNT = 4;
     private static List<Order> orders = new ArrayList<>();
 
     private Customer customer;
     List<Pizza> pizzas;
     long number;
     static AtomicLong id = new AtomicLong(0);
+
 
 //    public Order() {
 //    }
@@ -57,5 +61,28 @@ public class Order {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    @Override
+    public double countTotalPrice() {
+        return pizzaPricesStream().sum();
+    }
+
+    @Override
+    public double countTotalPriceWithPossibleDiscount() {
+        return applyDiscount();
+    }
+
+    private double applyDiscount() {
+        double totalPrice = countTotalPrice();
+        if (pizzas.size() > PIZZA_AMOUNT_FOR_DISCOUNT) {
+            double discount = pizzaPricesStream().max().getAsDouble() * DISCOUNT_30_PERCENT;
+            totalPrice = totalPrice - discount;
+        }
+        return totalPrice;
+    }
+
+    private DoubleStream pizzaPricesStream() {
+        return pizzas.stream().mapToDouble(Pizza::getPrice);
     }
 }

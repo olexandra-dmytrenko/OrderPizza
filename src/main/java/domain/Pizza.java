@@ -7,8 +7,9 @@ package domain;
 //@BenchMark
 public class Pizza {
 
-    private final String name;
     private int id;
+    private final String name;
+    private double price;
 //    private double price;
     //  private PizzaType type;
 
@@ -34,10 +35,19 @@ public class Pizza {
         return name;
     }
 
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
     @Override
     public String toString() {
         return "Pizza{" +
                 "name='" + name + '\'' +
+                ", price='" + price + '\'' +
                 ", id=" + id +
                 '}';
     }
