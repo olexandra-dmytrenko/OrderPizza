@@ -62,6 +62,7 @@
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
 
+    <!-- for service annotation to work-->
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
     <!-- используем, когда экземпляры объекта через фектори создаются-->

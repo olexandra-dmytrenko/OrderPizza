@@ -3,6 +3,7 @@ package service;
 import domain.*;
 import infrastructure.ApplicationContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import repository.OrderRepository;
 
 import java.lang.reflect.InvocationTargetException;
@@ -13,6 +14,7 @@ import java.util.List;
  * Created by Oleksandra_Dmytrenko on 1/21/2016.
  */
 // put abstract infront of class
+    @Service
 public abstract class SimpleOrderService implements OrderService// , ApplicationContextAware
 {
     Order order;

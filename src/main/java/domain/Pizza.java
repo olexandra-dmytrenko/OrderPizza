@@ -9,12 +9,17 @@ import javax.persistence.*;
 // @BenchMark
 @Entity
 public class Pizza {
-@Id
-@GeneratedValue(strategy = GenerationType.IDENTITY)
-@Column(name = "pizzaName")
+
+    @Column(name = "pizza_name")
     private final String name;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column
     private double price;
+
+    @Version
+    private Long version;
     // private double price;
     // private PizzaType type;
 
