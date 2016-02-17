@@ -82,7 +82,8 @@ public class SpringDeliveryApp {
         osNoDiscount.createNewOrder();
         System.out.println("Total Price = $" + osNoDiscount.countTotalPrice());
         System.out.println("Total Price with discount = $" + osNoDiscount.countTotalPriceWithPossibleDiscount());
-        System.out.println("Move order to Progress =" + osNoDiscount.getOrder().switchStatusTo(Status.IN_PROGRESS));
+        System.out.println("Move order to Progress = " + osNoDiscount.getOrder().switchStatusTo(Status.IN_PROGRESS));
+        System.out.println("Order with new Status " + osNoDiscount.getOrder().toString());
 
         // appContext.getBeanDefinionNames().stream().forEach(e->System.out.println(e));
         System.out.println(SEPARATOR);

@@ -4,15 +4,15 @@ package domain;
  * Created by olexandra on 2/16/16.
  */
 public enum Status {
-    NEW(), IN_PROGRESS(), CANCELED(), DONE();
+    NEW("IN_PROGRESS", "CANCELLED"), IN_PROGRESS("DONE", "CANCELLED"), CANCELLED(), DONE();
 
-    private final Status[] statuses;
+    private final String[] statuses;
 
-    Status(Status... statuses) {
+    Status(String... statuses) {
         this.statuses = statuses;
     }
 
-    public Status[] getStatuses() {
+    public String[] getStatuses() {
         return statuses;
     }
 }

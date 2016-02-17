@@ -57,7 +57,7 @@ public class Order implements OrderActions {
 
     @Override
     public boolean switchStatusTo(Status newStatus) {
-        if (Arrays.asList(this.status.getStatuses()).contains(newStatus)) {
+        if (Arrays.asList(this.status.getStatuses()).contains(newStatus.toString())) {
             this.status = newStatus;
             return true;
         }
