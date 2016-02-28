@@ -11,6 +11,7 @@ public class Customer {
     Address address;
     long number;
     static AtomicLong id = new AtomicLong(0);
+    PromoCard promoCard = null;
 
     public Customer(String name) {
         this.name = name;
@@ -21,8 +22,26 @@ public class Customer {
         this.address = address;
     }
 
+    public PromoCard getPromoCard() {
+        if (this.promoCard == null) {
+            System.out.println(this.toString() + " doesn't have a promo card. A new one was created");
+            this.promoCard = new PromoCard();
+        }
+        return promoCard;
+    }
+
+    public void setPromoCard(PromoCard promoCard) {
+        this.promoCard = promoCard;
+    }
+
+    public void setPromoCardAmount(double amount) {
+        if (this.promoCard == null) {
+            this.promoCard = new PromoCard(amount);
+        }
+    }
+
     @Override
     public String toString() {
-        return "Customer: " + name + " from " + address.toString() + ", customer number = " + number;
+        return "Customer: " + name + " from " + address.toString() + ", customer number = " + number + ", promo card = " + promoCard;
     }
 }

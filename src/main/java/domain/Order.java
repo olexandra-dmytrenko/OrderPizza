@@ -11,7 +11,7 @@ import java.util.stream.DoubleStream;
  * Created by Oleksandra_Dmytrenko on 1/21/2016.
  */
 public class Order implements OrderActions {
-    public static final double DISCOUNT_30_PERCENT = 0.3;
+    public static final double THIRTY_PERCENT_MULTIPLIER = 0.3;
     public static final int PIZZA_AMOUNT_FOR_DISCOUNT = 4;
     private static List<Order> orders = new ArrayList<>();
     private Status status;
@@ -50,12 +50,16 @@ public class Order implements OrderActions {
         this.pizzas = pizzas;
         this.number = id.incrementAndGet();
         this.status = Status.NEW;
+        customer.getPromoCard().setBlockedAmount(countTotalPriceWithPossiblePizzaAmountDiscount());
     }
 
     @Override
     public boolean switchStatusTo(Status newStatus) {
         if (Arrays.asList(this.status.getStatuses()).contains(newStatus.toString())) {
             this.status = newStatus;
+            if (newStatus.equals(Status.DONE)) {
+                customer.getPromoCard().updateAmountFromBlocked();
+            }
             return true;
         }
         return false;
@@ -76,22 +80,31 @@ public class Order implements OrderActions {
     }
 
     @Override
-    public double countTotalPrice() {
-        return pizzaPricesStream().sum();
+    public double countTotalPriceNoDiscounts() {
+        double sum = pizzaPricesStream().sum();
+        System.out.println("Total price without discount = " + sum);
+        return sum;
+    }
+
+    public double countTotalPriceWithPossiblePizzaAmountDiscount() {
+        return countTotalPriceNoDiscounts() - getPizzaAmountDiscount();
     }
 
     @Override
-    public double countTotalPriceWithPossibleDiscount() {
-        return applyDiscount();
+    public double getPromoDiscount() {
+        double discount = this.customer.getPromoCard().getDiscount(countTotalPriceWithPossiblePizzaAmountDiscount());
+        System.out.println("Pizza promo discount = " + discount);
+        return discount;
     }
 
-    private double applyDiscount() {
-        double totalPrice = countTotalPrice();
+    @Override
+    public double getPizzaAmountDiscount() {
+        double discount = 0.0;
         if (pizzas.size() > PIZZA_AMOUNT_FOR_DISCOUNT) {
-            double discount = pizzaPricesStream().max().getAsDouble() * DISCOUNT_30_PERCENT;
-            totalPrice = totalPrice - discount;
+            discount = pizzaPricesStream().max().getAsDouble() * THIRTY_PERCENT_MULTIPLIER;
         }
-        return totalPrice;
+        System.out.println("Pizza amount discount = " + discount);
+        return discount;
     }
 
     private DoubleStream pizzaPricesStream() {

@@ -73,16 +73,22 @@ public class SpringDeliveryApp {
         System.out.println(os.getOrder().toString());
         System.out.println(os.toString());
         System.out.println("Total Price = $" + os.countTotalPrice());
-        System.out.println("Total Price with discount = $" + os.countTotalPriceWithPossibleDiscount());
+        System.out.println("Total Price with discount = $" + os.countTotalPriceWithPossibleDiscounts());
+        System.out.println("Move order to Progress = " + os.getOrder().switchStatusTo(Status.IN_PROGRESS));
+        System.out.println(os.getOrder().toString());
+        System.out.println("Move order to Done = " + os.getOrder().switchStatusTo(Status.DONE));
+        System.out.println(os.getOrder().toString());
+
 
         System.out.println(SEPARATOR);
         System.out.println("SimpleOrderService No Discount");
         SimpleOrderService osNoDiscount = appContext.getBean("orderServiceNoDiscount", SimpleOrderService.class);
         osNoDiscount.createNewOrder();
         System.out.println("Total Price = $" + osNoDiscount.countTotalPrice());
-        System.out.println("Total Price with discount = $" + osNoDiscount.countTotalPriceWithPossibleDiscount());
+        System.out.println("Total Price with discount = $" + osNoDiscount.countTotalPriceWithPossibleDiscounts());
+        System.out.println("Order with New Status " + osNoDiscount.getOrder().toString());
         System.out.println("Move order to Progress = " + osNoDiscount.getOrder().switchStatusTo(Status.IN_PROGRESS));
-        System.out.println("Order with new Status " + osNoDiscount.getOrder().toString());
+        System.out.println("Order with updated In Progress Status " + osNoDiscount.getOrder().toString());
 
 
         // appContext.getBeanDefinionNames().stream().forEach(e->System.out.println(e));

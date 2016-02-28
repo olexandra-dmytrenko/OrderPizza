@@ -46,15 +46,16 @@ public abstract class SimpleOrderService implements OrderService// , Application
         //Order newOrder = createNewOrder();
 //        newOrder.setCustomer(customer);
 //        newOrder.setPizzas(pizzas);// new Order(customer, pizzas);
-        Order newOrder = new Order(customer, pizzas);
-        System.out.println("ORDER = " + newOrder.toString());
-        saveOrder(newOrder); // set Order Id and save Order to in-memory list
-        return newOrder;
+        this.order = new Order(customer, pizzas);
+        System.out.println("ORDER = " + this.order.toString());
+        saveOrder(this.order); // set Order Id and save Order to in-memory list
+        return this.order;
     }
 
     private void fillPizzasList(List<PizzaAmount> pizzaAmountList, List<Pizza> pizzas) {
         int allPizzasAmount = Utils.countPizzaAmount(pizzaAmountList);
-        (new Utils() {}).ifPizzaAmountIsGreaterThanMax(allPizzasAmount);
+        (new Utils() {
+        }).ifPizzaAmountIsGreaterThanMax(allPizzasAmount);
         for (PizzaAmount pizzaAmount : pizzaAmountList) {
             for (int amount = 1; amount <= pizzaAmount.getAmount(); amount++) {
                 pizzas.add(findPizzaByID(pizzaAmount.getPizzaId())); // get Pizza from predifined in-memory list
@@ -64,16 +65,14 @@ public abstract class SimpleOrderService implements OrderService// , Application
 
     @Override
     public double countTotalPrice() {
-        return order.countTotalPrice();
+        return order.countTotalPriceNoDiscounts();
     }
 
-    @Override
-    public double countTotalPriceWithPossibleDiscount() {
-        return order.countTotalPriceWithPossibleDiscount();
+    public double countTotalPriceWithPossibleDiscounts() {
+        return countTotalPrice() - order.getPizzaAmountDiscount() - order.getPromoDiscount();
     }
 
-    public abstract Order createNewOrder() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException
-            ;
+    public abstract Order createNewOrder() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException;
     //  {return (Order) appContext.getBean("order");}
     // return new Order();
 

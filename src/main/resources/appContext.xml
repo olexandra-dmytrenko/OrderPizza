@@ -139,7 +139,8 @@
         <property name="amount" value="2"/>
     </bean>
     <!-- factory-method="createCustomer" - the method we call to get new instance of Customer-->
-    <bean name="customer" factory-bean="customerService" factory-method="createCustomer" scope="prototype"
+    <!--<bean name="customer" factory-bean="customerService" factory-method="createCustomer" scope="prototype"-->
+    <bean name="customer" factory-bean="customerService" factory-method="createCustomer" scope="singleton"
           autowire="byType">
         <constructor-arg index="0" value="Ваня"/>
         <property name="address">
@@ -148,6 +149,9 @@
                 <constructor-arg name="city" value="Kyiv"/>
                 <property name="country" value="Ukraine"/>
             </bean>
+        </property>
+        <property name="promoCard">
+            <bean class="domain.PromoCard"/>
         </property>
     </bean>
 

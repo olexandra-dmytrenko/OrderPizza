@@ -6,8 +6,9 @@ package domain;
 public interface OrderActions {
     boolean switchStatusTo(Status newStatus);
 
-    double countTotalPrice();
+    double countTotalPriceNoDiscounts();
 
-    double countTotalPriceWithPossibleDiscount();
+    double getPromoDiscount();
 
+    double getPizzaAmountDiscount();
 }

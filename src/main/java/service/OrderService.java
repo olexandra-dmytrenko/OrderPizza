@@ -16,5 +16,4 @@ public interface OrderService {
     Order placeNewOrder(Customer customer, List<PizzaAmount> pizzaAmountList) throws InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException;
 
     double countTotalPrice();
-    double countTotalPriceWithPossibleDiscount();
 }
