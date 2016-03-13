@@ -15,9 +15,6 @@
     <!-- используем, когда экземпляры объекта через фектори создаются-->
     <!--вставить в мапу, fix-->
 
-    <!-- for our Benchmark which has to be added for method to count time of its work.  Может использоваться как логгер, когда какой бин был создан-->
-    <bean class="infrastructure.BenchMarkBeanPostProcessor"/>
-
     <bean name="pizzaFactoryBean" class="infrastructure.PizzaFactoryBean">
         <property name="name" value="Sea"/>
         <property name="id" value="1"/>
@@ -51,7 +48,7 @@
         <property name="order" ref="order"/>
     </bean>
 
-    <bean id="orderServiceNoDiscount" class="service.SimpleOrderService">
+    <bean id="orderServiceNoDiscount" class="service.SimpleOrderService" scope="prototype">
         <!--autowire="constructor">-->
         <constructor-arg index="0">
             <ref parent="orderRepo"/>
@@ -140,8 +137,7 @@
     </bean>
     <!-- factory-method="createCustomer" - the method we call to get new instance of Customer-->
     <!--<bean name="customer" factory-bean="customerService" factory-method="createCustomer" scope="prototype"-->
-    <bean name="customer" factory-bean="customerService" factory-method="createCustomer" scope="singleton"
-          autowire="byType">
+    <bean name="customer" factory-bean="customerService" factory-method="createCustomer">
         <constructor-arg index="0" value="Ваня"/>
         <property name="address">
             <!--Внутренний бин-->
@@ -182,7 +178,5 @@
         <constructor-arg value="New York"/>
         <property name="country" value="USA"/>
     </bean>
-    <!--регистрируем бин примером для сета велюз из екстернал сорс (БД) -->
-    <bean class="infrastructure.CustomBeanFactoryPostProcessor"/>
 
 </beans>

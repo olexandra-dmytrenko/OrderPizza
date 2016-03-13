@@ -13,7 +13,7 @@ public interface Utils {
             throw new IndexOutOfBoundsException("Amount of pizzas should not exceed " + MAX_PIZZAS_AMOUNT);
         }
     }
-    public static int countPizzaAmount(List<PizzaAmount> pizzaAmountList) {
-        return pizzaAmountList.stream().mapToInt(p -> p.getAmount()).sum();
+    static int countPizzaAmount(List<PizzaAmount> pizzaAmountList) {
+        return pizzaAmountList.stream().mapToInt(PizzaAmount::getAmount).sum();
     }
 }

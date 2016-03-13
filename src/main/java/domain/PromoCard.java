@@ -59,15 +59,7 @@ public class PromoCard {
         this.id = id;
     }
 
-    public double getAmount() {
-        return amount;
-    }
-
-    public double getBlockedAmount() {
-        return blockedAmount;
-    }
-
     public void setBlockedAmount(double blockedAmount) {
-        this.blockedAmount += blockedAmount;
+        this.blockedAmount = blockedAmount;
     }
 }

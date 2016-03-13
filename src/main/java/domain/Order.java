@@ -21,12 +21,12 @@ public class Order implements OrderActions {
     long number;
     static AtomicLong id = new AtomicLong(0);
 
-
-//    public Order() {
-//    }
-
-    public void setOrders(List<Order> newOrders) {
-        orders = newOrders;
+    public Order(Customer customer, List<Pizza> pizzas) {
+        this.customer = customer;
+        this.pizzas = pizzas;
+        this.number = id.incrementAndGet();
+        this.status = Status.NEW;
+        customer.getPromoCard().setBlockedAmount(countTotalPriceWithPossiblePizzaAmountDiscount());
     }
 
     public static List<Order> getOrders() {
@@ -35,22 +35,6 @@ public class Order implements OrderActions {
 
     public Customer getCustomer() {
         return customer;
-    }
-
-    public List<Pizza> getPizzas() {
-        return pizzas;
-    }
-
-    public void setPizzas(List<Pizza> pizzas) {
-        this.pizzas = pizzas;
-    }
-
-    public Order(Customer customer, List<Pizza> pizzas) {
-        this.customer = customer;
-        this.pizzas = pizzas;
-        this.number = id.incrementAndGet();
-        this.status = Status.NEW;
-        customer.getPromoCard().setBlockedAmount(countTotalPriceWithPossiblePizzaAmountDiscount());
     }
 
     @Override
