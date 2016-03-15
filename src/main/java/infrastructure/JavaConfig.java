@@ -1,7 +1,7 @@
 package infrastructure;
 
 import repository.InMemOrderRepository;
-import repository.InMemPizzaRepository;
+import repository.InMemPizzaRepositoryNoSpring;
 import service.SimpleOrderService;
 import service.SimplePizzaService;
 
@@ -15,7 +15,7 @@ public class JavaConfig implements Config {
     private Map<String, Class<?>> ifc2Class = new HashMap<>();
 
     public JavaConfig() {
-        ifc2Class.put("pizzaRepository", InMemPizzaRepository.class);
+        ifc2Class.put("pizzaRepository", InMemPizzaRepositoryNoSpring.class);
         ifc2Class.put("orderRepository", InMemOrderRepository.class);
         ifc2Class.put("pizzaService", SimplePizzaService.class);
         ifc2Class.put("orderService", SimpleOrderService.class);

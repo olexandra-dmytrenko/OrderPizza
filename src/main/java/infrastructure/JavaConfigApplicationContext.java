@@ -1,5 +1,7 @@
 package infrastructure;
 
+import proxy.BenchMarkProxy;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -27,6 +29,7 @@ public class JavaConfigApplicationContext implements ApplicationContext {
         }
         BeanBuilder builder = new BeanBuilder(type);
         builder.createBean();
+        builder.createInitMethod();
         builder.createBeanProxy();
    //     builder.createInitMethod();
         bean = builder.build();
@@ -49,7 +52,7 @@ public class JavaConfigApplicationContext implements ApplicationContext {
             Constructor<?> constructor = type.getConstructors()[0];
             Parameter[] parameters = constructor.getParameters();
             if (parameters.length == 0) {
-                bean = type.newInstance();
+                bean = constructor.newInstance();
             } else {
                 Object[] params = new Object[parameters.length];
                 for (int i = 0; i < parameters.length; i++) {
@@ -65,7 +68,7 @@ public class JavaConfigApplicationContext implements ApplicationContext {
 
         public void createInitMethod() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
             Class<?> clazz = bean.getClass();
-            Method method = clazz.getMethod("init", new Class[0]);
+            Method method = clazz.getMethod("init");
             if (method != null) {
                 method.invoke(bean);
             }
@@ -76,6 +79,8 @@ public class JavaConfigApplicationContext implements ApplicationContext {
         }
 
         public void createBeanProxy() {
+            BenchMarkProxy benchMarkProxy = new BenchMarkProxy(bean);
+            bean = benchMarkProxy.getProxy();
         }
 
         public Object build() {

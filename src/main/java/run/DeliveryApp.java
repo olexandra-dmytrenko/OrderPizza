@@ -1,12 +1,9 @@
 package run;
 
-import domain.Customer;
-import domain.Order;
-import repository.PizzaRepository;
 import infrastructure.ApplicationContext;
 import infrastructure.JavaConfig;
 import infrastructure.JavaConfigApplicationContext;
-import service.OrderService;
+import repository.PizzaRepository;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -26,10 +23,11 @@ public class DeliveryApp {
         ApplicationContext context = new JavaConfigApplicationContext(new JavaConfig());
         PizzaRepository pizzaRepository = (PizzaRepository) context.getBean("pizzaRepository"); //names should be same but from lower case
         System.out.println(pizzaRepository.find(1).getName());
+        System.out.println(pizzaRepository.initializeMessage());
 
-        OrderService orderService = (OrderService) context.getBean("orderService");
-        Order order = orderService.placeNewOrder(new Customer("Olexandra"), 3, 2, 5);
-        System.out.println(order);
+//        OrderService orderService = (OrderService) context.getBean("orderService");
+//        Order order = orderService.placeNewOrder(new Customer("Olexandra"), 3, 2, 5);
+//        System.out.println(order);
 
         //  getBean(orderService)
 
