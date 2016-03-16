@@ -73,7 +73,7 @@ public class BenchMarkProxy {
     private Object countTimeMethodPerforms(Method method, Object[] args) {
         long startTime = System.nanoTime();
         try {
-            final String outputMethodCredentials = Stream.of(method.getParameterTypes()).map(Class::getName).collect(Collectors.joining(", ", " with parameters", " "));
+            final String outputMethodCredentials = Stream.of(method.getParameterTypes()).map(Class::getName ).collect(Collectors.joining(", ", " with parameters", " "));
             final Object returnValTemp = method.invoke(bean, args);
             log.info(MessageFormat.format("Benchmark INFO: The time the ''{0}{1}{2} ns.", method.getName(), outputMethodCredentials, System.nanoTime() - startTime));
             return returnValTemp;
