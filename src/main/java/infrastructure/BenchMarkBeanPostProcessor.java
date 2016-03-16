@@ -18,12 +18,26 @@ public class BenchMarkBeanPostProcessor implements BeanPostProcessor {
 
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
+//        System.out.println("After from postProcessAfterInitialization: " + beanName);
+//        return bean;
+        return preProcessorBenchmarkHandler(bean, beanName);
+    }
+
+    @Override
+    public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
+//        System.out.println("After from postProcessAfterInitialization: " + beanName);
+//        return (new BenchMarkProxy(bean)).getProxy();
+
+        return postProcessorBenchmarkHandler(bean, beanName);
+    }
+
+    private Object preProcessorBenchmarkHandler(Object bean, String beanName) {
         System.out.println("Before in postProcessBeforeInitialization: " + beanName);
-     //   Annotation annotation = bean.getClass().getAnnotation(BenchMark.class);
+        //   Annotation annotation = bean.getClass().getAnnotation(BenchMark.class);
         try {
        //     BenchMark benchMark = (BenchMark) annotation;
             for (Method method : bean.getClass().getDeclaredMethods()){
-                BenchMark benchMark = (BenchMark) method.getAnnotation(BenchMark.class);
+                BenchMark benchMark = method.getAnnotation(BenchMark.class);
                 if (benchMark.countTime()) {
                     startTime = System.nanoTime();
                     //      System.out.println("Benchmark Annotation is present: " + benchMark.toString() + " Start time =" + startTime);
@@ -36,8 +50,7 @@ public class BenchMarkBeanPostProcessor implements BeanPostProcessor {
         }
     }
 
-    @Override
-    public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
+    private Object postProcessorBenchmarkHandler(Object bean, String beanName) {
         Annotation annotation = bean.getClass().getAnnotation(BenchMark.class);
         try {
             BenchMark benchMark = (BenchMark) annotation;
