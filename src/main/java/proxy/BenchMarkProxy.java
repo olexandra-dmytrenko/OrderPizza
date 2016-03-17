@@ -54,6 +54,11 @@ public class BenchMarkProxy {
         return Proxy.newProxyInstance(beanClass.getClassLoader(), beanClass.getInterfaces(), invocator);
     }
 
+    /**
+     * there is an issue with the thing because when Pizza Factory (PizzaFactoryBean) is used then Proxy class type is returned rather than Pizza //TODO: fix it
+     * @param beanClass
+     * @return
+     */
     private Class<?> forSpringFactoryTakeParent(Class<?> beanClass) {
         for (Class<?> c : beanClass.getInterfaces()) {
             if (beanClass.getName().contains("PizzaFactoryBean")){// beanClass.getName().equals("PizzaFactoryBean")){
