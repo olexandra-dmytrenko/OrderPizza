@@ -1,14 +1,17 @@
 package repository;
 
 import domain.Pizza;
+import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 
 /**
  * Created by Oleksandra_Dmytrenko on 1/21/2016.
  */
+
+@Repository
 public class InMemPizzaRepository implements PizzaRepository {
-    private HashMap<java.lang.Integer, Pizza> pizzas;
+    private HashMap<Integer, Pizza> pizzas;
 
     public InMemPizzaRepository() {
 
@@ -27,15 +30,16 @@ public class InMemPizzaRepository implements PizzaRepository {
 //        pizzas.put(new Integer(5), new Pizza("Tropic"));
     }
 
+    @Override
     public Pizza find(int id) {
         return pizzas.get(id);
     }
 
-    public HashMap<java.lang.Integer, Pizza> getPizzas() {
+    public HashMap<Integer, Pizza> getPizzas() {
         return pizzas;
     }
 
-    public void setPizzas(HashMap<java.lang.Integer, Pizza> pizzas) {
+    public void setPizzas(HashMap<Integer, Pizza> pizzas) {
         this.pizzas = pizzas;
     }
 }

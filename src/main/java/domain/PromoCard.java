@@ -62,4 +62,29 @@ public class PromoCard {
     public void setBlockedAmount(double blockedAmount) {
         this.blockedAmount = blockedAmount;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof PromoCard)) return false;
+
+        PromoCard promoCard = (PromoCard) o;
+
+        if (id != promoCard.id) return false;
+        if (Double.compare(promoCard.amount, amount) != 0) return false;
+        return Double.compare(promoCard.blockedAmount, blockedAmount) == 0;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = (int) (id ^ (id >>> 32));
+        temp = Double.doubleToLongBits(amount);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(blockedAmount);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        return result;
+    }
 }

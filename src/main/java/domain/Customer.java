@@ -44,4 +44,39 @@ public class Customer {
     public String toString() {
         return "Customer: " + name + " from " + address.toString() + ", customer number = " + number + ", promo card = " + promoCard;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public long getNumber() {
+        return number;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Customer)) return false;
+
+        Customer customer = (Customer) o;
+
+        if (number != customer.number) return false;
+        if (!name.equals(customer.name)) return false;
+        if (!address.equals(customer.address)) return false;
+        return promoCard.equals(customer.promoCard);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name.hashCode();
+        result = 31 * result + address.hashCode();
+        result = 31 * result + (int) (number ^ (number >>> 32));
+        result = 31 * result + promoCard.hashCode();
+        return result;
+    }
 }
