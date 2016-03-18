@@ -8,7 +8,7 @@ import java.util.HashMap;
  * Created by Oleksandra_Dmytrenko on 1/21/2016.
  */
 public class InMemPizzaRepository implements PizzaRepository {
-    private HashMap<Integer, Pizza> pizzas;
+    private HashMap<java.lang.Integer, Pizza> pizzas;
 
     public InMemPizzaRepository() {
 
@@ -31,11 +31,11 @@ public class InMemPizzaRepository implements PizzaRepository {
         return pizzas.get(id);
     }
 
-    public HashMap<Integer, Pizza> getPizzas() {
+    public HashMap<java.lang.Integer, Pizza> getPizzas() {
         return pizzas;
     }
 
-    public void setPizzas(HashMap<Integer, Pizza> pizzas) {
+    public void setPizzas(HashMap<java.lang.Integer, Pizza> pizzas) {
         this.pizzas = pizzas;
     }
 }

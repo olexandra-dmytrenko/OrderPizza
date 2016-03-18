@@ -11,6 +11,15 @@ import org.springframework.beans.factory.annotation.Required;
 public class PizzaFactoryBean implements FactoryBean<Pizza> {
     private String name;
     private int id;
+    private double price;
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
 
     public String getName() {
         return name;
@@ -33,7 +42,9 @@ public class PizzaFactoryBean implements FactoryBean<Pizza> {
     @Override
     public Pizza getObject() throws Exception {
         System.out.println("PizzaFactoryBean: getObject");
-        return new Pizza(getName(), getId());
+        Pizza pizza = new Pizza(getName(), getId());
+        pizza.setPrice(getPrice());
+        return pizza;
     }
 
     @Override

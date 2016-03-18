@@ -1,9 +1,6 @@
 package service;
 
-import domain.Customer;
-import domain.Order;
-import domain.Pizza;
-import infrastructure.ApplicationContext;
+import domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import repository.OrderRepository;
 
@@ -15,13 +12,11 @@ import java.util.List;
  * Created by Oleksandra_Dmytrenko on 1/21/2016.
  */
 // put abstract infront of class
-public abstract class SimpleOrderService implements OrderService// , ApplicationContextAware
+public abstract class SimpleOrderService implements OrderService
 {
     Order order;
     private OrderRepository orderRepository;// = new InMemOrderRepository();
-    // private PizzaRepository pizzaRepository; //= new InMemPizzaRepository();
     private PizzaService simplePizzaService;// = new SimplePizzaService();
-    private ApplicationContext appContext;
 
     @Autowired
     public SimpleOrderService(OrderRepository orderRepository, PizzaService pizzaService) {
@@ -30,45 +25,44 @@ public abstract class SimpleOrderService implements OrderService// , Application
 
     }
 
-//    public SimpleOrderService() {
-    // JavaConfig config = new JavaConfig();
-    // orderRepository = (OrderRepository) config.getImpl("orderRepository");
-    // pizzaRepository = (PizzaRepository) config.getImpl("pizzaRepository");
-    //   }
+    @Override
+    public Order placeNewOrder(Customer customer, List<PizzaAmount> pizzaAmountList)
+            throws InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+        List<Pizza> pizzas = new ArrayList<>();
+        fillPizzasList(pizzaAmountList, pizzas);
+        this.order = new Order(customer, pizzas);
+        System.out.println("ORDER = " + this.order.toString());
+        saveOrder(this.order); // set Order Id and save Order to in-memory list
+        return this.order;
+    }
 
-    public void setAppContext(ApplicationContext appContext) {
-        this.appContext = appContext;
+    private void fillPizzasList(List<PizzaAmount> pizzaAmountList, List<Pizza> pizzas) {
+        int allPizzasAmount = Utils.countPizzaAmount(pizzaAmountList);
+        (new Utils() {
+        }).ifPizzaAmountIsGreaterThanMax(allPizzasAmount);
+        for (PizzaAmount pizzaAmount : pizzaAmountList) {
+            for (int amount = 1; amount <= pizzaAmount.getAmount(); amount++) {
+                pizzas.add(findPizzaByID(pizzaAmount.getPizzaId())); // get Pizza from predifined in-memory list
+            }
+        }
     }
 
     @Override
-    public Order placeNewOrder(Customer customer, int... pizzasID)
-            throws InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
-        List<Pizza> pizzas = new ArrayList<>();
-
-        for (Integer id : pizzasID) {
-            pizzas.add(findPizzaByID(id)); // get Pizza from predifined in-memory list
-        }
-        //Order newOrder = createNewOrder();
-//        newOrder.setCustomer(customer);
-//        newOrder.setPizzas(pizzas);// new Order(customer, pizzas);
-        Order newOrder = new Order(customer, pizzas);
-        System.out.println("ORDER = " + newOrder.toString());
-        saveOrder(newOrder); // set Order Id and save Order to in-memory list
-        return newOrder;
+    public double countTotalPrice() {
+        return order.countTotalPriceNoDiscounts();
     }
 
-    public abstract Order createNewOrder() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException
-            ;
-    //  {return (Order) appContext.getBean("order");}
-    // return new Order();
+    public double countTotalPriceWithPossibleDiscounts() {
+        return countTotalPrice() - order.getPizzaAmountDiscount() - order.getPromoDiscount();
+    }
+
+    public abstract Order createNewOrder();
 
     private Order saveOrder(Order newOrder) {
         return orderRepository.saveOrder(newOrder);
     }
 
     private Pizza findPizzaByID(int id) {
-        // return Pizza.getPizzas().get(id);
-        // return pizzaRepository.findPizzaByID(id);
         return simplePizzaService.find(id);
     }
 
