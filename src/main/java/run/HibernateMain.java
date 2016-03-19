@@ -1,7 +1,7 @@
 package run;
 
 import domain.Address;
-import hibernate.HibernateUtils;
+import hibernate.HibernateUtil;
 import org.hibernate.Session;
 
 /**
@@ -15,7 +15,7 @@ public class HibernateMain {
 //        address.setInsertTime(new Date());
 
         //Get Session
-        Session session = HibernateUtils.getSessionJavaConfigFactory().getCurrentSession();
+        Session session = HibernateUtil.getSessionJavaConfigFactory().getCurrentSession();
         //start transaction
         session.beginTransaction();
         //Save the Model object
@@ -25,7 +25,7 @@ public class HibernateMain {
         System.out.println("Address ID="+address.getId());
 
         //terminate session factory, otherwise program won't end
-        HibernateUtils.getSessionAnnotationFactory().close();
+        HibernateUtil.getSessionAnnotationFactory().close();
     }
 
 }

@@ -13,7 +13,7 @@ import java.util.Properties;
  * Created by olexandra on 3/18/16.
  * Link: http://www.journaldev.com/2882/hibernate-tutorial-for-beginners-using-xml-annotations-and-property-configurations
  */
-public class HibernateUtils {
+public class HibernateUtil {
 
     //XML based configuration
     private static SessionFactory sessionFactory;
@@ -84,6 +84,7 @@ public class HibernateUtils {
             //addClass(Employee1.class) will look for resource
             // com/journaldev/hibernate/model/Employee1.hbm.xml (not good)
             configuration.addAnnotatedClass(Address.class);
+//            configuration.addResource("address.hbm.xml"); // alternative for xml configuration
 
             ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
             System.out.println("Hibernate Java Config serviceRegistry created");

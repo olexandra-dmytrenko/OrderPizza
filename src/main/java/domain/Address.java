@@ -13,6 +13,7 @@ import javax.persistence.*;
 public class Address {
 
     @Id
+    @GeneratedValue
     @Column(name = "ID", nullable = false, unique = true, length = 11)
     private int id;
 
@@ -29,6 +30,9 @@ public class Address {
     public Address(String city, String country) {
         this.city = city;
         this.country = country;
+    }
+
+    public Address() {
     }
 
     public String getCity() {
