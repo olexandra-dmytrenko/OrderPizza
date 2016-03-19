@@ -11,6 +11,7 @@ import java.util.Properties;
 
 /**
  * Created by olexandra on 3/18/16.
+ * Link: http://www.journaldev.com/2882/hibernate-tutorial-for-beginners-using-xml-annotations-and-property-configurations
  */
 public class HibernateUtils {
 
