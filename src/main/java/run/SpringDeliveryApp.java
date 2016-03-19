@@ -50,7 +50,7 @@ public class SpringDeliveryApp {
         System.out.println(SEPARATOR);
         System.out.println("SimpleOrderService With Discount");
         SimpleOrderService os = appContext.getBean("orderService", SimpleOrderService.class);
-        System.out.println("LOOKUP " + os.createNewOrder());;
+        System.out.println("LOOKUP " + os.createNewOrder());
         System.out.println(os.getOrder().toString());
         System.out.println(os.toString());
         System.out.println("Total Price = $" + os.countTotalPrice());
@@ -64,7 +64,7 @@ public class SpringDeliveryApp {
         System.out.println(SEPARATOR);
         System.out.println("SimpleOrderService No Discount");
         SimpleOrderService osNoDiscount = appContext.getBean("orderServiceNoDiscount", SimpleOrderService.class);
-        System.out.println("LOOKUP " + osNoDiscount.createNewOrder());;
+        System.out.println("LOOKUP " + osNoDiscount.createNewOrder());
         System.out.println("Total Price = $" + osNoDiscount.countTotalPrice());
         System.out.println("Total Price with discount = $" + osNoDiscount.countTotalPriceWithPossibleDiscounts());
         System.out.println("Order with New Status " + osNoDiscount.getOrder().toString());
