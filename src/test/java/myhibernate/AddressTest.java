@@ -1,6 +1,7 @@
-package hibernate;
+package myhibernate;
 
 import domain.Address;
+import hibernate.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -94,14 +95,14 @@ public class AddressTest {
                 numberOfRecordsBeforeAddition + amountOfAddedLines, numberOfRecordsAfterAddition);
     }
 
-    @AfterClass
-    public static void tearDown() {
-        Session session = HibernateUtil.getSessionJavaConfigFactory().getCurrentSession();
-        session.beginTransaction();
-        String deleteQueryString = String.format("DELETE FROM %s", "domain.Address");
-        Query deleteQuery = session.createQuery(deleteQueryString);
-        deleteQuery.executeUpdate();
-        session.getTransaction().commit();
-        log.info("All the data from {} table was deleted (truncated)", "Address");
-    }
+//    @AfterClass
+//    public static void tearDown() {
+//        Session session = HibernateUtil.getSessionJavaConfigFactory().getCurrentSession();
+//        session.beginTransaction();
+//        String deleteQueryString = String.format("DELETE FROM %s", "domain.Address");
+//        Query deleteQuery = session.createQuery(deleteQueryString);
+//        deleteQuery.executeUpdate();
+//        session.getTransaction().commit();
+//        log.info("All the data from {} table was deleted (truncated)", "Address");
+//    }
 }

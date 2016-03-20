@@ -2,6 +2,7 @@ package hibernate;
 
 
 import domain.Address;
+import domain.PromoCard;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -75,7 +76,7 @@ public class HibernateUtil {
             props.put("hibernate.connection.driver_class", "com.mysql.jdbc.Driver");
             props.put("hibernate.connection.url", "jdbc:mysql://localhost/pizza");
             props.put("hibernate.connection.username", "root");
-//            props.put("hibernate.connection.password", "root");
+            props.put("hibernate.connection.password", "");
             props.put("hibernate.current_session_context_class", "thread");
 
             configuration.setProperties(props);
@@ -84,6 +85,7 @@ public class HibernateUtil {
             //addClass(Employee1.class) will look for resource
             // com/journaldev/hibernate/model/Employee1.hbm.xml (not good)
             configuration.addAnnotatedClass(Address.class);
+            configuration.addAnnotatedClass(PromoCard.class);
 //            configuration.addResource("address.hbm.xml"); // alternative for xml configuration
 
             ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
