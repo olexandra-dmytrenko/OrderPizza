@@ -2,14 +2,13 @@ package myhibernate;
 
 import domain.PromoCard;
 import hibernate.HibernateUtil;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.criterion.Projections;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 import java.time.LocalDateTime;
 
 import static org.junit.Assert.assertEquals;
@@ -60,4 +59,47 @@ public class PromoCardTest {
 //        assertEquals("The added promoCard is wrong", promoCard.toString(), addedAddress.toString());
 
     }
+
+    @Test
+    public void addSetOfAddresses() {
+        PromoCard promoCard = new PromoCard(200.02);
+        promoCard.setBlockedAmount(100.43);
+        LocalDateTime myDate = LocalDateTime.of(2015, 04, 30, 15, 43, 12);
+        promoCard.setLocalDateTime(myDate);
+        //promoCard.setInsertTime(new Date());
+
+        //Get Session
+        Session session = HibernateUtil.getSessionAnnotationFactory().getCurrentSession();
+        int numberOfRecordsBeforeAddition = 0, numberOfRecordsAfterAddition = 0;
+        int amountOfAddedLines = 1;
+
+        try {
+            //start transaction
+            session.beginTransaction();
+            numberOfRecordsBeforeAddition = ((Long) session.createQuery("SELECT COUNT(*) FROM domain.PromoCard").uniqueResult()).intValue();
+            session.saveOrUpdate(promoCard);
+            log.info("Want to write PromoCard {}", promoCard);
+            log.info("Want to write PromoCard {}", promoCard);
+
+            numberOfRecordsAfterAddition = ((Long) session.createQuery("SELECT COUNT(*) FROM domain.PromoCard").uniqueResult()).intValue();
+//            int numberOfIdOfDate = ((Long) session.createQuery("SELECT count(*) FROM domain.PromoCard WHERE CREATE_DATE='2015-04-30 15:43:12'").uniqueResult()).intValue();
+//            int numberOfIdOfDate = ((Long) session.createQuery("SELECT count(*) FROM domain.PromoCard WHERE CREATE_DATE= :my_date")
+//                    .setParameter("my_date", "2015-04-30 15:43:12").uniqueResult()).intValue();
+            int numberOfIdOfDate = ((Long) session.createQuery("SELECT count(*) FROM domain.PromoCard WHERE CREATE_DATE= :my_date")
+                    .setParameter("my_date", myDate.toString()).uniqueResult()).intValue();
+            log.info("Count of records with date '{}' is {}", myDate, numberOfIdOfDate);
+            session.getTransaction().commit();
+
+        } catch (HibernateException e) {
+            log.error(e.getMessage());
+            session.getTransaction().rollback();
+        }
+
+        //terminate session factory, otherwise program won't end
+        HibernateUtil.getSessionAnnotationFactory().close();
+
+        assertEquals(String.format("There were not %d lines added", amountOfAddedLines),
+                numberOfRecordsBeforeAddition + amountOfAddedLines, numberOfRecordsAfterAddition);
+    }
+
 }
