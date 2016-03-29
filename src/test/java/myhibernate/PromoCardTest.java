@@ -5,8 +5,8 @@ import hibernate.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.criterion.Projections;
+import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,8 +24,8 @@ public class PromoCardTest {
     private static Logger log = LoggerFactory.getLogger(PromoCardTest.class);
     private static Session session = null;
 
-    @BeforeClass
-    public static void setUp(){
+    @Before
+    public void setUp(){
         //Get Session
         session = HibernateUtil.getSessionAnnotationFactory().getCurrentSession();
     }
@@ -36,10 +36,7 @@ public class PromoCardTest {
         promoCard.setLocalDateTime(LocalDateTime.now());
         //promoCard.setInsertTime(new Date());
 
-        //Get Session
-
-        Session session = HibernateUtil.getSessionAnnotationFactory().getCurrentSession();
-
+        session = HibernateUtil.getSessionAnnotationFactory().getCurrentSession();
         //start transaction
         session.beginTransaction();
 
@@ -64,8 +61,6 @@ public class PromoCardTest {
         log.info("ID before save is {}, ID after save is {}", idBeforeSave, idAfterSave);
         log.info("The PromoCard is read after Save: {} with id {}", addedPromoCard.toString(), addedPromoCard.getId());
 
-        //terminate session factory, otherwise program won't end
-        HibernateUtil.getSessionAnnotationFactory().close();
         assertEquals("There were more or less than one added rows", 1, amountOfAddedRows);
         assertEquals("ID is not greater than one than the last previous id was", ++idBeforeSave, idAfterSave);
         assertEquals("The added promoCard is wrong", promoCard.toString(), addedPromoCard.toString());
@@ -82,7 +77,7 @@ public class PromoCardTest {
         //promoCard.setInsertTime(new Date());
 
         //Get Session
-        Session session = HibernateUtil.getSessionAnnotationFactory().getCurrentSession();
+//        Session session = HibernateUtil.getSessionAnnotationFactory().getCurrentSession();
         int amountOfAddedLines = 1;
         List<Long> idOfDateBeforeAdd = new ArrayList<>(), idOfDateAfterAdd = new ArrayList<>();
 
@@ -109,7 +104,7 @@ public class PromoCardTest {
         }
 
         //terminate session factory, otherwise program won't end
-        HibernateUtil.getSessionAnnotationFactory().close();
+//        HibernateUtil.getSessionAnnotationFactory().close();
 
         assertEquals(String.format("There were not %d lines added", amountOfAddedLines),
                 idOfDateBeforeAdd.size() + amountOfAddedLines, idOfDateAfterAdd.size());
@@ -121,4 +116,10 @@ public class PromoCardTest {
                 .list();
     }
 
+    @AfterClass
+    public static void tearDown(){
+        //terminate session factory, otherwise program won't end
+      //  HibernateUtil.getSessionAnnotationFactory().close();
+
+    }
 }

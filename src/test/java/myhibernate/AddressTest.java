@@ -3,10 +3,9 @@ package myhibernate;
 import domain.Address;
 import hibernate.HibernateUtil;
 import org.hibernate.HibernateException;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Projections;
-import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +17,13 @@ import static org.junit.Assert.assertEquals;
  */
 public class AddressTest {
     private static Logger log = LoggerFactory.getLogger(AddressTest.class);
+    private static Session session = null;
+
+    @BeforeClass
+    public static void setUp(){
+        //Get Session
+        session = HibernateUtil.getSessionAnnotationFactory().getCurrentSession();
+    }
 
     @Test
     public void addOneAddress() {
@@ -53,7 +59,7 @@ public class AddressTest {
         log.info("The address read from the Address: {} with id {}", addedAddress.toString(), addedAddress.getId());
 
         //terminate session factory, otherwise program won't end
-        HibernateUtil.getSessionAnnotationFactory().close();
+//        HibernateUtil.getSessionAnnotationFactory().close();
         assertEquals("There were more or less than one added rows", 1, amountOfAddedRows);
         assertEquals("ID is not greater than one than the last previous id was", ++idBeforeSave, idAfterSave);
         assertEquals("The added address is wrong", address.toString(), addedAddress.toString());
@@ -89,7 +95,7 @@ public class AddressTest {
         }
 
         //terminate session factory, otherwise program won't end
-        HibernateUtil.getSessionAnnotationFactory().close();
+//        HibernateUtil.getSessionAnnotationFactory().close();
 
         assertEquals(String.format("There were not %d lines added", amountOfAddedLines),
                 numberOfRecordsBeforeAddition + amountOfAddedLines, numberOfRecordsAfterAddition);
