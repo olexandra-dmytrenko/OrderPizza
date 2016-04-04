@@ -8,8 +8,7 @@ import javax.persistence.*;
  * Created by olexandra on 1/29/16.
  */
 @Entity
-@Table(name = "ADDRESS",
-        uniqueConstraints = {@UniqueConstraint(columnNames = {"ID"})})
+@Table(name = "ADDRESS", uniqueConstraints = { @UniqueConstraint(columnNames = { "ID" }) })
 public class Address {
 
     @Id
@@ -22,6 +21,10 @@ public class Address {
 
     @Column(name = "COUNTRY", length = 100, nullable = false)
     private String country;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @PrimaryKeyJoinColumn
+    private Customer customer;
 
     public Address(String city) {
         this.city = city;
@@ -62,6 +65,14 @@ public class Address {
 
     private void destroy() {
         System.out.println("destroy address");
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     @Override

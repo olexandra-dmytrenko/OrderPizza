@@ -54,7 +54,7 @@ public class Order implements OrderActions {
         return "Order{" +
                 "customer=" + customer +
                 ", pizzas=" + pizzas.stream().map(Pizza::getName).collect(Collectors.joining(", ")) +
-                ", order number=" + number +
+                ", order id=" + number +
                 ", order status=" + status +
                 '}';
     }

@@ -10,34 +10,30 @@ import java.time.LocalDateTime;
  * Created by olexandra on 2/28/16.
  */
 @Entity
-@Table(name = "PROMO_CARD", uniqueConstraints = @UniqueConstraint(columnNames = {"ID"}))
+@Table(name = "PROMO_CARD", uniqueConstraints = @UniqueConstraint(columnNames = { "ID" }) )
 public class PromoCard {
     public static final double TEN_PERCENT_MULTIPLIER = 0.1;
     public static final double THIRTY_PERCENT_MULTIPLIER = 0.3;
 
-//    private static AtomicLong idCounter = new AtomicLong(0);
-
+    @OneToOne(fetch = FetchType.LAZY)
+    @PrimaryKeyJoinColumn
+    private Customer customer;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", unique = true, nullable = false, length = 10)
     private long id;
-
     @Column(name = "AMOUNT", nullable = false, length = 20)
     private double amount = 0;
-
     @Column(name = "BLOCKED_AMOUNT", nullable = false, length = 20)
     private double blockedAmount = 0;
-
     @Convert(converter = LocalDateTimeAttributeConverter.class)
     @Column(name = "CREATE_DATE", nullable = false, columnDefinition = "timestamp")
     private LocalDateTime localDateTime;
 
     public PromoCard() {
-      //  this.id = idCounter.incrementAndGet();
     }
 
     public PromoCard(double amount) {
-    //    this.id = idCounter.incrementAndGet();
         addAmount(amount);
     }
 
@@ -57,12 +53,8 @@ public class PromoCard {
 
     @Override
     public String toString() {
-        return "PromoCard{" +
-                "id=" + id +
-                ", amount=" + amount +
-                ", blockedAmount=" + blockedAmount +
-                ", localDateTime=" + localDateTime +
-                '}';
+        return "PromoCard{" + "numberAtomic=" + id + ", amount=" + amount + ", blockedAmount=" + blockedAmount
+                + ", localDateTime=" + localDateTime + '}';
     }
 
     public double updateAmountFromBlocked() {
@@ -89,5 +81,13 @@ public class PromoCard {
 
     public void setLocalDateTime(LocalDateTime localDateTime) {
         this.localDateTime = localDateTime;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 }
