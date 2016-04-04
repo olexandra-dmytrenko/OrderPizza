@@ -6,10 +6,9 @@ import java.util.concurrent.atomic.AtomicLong;
 /**
  * Created by Oleksandra_Dmytrenko on 1/21/2016.
  */
-//@BenchMark(countTime = false, createdBy = "Also me")
+// @BenchMark(countTime = false, createdBy = "Also me")
 @Entity
-@Table(name = "CUSTOMER",
-        uniqueConstraints = {@UniqueConstraint(columnNames = {"ID"})})
+@Table(name = "CUSTOMER", uniqueConstraints = { @UniqueConstraint(columnNames = { "ID" }) })
 
 public class Customer {
 
@@ -43,14 +42,15 @@ public class Customer {
         return promoCard;
     }
 
+    public void setPromoCard(PromoCard promoCard) {
+        this.promoCard = promoCard;
+    }
+
     public void setPromoCardAmount(double amount) {
         if (this.promoCard == null) {
             this.promoCard = new PromoCard(amount);
-        }
-    }
-
-    public void setPromoCard(PromoCard promoCard) {
-        this.promoCard = promoCard;
+        } else
+            this.promoCard.addAmount(amount);
     }
 
     @Id
@@ -72,8 +72,9 @@ public class Customer {
     public void setName(String name) {
         this.name = name;
     }
-//    @Override
-//    public String toString() {
-//        return "Customer: " + name + " from " + address.toString() + ", customer id = " + id + ", promo card = " + promoCard;
-//    }
+    // @Override
+    // public String toString() {
+    // return "Customer: " + name + " from " + address.toString() + ", customer id = " + id + ",
+    // promo card = " + promoCard;
+    // }
 }

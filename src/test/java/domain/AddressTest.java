@@ -1,10 +1,10 @@
-package myhibernate;
+package domain;
 
-import domain.Address;
 import hibernate.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.criterion.Projections;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -17,10 +17,10 @@ import static org.junit.Assert.assertEquals;
  */
 public class AddressTest {
     private static Logger log = LoggerFactory.getLogger(AddressTest.class);
-    private static Session session = null;
+    private Session session = null;
 
-    @BeforeClass
-    public static void setUp(){
+    @Before
+    public void setUp(){
         //Get Session
         session = HibernateUtil.getSessionAnnotationFactory().getCurrentSession();
     }
@@ -32,7 +32,7 @@ public class AddressTest {
         //address.setInsertTime(new Date());
 
         //Get Session
-        Session session = HibernateUtil.getSessionJavaConfigFactory().getCurrentSession();
+//        Session session = HibernateUtil.getSessionJavaConfigFactory().getCurrentSession();
 
         //start transaction
         session.beginTransaction();
@@ -74,7 +74,7 @@ public class AddressTest {
 //        address.setInsertTime(new Date());
 
         //Get Session
-        Session session = HibernateUtil.getSessionJavaConfigFactory().getCurrentSession();
+//        Session session = HibernateUtil.getSessionJavaConfigFactory().getCurrentSession();
         int numberOfRecordsBeforeAddition = 0, numberOfRecordsAfterAddition = 0;
         int amountOfAddedLines = 2;
         try {

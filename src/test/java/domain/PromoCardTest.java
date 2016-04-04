@@ -1,6 +1,5 @@
-package myhibernate;
+package domain;
 
-import domain.PromoCard;
 import hibernate.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;

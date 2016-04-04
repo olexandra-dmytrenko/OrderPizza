@@ -35,6 +35,7 @@ public class PromoCard {
 
     public PromoCard(double amount) {
         addAmount(amount);
+        localDateTime = LocalDateTime.now();
     }
 
     public void addAmount(double newBuyAmount) {
