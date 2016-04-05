@@ -22,9 +22,10 @@ public class Address {
     @Column(name = "COUNTRY", length = 100, nullable = false)
     private String country;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @PrimaryKeyJoinColumn
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "STOCK_ID", nullable = false)
     private Customer customer;
+
 
     public Address(String city) {
         this.city = city;

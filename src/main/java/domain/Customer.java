@@ -1,7 +1,12 @@
 package domain;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.*;
-import java.util.concurrent.atomic.AtomicLong;
+
+import static javax.persistence.GenerationType.IDENTITY;
 
 /**
  * Created by Oleksandra_Dmytrenko on 1/21/2016.
@@ -10,12 +15,13 @@ import java.util.concurrent.atomic.AtomicLong;
 @Entity
 @Table(name = "CUSTOMER", uniqueConstraints = { @UniqueConstraint(columnNames = { "ID" }) })
 
-public class Customer {
+public class Customer implements Serializable {
 
     String name;
     Address address;
-    long id;
+    int id;
     PromoCard promoCard = null;
+    List<Address> addresses = new ArrayList<>();
 
     public Customer() {
     }
@@ -53,14 +59,23 @@ public class Customer {
             this.promoCard.addAmount(amount);
     }
 
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "customer")
+    public List<Address> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<Address> addresses) {
+        this.addresses = addresses;
+    }
+
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = IDENTITY)
     @Column(name = "ID", nullable = false, unique = true, length = 11)
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -72,9 +87,10 @@ public class Customer {
     public void setName(String name) {
         this.name = name;
     }
-    // @Override
-    // public String toString() {
-    // return "Customer: " + name + " from " + address.toString() + ", customer id = " + id + ",
-    // promo card = " + promoCard;
-    // }
+
+    @Override
+    public String toString() {
+        return "Customer: " + name + " from " + address.toString() + ", customer id = " + id + ", promo card = "
+                + promoCard;
+    }
 }

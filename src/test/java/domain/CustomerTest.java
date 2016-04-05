@@ -1,12 +1,12 @@
 package domain;
 
-import hibernate.HibernateUtil;
-import junit.framework.TestCase;
 import org.hibernate.Session;
 import org.hibernate.criterion.Projections;
-import org.junit.Before;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import hibernate.HibernateUtil;
+import junit.framework.TestCase;
 
 /**
  * Created by Oleksandra_Dmytrenko on 4/4/2016.
@@ -22,8 +22,14 @@ public class CustomerTest extends TestCase {
 
     public void testSetCustomer() throws Exception {
         Customer customer = new Customer("Valera");
-        customer.setAddress(new Address("Buharest", "Romania"));
-        customer.setPromoCardAmount(279.21);
+        Address address = new Address("Buharest", "Romania");
+        customer.setAddress(address);
+        PromoCard card = new PromoCard(238);
+        card.setBlockedAmount(32);
+        // you've got to do that so that promocard when written has the place to take the id from
+        customer.setPromoCard(card);
+        card.setCustomer(customer);
+        address.setCustomer(customer);
 
         session.beginTransaction();
         long numbOfLinesBeforeAdd = ((Long) session.createCriteria("domain.Customer")
@@ -33,7 +39,6 @@ public class CustomerTest extends TestCase {
         long numbOfLinesAfterAdd = ((Long) session.createCriteria("domain.Customer")
                 .setProjection(Projections.rowCount()).uniqueResult()).intValue();
         session.getTransaction().commit();
-        System.out.println(numbOfLinesBeforeAdd + " " + numbOfLinesAfterAdd);
         assertEquals(numbOfLinesBeforeAdd + 1, numbOfLinesAfterAdd);
     }
 
@@ -41,19 +46,41 @@ public class CustomerTest extends TestCase {
 
     }
 
-    public void testGetAddress() throws Exception {
+    public void testDeleteCustomerAndHisPromo() throws Exception {
+        // given
+        session.beginTransaction();
 
-    }
+        // values to check before modification
+        long numbOfCustomerLinesBeforeDelete = ((Long) session.createCriteria("domain.Customer")
+                .setProjection(Projections.rowCount()).uniqueResult()).intValue();
+        long numbOfPromoLinesBeforeDelete = (Long) session.createCriteria("domain.PromoCard")
+                .setProjection(Projections.rowCount()).uniqueResult();
+        Number lastIdBeforeDelete = ((Number) session.createCriteria("domain.Customer")
+                .setProjection(Projections.max("id")).uniqueResult());
 
-    public void testSetAddress() throws Exception {
+        // when
+        Customer customer = (Customer) session.load(Customer.class, lastIdBeforeDelete);
+         log.info("The customer who gets deleted:{}", customer.toString());
+        session.delete(customer);
+        // to sync the session in memory
+        session.flush();
 
-    }
+        // then
+        // values to check after modification
+        long numbOfCustomerLinesAfterDelete = (Long) session.createCriteria("domain.Customer")
+                .setProjection(Projections.rowCount()).uniqueResult();
+        long numbOfPromoLinesAfterDelete = (Long) session.createCriteria("domain.PromoCard")
+                .setProjection(Projections.rowCount()).uniqueResult();
+        Number lastIdAfterDelete = (Number) session.createCriteria("domain.Customer")
+                .setProjection(Projections.max("id")).uniqueResult();
+        session.getTransaction().commit();
 
-    public void testGetPromoCard() throws Exception {
-
-    }
-
-    public void testSetPromoCard() throws Exception {
-
+        // checks
+        assertEquals(numbOfCustomerLinesBeforeDelete - 1, numbOfCustomerLinesAfterDelete);
+        assertEquals(numbOfPromoLinesBeforeDelete - 1, numbOfPromoLinesAfterDelete);
+        if (numbOfCustomerLinesAfterDelete > 0) {
+            assertTrue("The last id is greater than the id which was deleted",
+                    lastIdAfterDelete.intValue() < lastIdBeforeDelete.intValue());
+        }
     }
 }
