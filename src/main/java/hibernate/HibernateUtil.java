@@ -30,7 +30,7 @@ public class HibernateUtil {
         try {
             // Create the SessionFactory from hibernate.cfg.xml
             Configuration configuration = new Configuration();
-            configuration.configure("hibernate.cfg.xml");
+            configuration.configure("hibernate/hibernate.cfg.xml");
             System.out.println("Hibernate Configuration loaded");
 
             ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
@@ -51,7 +51,7 @@ public class HibernateUtil {
         try {
             // Create the SessionFactory from hibernate.cfg.xml
             Configuration configuration = new Configuration();
-            configuration.configure("hibernate-annotation.cfg.xml");
+            configuration.configure("hibernate/hibernate-annotation.cfg.xml");
             System.out.println("Hibernate Annotation Configuration loaded");
 
             ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();

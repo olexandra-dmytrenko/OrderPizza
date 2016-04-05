@@ -23,10 +23,10 @@ public class SpringDeliveryApp {
     public static void main(String[] args) throws Exception {
 
         ConfigurableApplicationContext appContextParent
-                = new ClassPathXmlApplicationContext(new String[]{"repoContext.xml"});
+                = new ClassPathXmlApplicationContext(new String[]{"springForLocalRepos/repoContext.xml"});
         // указали что у апп контекста есть родитель репозитори контекст
         ConfigurableApplicationContext appContext = new ClassPathXmlApplicationContext(
-                new String[]{"appContext.xml"}, appContextParent);
+                new String[]{"springForLocalRepos/appContext.xml"}, appContextParent);
 
         /****************** Pizzas (Repo) ******************/
         System.out.println(SEPARATOR);

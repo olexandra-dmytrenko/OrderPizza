@@ -36,10 +36,10 @@ public class SimpleOrderServiceTest {
     public SimpleOrderServiceTest() {
         this.appContextParent
                 // = new ClassPathXmlApplicationContext("src/test/repository/appContext.xml");
-                = new ClassPathXmlApplicationContext(new String[]{"repoContext.xml"});
+                = new ClassPathXmlApplicationContext(new String[]{"springForLocalRepos/repoContext.xml"});
         // указали что у апп контекста есть родитель репозитори контекст
         this.appContext = new ClassPathXmlApplicationContext(
-                new String[]{"appContext.xml"}, appContextParent);
+                new String[]{"springForLocalRepos/appContext.xml"}, appContextParent);
     }
 
     @org.junit.Before
