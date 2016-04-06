@@ -24,6 +24,7 @@ public class Address {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "STOCK_ID", nullable = false)
+
     private Customer customer;
 
 

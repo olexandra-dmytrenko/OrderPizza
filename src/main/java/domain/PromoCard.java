@@ -22,7 +22,8 @@ public class PromoCard {
     @PrimaryKeyJoinColumn
     private Customer customer;
     @Id
-    @GenericGenerator(name = "generator", strategy = "foreign", parameters = @org.hibernate.annotations.Parameter(name = "property", value = "customer"))
+    @GenericGenerator(name = "generator", strategy = "foreign",
+            parameters = @org.hibernate.annotations.Parameter(name = "property", value = "customer"))
     @GeneratedValue(generator = "generator")
 //    @Column(name = "STOCK_ID", unique = true, nullable = false)
 //@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,7 +31,7 @@ public class PromoCard {
     private int id;
     @Column(name = "AMOUNT", nullable = false, length = 20)
     private double amount = 0;
-    @Column(name = "BLOCKED_AMOUNT", nullable = false, length = 20)
+    @Column(name = "BLOCKED_AMOUNT", nullable = false, length = 20, precision = 2)
     private double blockedAmount = 0;
     @Convert(converter = LocalDateTimeAttributeConverter.class)
     @Column(name = "CREATE_DATE", nullable = false, columnDefinition = "timestamp")
