@@ -4,6 +4,9 @@ import domain.BenchMark;
 import domain.Pizza;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Created by Oleksandra_Dmytrenko on 1/21/2016.
@@ -20,7 +23,7 @@ public class InMemPizzaRepositoryNoSpring implements PizzaRepository {
      */
     public void init() {
 //        setPizzas(pizzas);
-        pizzas = new HashMap();
+        pizzas = new HashMap<>();
         pizzas.put(1, new Pizza("Sea", 1));
         pizzas.put(2, new Pizza("Meat", 2));
         pizzas.put(3, new Pizza("Cheese", 3));
@@ -42,5 +45,15 @@ public class InMemPizzaRepositoryNoSpring implements PizzaRepository {
     @BenchMark
     public void setPizzas(HashMap<Integer, Pizza> pizzas) {
         this.pizzas = pizzas;
+    }
+
+    @Override
+    public List<Pizza> findAll() {
+        return pizzas.entrySet().stream().map(Map.Entry::getValue).collect(Collectors.toList());
+    }
+
+    @Override
+    public Pizza save(Pizza pizza) {
+        return pizzas.put(pizzas.size(), pizza);
     }
 }

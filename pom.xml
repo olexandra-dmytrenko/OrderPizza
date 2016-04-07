@@ -15,6 +15,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <org.springframework.version>4.2.4.RELEASE</org.springframework.version>
         <junit.version>4.12</junit.version>
+        <hibernate.version>5.1.0.Final</hibernate.version>
     </properties>
 
     <build>
@@ -40,9 +41,23 @@
             <artifactId>spring-context</artifactId>
             <version>${org.springframework.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context-support</artifactId>
+            <version>${org.springframework.version}</version>
+        </dependency>
+
+        <!-- Annotations supposrt-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <version>${org.springframework.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
             <version>${org.springframework.version}</version>
         </dependency>
 
@@ -60,18 +75,12 @@
             <scope>test</scope>
         </dependency>
 
+
         <!--Independent Logging-->
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
             <version>1.2.17</version>
-        </dependency>
-
-        <!--Hibernate-->
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <version>4.3.5.Final</version>
         </dependency>
 
         <!-- Hibernate 4 uses Jboss logging, but older versions slf4j for logging -->
@@ -81,11 +90,32 @@
             <version>1.7.5</version>
         </dependency>
 
+        <!--Hibernate-->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+
+
         <!--DB MySQL-->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.38</version>
+        </dependency>
+
+        <!--Handles the new and old transactions-->
+        <dependency>
+            <groupId>commons-dbcp</groupId>
+            <artifactId>commons-dbcp</artifactId>
+            <version>1.4</version>
         </dependency>
 
     </dependencies>

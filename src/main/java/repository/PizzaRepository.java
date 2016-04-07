@@ -1,6 +1,7 @@
 package repository;
 
 import java.util.HashMap;
+import java.util.List;
 
 import domain.BenchMark;
 import domain.Pizza;
@@ -22,5 +23,7 @@ public interface PizzaRepository {
     Pizza save(Pizza pizza);
 
     Pizza find(int id);
+
+    List<Pizza> findAll();
 
 }

@@ -1,10 +1,12 @@
 package repository;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import domain.Pizza;
 
@@ -17,6 +19,19 @@ public class JPAPizzaRepository implements PizzaRepository {
     private EntityManager em;
 
     @Override
+    @Transactional(readOnly = true)
+    public Pizza find(int id) {
+        return em.find(Pizza.class, id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Pizza> findAll() {
+        return em.createQuery("from PIZZA", Pizza.class).getResultList();
+    }
+
+    @Override
+    @Transactional
     public Pizza save(Pizza pizza) {
         if (pizza.getId() == null) {
             em.persist(pizza);
@@ -24,11 +39,4 @@ public class JPAPizzaRepository implements PizzaRepository {
             em.merge(pizza);
         return pizza;
     }
-
-    @Override
-    @Transactional
-    public Pizza find(int id) {
-        return null;
-    }
-
 }
