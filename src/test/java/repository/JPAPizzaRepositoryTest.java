@@ -40,6 +40,7 @@ public class JPAPizzaRepositoryTest extends AbstractTransactionalJUnit4SpringCon
     @Test
     public void testSave() throws Exception {
         Pizza pizza = new Pizza("Verona", 156.00);
+        Assert.assertNull("Pizza wasn't saved to the DB Correctly", pizza.getId());
         Pizza result = pizzaService.save(pizza);
         em.flush();
         System.out.println(result.getId());
