@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,7 +28,8 @@ public class JPAPizzaRepository implements PizzaRepository {
     @Override
     @Transactional(readOnly = true)
     public List<Pizza> findAll() {
-        return em.createQuery("from PIZZA", Pizza.class).getResultList();
+        return em.unwrap(Session.class).createCriteria(Pizza.class).list();
+//        return em.createQuery("SELECT * from PIZZA", Pizza.class).getResultList();
     }
 
     @Override
