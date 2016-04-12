@@ -1,17 +1,11 @@
-<beans profile="mac"
-       xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
+<beans
+        xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
 http://www.springframework.org/schema/beans/spring-beans.xsd
 ">
 
     <!--<context:property-placeholder system-properties-mode="OVERRIDE" location="classpath:properties/databaseWithOutPassword.properties"/>-->
-
-    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="location">
-            <value>properties/databaseWithOutPassword.properties</value>
-        </property>
-    </bean>
 
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
           destroy-method="close">
@@ -21,5 +15,21 @@ http://www.springframework.org/schema/beans/spring-beans.xsd
         <property name="password" value="${jdbc.password}"/>
         <property name="initialSize" value="5"/>
     </bean>
+
+    <beans profile="mac">
+        <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+            <property name="location">
+                <value>properties/databaseWithOutPassword.properties</value>
+            </property>
+        </bean>
+    </beans>
+
+    <beans profile="win">
+        <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+            <property name="location">
+                <value>properties/databaseWithPassword.properties</value>
+            </property>
+        </bean>
+    </beans>
 
 </beans>
