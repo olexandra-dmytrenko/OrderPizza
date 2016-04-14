@@ -25,7 +25,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * Created by Oleksandra_Dmytrenko on 4/7/2016.
  */
-@Rollback(true)
+@Rollback(false)
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/database/DataSource.xml", "classpath:/database/Hibernate.xml",
         "classpath:/database/RepositoryContextJPA.xml" })
@@ -39,7 +39,7 @@ public class JPAPizzaRepositoryTest extends AbstractTransactionalJUnit4SpringCon
 
     @Test
     public void testFind() throws Exception {
-        final String insertQuery = "UPDATE pizzas (name, price) VALUES ('Margarita', 127.99)";
+        final String insertQuery = "INSERT INTO pizzas (name, price) VALUES ('Margarita', 127.99)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(con -> con.prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS), keyHolder);
         Integer id = keyHolder.getKey().intValue();
