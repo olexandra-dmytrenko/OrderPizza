@@ -7,6 +7,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
@@ -24,10 +25,11 @@ import static org.junit.Assert.assertTrue;
 /**
  * Created by Oleksandra_Dmytrenko on 4/7/2016.
  */
+@Rollback(true)
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/database/DataSource.xml", "classpath:/database/Hibernate.xml",
         "classpath:/database/RepositoryContextJPA.xml" })
-@ActiveProfiles("mac")
+@ActiveProfiles("win")
 public class JPAPizzaRepositoryTest extends AbstractTransactionalJUnit4SpringContextTests {
     @PersistenceContext
     private EntityManager em;
@@ -37,7 +39,7 @@ public class JPAPizzaRepositoryTest extends AbstractTransactionalJUnit4SpringCon
 
     @Test
     public void testFind() throws Exception {
-        final String insertQuery = "INSERT INTO pizzas (name, price) VALUES ('Margarita', 127.99)";
+        final String insertQuery = "UPDATE pizzas (name, price) VALUES ('Margarita', 127.99)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(con -> con.prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS), keyHolder);
         Integer id = keyHolder.getKey().intValue();
@@ -61,7 +63,7 @@ public class JPAPizzaRepositoryTest extends AbstractTransactionalJUnit4SpringCon
 
     @Test
     public void testSave() throws Exception {
-        Pizza pizza = new Pizza("Verona", 156.00);
+        Pizza pizza = new Pizza("Verona", 156.289);
         Assert.assertNull("Pizza wasn't saved to the DB Correctly", pizza.getId());
         Pizza result = pizzaService.save(pizza);
         em.flush();
