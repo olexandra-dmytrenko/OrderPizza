@@ -25,7 +25,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * Created by Oleksandra_Dmytrenko on 4/7/2016.
  */
-@Rollback(false)
+@Rollback(true)
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/database/DataSource.xml", "classpath:/database/Hibernate.xml",
         "classpath:/database/RepositoryContextJPA.xml" })

@@ -3,9 +3,10 @@ package domain;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
+
+import javax.persistence.*;
 
 /**
  * Created by Oleksandra_Dmytrenko on 1/21/2016.
@@ -14,17 +15,21 @@ public class Order implements OrderActions {
     public static final double THIRTY_PERCENT_MULTIPLIER = 0.3;
     public static final int PIZZA_AMOUNT_FOR_DISCOUNT = 4;
     private static List<Order> orders = new ArrayList<>();
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Integer id;
+    @Enumerated(EnumType.STRING)
     private Status status;
-
-    private Customer customer;
+    @OneToMany
     List<Pizza> pizzas;
-    long number;
-    static AtomicLong id = new AtomicLong(0);
+    @OneToOne
+    private Customer customer;
+    // static AtomicLong id = new AtomicLong(0);
 
     public Order(Customer customer, List<Pizza> pizzas) {
         this.customer = customer;
         this.pizzas = pizzas;
-        this.number = id.incrementAndGet();
+        // this.number = id.incrementAndGet();
         this.status = Status.NEW;
         customer.getPromoCard().setBlockedAmount(countTotalPriceWithPossiblePizzaAmountDiscount());
     }
@@ -35,6 +40,10 @@ public class Order implements OrderActions {
 
     public Customer getCustomer() {
         return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     @Override
@@ -51,16 +60,9 @@ public class Order implements OrderActions {
 
     @Override
     public String toString() {
-        return "Order{" +
-                "customer=" + customer +
-                ", pizzas=" + pizzas.stream().map(Pizza::getName).collect(Collectors.joining(", ")) +
-                ", order id=" + number +
-                ", order status=" + status +
-                '}';
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+        return "Order{" + "customer=" + customer + ", pizzas="
+                + pizzas.stream().map(Pizza::getName).collect(Collectors.joining(", ")) + ", order id=" + id
+                + ", order status=" + status + '}';
     }
 
     @Override
@@ -93,5 +95,29 @@ public class Order implements OrderActions {
 
     private DoubleStream pizzaPricesStream() {
         return pizzas.stream().mapToDouble(Pizza::getPrice);
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public List<Pizza> getPizzas() {
+        return pizzas;
+    }
+
+    public void setPizzas(List<Pizza> pizzas) {
+        this.pizzas = pizzas;
     }
 }

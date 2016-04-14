@@ -18,5 +18,6 @@
         <mapping class="domain.Address"/>
         <mapping class="domain.PromoCard"/>
         <mapping class="domain.Customer"/>
+        <mapping class="domain.Order"/>
     </session-factory>
 </hibernate-configuration>
