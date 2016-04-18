@@ -15,10 +15,16 @@ public class Pizza {
     private String name;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "PIZZA_ID")
+    @Column(name = "ID")
     private Integer id;
     @Column(name = "PRICE", nullable = true, length = 20, precision = 2)
     private double price;
+
+    // @ManyToOne(fetch = FetchType.LAZY)
+    // @JoinColumn(name = "ORDER_ID", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL)
+    private Order order;
+
     // private double price;
     // private PizzaType type;
 
@@ -67,12 +73,15 @@ public class Pizza {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Pizza)) return false;
+        if (this == o)
+            return true;
+        if (!(o instanceof Pizza))
+            return false;
 
         Pizza pizza = (Pizza) o;
 
-        if (Double.compare(pizza.price, price) != 0) return false;
+        if (Double.compare(pizza.price, price) != 0)
+            return false;
         return name.equals(pizza.name);
 
     }
@@ -85,5 +94,13 @@ public class Pizza {
         temp = Double.doubleToLongBits(price);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         return result;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 }

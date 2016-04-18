@@ -1,19 +1,23 @@
 package service;
 
-import domain.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import repository.OrderRepository;
-
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Lookup;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import domain.*;
+import repository.OrderRepository;
 
 /**
  * Created by Oleksandra_Dmytrenko on 1/21/2016.
  */
 // put abstract infront of class
-public abstract class SimpleOrderService implements OrderService
-{
+@Service("OrderService")
+public class SimpleOrderService implements OrderService {
     Order order;
     private OrderRepository orderRepository;// = new InMemOrderRepository();
     private PizzaService simplePizzaService;// = new SimplePizzaService();
@@ -25,6 +29,7 @@ public abstract class SimpleOrderService implements OrderService
 
     }
 
+    @Transactional
     @Override
     public Order placeNewOrder(Customer customer, List<PizzaAmount> pizzaAmountList)
             throws InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
@@ -42,7 +47,8 @@ public abstract class SimpleOrderService implements OrderService
         }).ifPizzaAmountIsGreaterThanMax(allPizzasAmount);
         for (PizzaAmount pizzaAmount : pizzaAmountList) {
             for (int amount = 1; amount <= pizzaAmount.getAmount(); amount++) {
-                pizzas.add(findPizzaByID(pizzaAmount.getPizzaId())); // get Pizza from predifined in-memory list
+                pizzas.add(findPizzaByID(pizzaAmount.getPizzaId())); // get Pizza from predifined
+                                                                     // in-memory list
             }
         }
     }
@@ -56,10 +62,14 @@ public abstract class SimpleOrderService implements OrderService
         return countTotalPrice() - order.getPizzaAmountDiscount() - order.getPromoDiscount();
     }
 
-    public abstract Order createNewOrder();
+    @Lookup("order")
+    public Order createNewOrder() {
+        return null;
+    }
 
+    @Transactional
     private Order saveOrder(Order newOrder) {
-        return orderRepository.saveOrder(newOrder);
+        return orderRepository.save(newOrder);
     }
 
     private Pizza findPizzaByID(int id) {

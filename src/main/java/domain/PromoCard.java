@@ -1,13 +1,12 @@
 package domain;
 
-import hibernate.LocalDateTimeAttributeConverter;
-import org.hibernate.annotations.*;
+import java.time.LocalDateTime;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.xml.crypto.Data;
-import java.time.LocalDateTime;
+
+import org.hibernate.annotations.GenericGenerator;
+
+import hibernate.LocalDateTimeAttributeConverter;
 
 /**
  * Created by olexandra on 2/28/16.
@@ -18,15 +17,14 @@ public class PromoCard {
     public static final double TEN_PERCENT_MULTIPLIER = 0.1;
     public static final double THIRTY_PERCENT_MULTIPLIER = 0.3;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     private Customer customer;
     @Id
-    @GenericGenerator(name = "generator", strategy = "foreign",
-            parameters = @org.hibernate.annotations.Parameter(name = "property", value = "customer"))
-    @GeneratedValue(generator = "generator")
-//    @Column(name = "STOCK_ID", unique = true, nullable = false)
-//@GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @GenericGenerator(name = "generator", strategy = "foreign", parameters = @org.hibernate.annotations.Parameter(name = "property", value = "customer") )
+//    @GeneratedValue(generator = "generator")
+    // @Column(name = "STOCK_ID", unique = true, nullable = false)
+    // @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", unique = true, nullable = false, length = 11)
     private int id;
     @Column(name = "AMOUNT", nullable = false, length = 20)
@@ -44,9 +42,16 @@ public class PromoCard {
         addAmount(amount);
         localDateTime = LocalDateTime.now();
     }
-
     public void addAmount(double newBuyAmount) {
         this.amount += newBuyAmount;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
     }
 
     public double getDiscount(double newBuyAmount) {
@@ -77,6 +82,10 @@ public class PromoCard {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public double getBlockedAmount() {
+        return blockedAmount;
     }
 
     public void setBlockedAmount(double blockedAmount) {

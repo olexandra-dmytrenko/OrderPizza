@@ -12,6 +12,11 @@ public class PizzaAmount implements Utils {
         this.amount = 1;
     }
 
+    public PizzaAmount(int pizzaId, int amount) {
+        this.pizzaId = pizzaId;
+        this.amount = amount;
+    }
+
     public int getPizzaId() {
         return pizzaId;
     }

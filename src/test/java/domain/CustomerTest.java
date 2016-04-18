@@ -23,7 +23,7 @@ public class CustomerTest extends TestCase {
     public void testSetCustomer() throws Exception {
         Customer customer = new Customer("Valera");
         Address address = new Address("Buharest", "Romania");
-        customer.setAddress(address);
+        customer.addAddress(address);
         PromoCard card = new PromoCard(238);
         card.setBlockedAmount(32);
         // you've got to do that so that promocard when written has the place to take the id from

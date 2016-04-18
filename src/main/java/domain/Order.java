@@ -3,7 +3,6 @@ package domain;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
 
 import javax.persistence.*;
@@ -11,27 +10,40 @@ import javax.persistence.*;
 /**
  * Created by Oleksandra_Dmytrenko on 1/21/2016.
  */
+@Entity
+@Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "ORDER_ID" }) })
 public class Order implements OrderActions {
     public static final double THIRTY_PERCENT_MULTIPLIER = 0.3;
     public static final int PIZZA_AMOUNT_FOR_DISCOUNT = 4;
     private static List<Order> orders = new ArrayList<>();
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer id;
+    @Column(name = "ORDER_ID", nullable = false, unique = true)
+    int id;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "PIZZA_ID", nullable = false)
+    List<Pizza> pizzas;
+
     @Enumerated(EnumType.STRING)
     private Status status;
-    @OneToMany
-    List<Pizza> pizzas;
-    @OneToOne
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "CUSTOMER_ID", nullable = false)
     private Customer customer;
     // static AtomicLong id = new AtomicLong(0);
+
+    public Order() {
+    }
 
     public Order(Customer customer, List<Pizza> pizzas) {
         this.customer = customer;
         this.pizzas = pizzas;
         // this.number = id.incrementAndGet();
         this.status = Status.NEW;
-        customer.getPromoCard().setBlockedAmount(countTotalPriceWithPossiblePizzaAmountDiscount());
+        // TODO: I've commented the piece because for it to be implemented the get has to be
+        // executes. I've got to make either Transaction in transaction or spread it into 2 actions.
+        // customer.getPromoCard().setBlockedAmount(countTotalPriceWithPossiblePizzaAmountDiscount());
     }
 
     public static List<Order> getOrders() {
@@ -61,8 +73,9 @@ public class Order implements OrderActions {
     @Override
     public String toString() {
         return "Order{" + "customer=" + customer + ", pizzas="
-                + pizzas.stream().map(Pizza::getName).collect(Collectors.joining(", ")) + ", order id=" + id
-                + ", order status=" + status + '}';
+        // TODO: pizzas are not got while saving order
+        // + pizzas.stream().map(Pizza::getName).collect(Collectors.joining(", "))
+                + ", order id=" + id + ", order status=" + status + '}';
     }
 
     @Override
