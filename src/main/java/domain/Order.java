@@ -1,28 +1,27 @@
 package domain;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.DoubleStream;
 
-import javax.persistence.*;
-
 /**
  * Created by Oleksandra_Dmytrenko on 1/21/2016.
  */
 @Entity
-@Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "ORDER_ID" }) })
+@Table(name = "ORDERS", uniqueConstraints = { @UniqueConstraint(columnNames = { "ID" }) })
 public class Order implements OrderActions {
     public static final double THIRTY_PERCENT_MULTIPLIER = 0.3;
     public static final int PIZZA_AMOUNT_FOR_DISCOUNT = 4;
     private static List<Order> orders = new ArrayList<>();
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ORDER_ID", nullable = false, unique = true)
+    @Column(name = "ID", nullable = false, unique = true)
     int id;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "PIZZA_ID", nullable = false)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "order")
+//    @JoinColumn(name = "PIZZA_ID", nullable = false)
     List<Pizza> pizzas;
 
     @Enumerated(EnumType.STRING)

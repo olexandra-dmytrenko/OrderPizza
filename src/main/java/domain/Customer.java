@@ -1,10 +1,9 @@
 package domain;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.persistence.*;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -45,7 +44,7 @@ public class Customer implements Serializable {
     public PromoCard getPromoCard() {
         if (this.promoCard == null) {
             System.out.println(this.toString() + " doesn't have a promo card. A new one was created");
-            this.promoCard = new PromoCard();
+            this.promoCard = new PromoCard(0);
             this.getPromoCard().setCustomer(this);
         }
         return promoCard;
