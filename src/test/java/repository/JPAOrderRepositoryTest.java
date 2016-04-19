@@ -43,7 +43,6 @@ public class JPAOrderRepositoryTest {
         order.setCustomer(olga);
         order.setPizzas(Arrays.asList(new Pizza()));
         order = orderService.placeNewOrder(new Customer("Olga"), Arrays.asList(new PizzaAmount(1, 2)));
-        em.flush();
         assertNotNull(order.getId());
     }
 }

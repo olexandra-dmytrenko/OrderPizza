@@ -1,6 +1,7 @@
 package domain;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by Oleksandra_Dmytrenko on 1/21/2016.
