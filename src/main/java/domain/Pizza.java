@@ -23,8 +23,8 @@ public class Pizza {
 
     // @ManyToOne(fetch = FetchType.LAZY)
     // @JoinColumn(name = "ORDER_ID", nullable = false)
-    @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL)
-    private Order order;
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "pizzas", cascade = {CascadeType.PERSIST})
+    private List<Order> orders;
 
     // private double price;
     // private PizzaType type;
@@ -81,9 +81,7 @@ public class Pizza {
 
         Pizza pizza = (Pizza) o;
 
-        if (Double.compare(pizza.price, price) != 0)
-            return false;
-        return name.equals(pizza.name);
+        return Double.compare(pizza.price, price) == 0 && name.equals(pizza.name);
 
     }
 
@@ -97,11 +95,11 @@ public class Pizza {
         return result;
     }
 
-    public Order getOrder() {
-        return order;
+    public List<Order> getOrders() {
+        return orders;
     }
 
-    public void setOrder(Order order) {
-        this.order = order;
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 }

@@ -1,14 +1,15 @@
 package service;
 
-import domain.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Lookup;
-import org.springframework.stereotype.Service;
-import repository.OrderRepository;
-
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Lookup;
+import org.springframework.stereotype.Service;
+
+import domain.*;
+import repository.OrderRepository;
 
 /**
  * Created by Oleksandra_Dmytrenko on 1/21/2016.
@@ -27,7 +28,7 @@ public class SimpleOrderService implements OrderService {
 
     }
 
-//    @Transactional
+    // @Transactional
     @Override
     public Order placeNewOrder(Customer customer, List<PizzaAmount> pizzaAmountList)
             throws InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
@@ -65,7 +66,7 @@ public class SimpleOrderService implements OrderService {
         return null;
     }
 
-//    @Transactional
+    // @Transactional
     private Order saveOrder(Order newOrder) {
         return orderRepository.save(newOrder);
     }

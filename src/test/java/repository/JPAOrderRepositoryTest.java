@@ -37,12 +37,9 @@ public class JPAOrderRepositoryTest {
 
     @Test
     public void testSave() throws Exception {
-        Order order = new Order();
         Customer olga = new Customer("Olga");
         olga.addAddress(new Address("Kyiv", "Ukraine"));
-        order.setCustomer(olga);
-        order.setPizzas(Arrays.asList(new Pizza()));
-        order = orderService.placeNewOrder(new Customer("Olga"), Arrays.asList(new PizzaAmount(1, 2)));
+        Order order = orderService.placeNewOrder(olga, Arrays.asList(new PizzaAmount(1, 2)));
         assertNotNull(order.getId());
     }
 }

@@ -27,10 +27,13 @@ public class PromoCard {
     // @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", unique = true, nullable = false, length = 11)
     private int id;
+
     @Column(name = "AMOUNT", nullable = false, length = 20)
     private double amount = 0;
+
     @Column(name = "BLOCKED_AMOUNT", nullable = false, length = 20, precision = 2)
     private double blockedAmount = 0;
+
     @Convert(converter = LocalDateTimeAttributeConverter.class)
     @Column(name = "CREATE_DATE", nullable = false, columnDefinition = "timestamp")
     private LocalDateTime localDateTime;
