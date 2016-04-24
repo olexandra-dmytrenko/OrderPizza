@@ -10,7 +10,6 @@ import javax.persistence.PersistenceContext;
 /**
  * Created by Oleksandra_Dmytrenko on 4/18/2016.
  */
-@Repository
 public class JPAOrderRepository implements OrderRepository{
     @PersistenceContext
     private EntityManager em;

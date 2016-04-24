@@ -1,27 +1,21 @@
 package service;
 
+import domain.*;
+import repository.OrderRepository;
+
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Lookup;
-import org.springframework.stereotype.Service;
-
-import domain.*;
-import repository.OrderRepository;
 
 /**
  * Created by Oleksandra_Dmytrenko on 1/21/2016.
  */
 // put abstract infront of class
-@Service("OrderService")
-public class SimpleOrderService implements OrderService {
+public abstract class SimpleOrderService implements OrderService {
     Order order;
     private OrderRepository orderRepository;// = new InMemOrderRepository();
     private PizzaService simplePizzaService;// = new SimplePizzaService();
 
-    @Autowired
     public SimpleOrderService(OrderRepository orderRepository, PizzaService pizzaService) {
         this.orderRepository = orderRepository;
         this.simplePizzaService = pizzaService;
@@ -47,7 +41,7 @@ public class SimpleOrderService implements OrderService {
         for (PizzaAmount pizzaAmount : pizzaAmountList) {
             for (int amount = 1; amount <= pizzaAmount.getAmount(); amount++) {
                 pizzas.add(findPizzaByID(pizzaAmount.getPizzaId())); // get Pizza from predifined
-                                                                     // in-memory list
+                // in-memory list
             }
         }
     }
@@ -61,10 +55,7 @@ public class SimpleOrderService implements OrderService {
         return countTotalPrice() - order.getPizzaAmountDiscount() - order.getPromoDiscount();
     }
 
-    @Lookup("order")
-    public Order createNewOrder() {
-        return null;
-    }
+    public abstract Order createNewOrder();
 
     // @Transactional
     private Order saveOrder(Order newOrder) {
