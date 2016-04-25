@@ -12,8 +12,21 @@
         http://www.springframework.org/schema/tx/spring-tx.xsd">
 
     <!--Automatically creates beans for needed classes in the package-->
-    <context:component-scan base-package="service"/>
-    <context:component-scan base-package="repository"/>
+    <bean class="service.SimplePizzaService" name="pizzaService">
+        <constructor-arg ref="jpaPizzaRepository" />
+    </bean>
+
+    <bean class="service.SimpleOrderService" name="orderService">
+        <constructor-arg type="repository.OrderRepository" ref="jpaOrderRepository" />
+        <constructor-arg type="service.PizzaService" ref="pizzaService" />
+        <lookup-method name="createNewOrder" bean="newOrder" />
+    </bean>
+
+    <bean class="repository.JPAPizzaRepository" name="jpaPizzaRepository" />
+    <bean class="repository.JPAOrderRepository" name="jpaOrderRepository" />
+
+    <bean class="domain.Order" scope="prototype" name="newOrder" />
+
     <!--<bean id="order" class="ua.rd.delivery.domain.Order" scope="prototype" />-->
 
     <!--<tx:annotation-driven transaction-manager="transactionManager"/>-->

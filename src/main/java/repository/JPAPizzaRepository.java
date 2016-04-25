@@ -14,7 +14,6 @@ import domain.Pizza;
 /**
  * Created by Oleksandra_Dmytrenko on 4/6/2016.
  */
-@Repository
 public class JPAPizzaRepository implements PizzaRepository {
     @PersistenceContext
     private EntityManager em;
