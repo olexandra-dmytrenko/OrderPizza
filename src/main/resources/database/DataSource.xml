@@ -32,4 +32,12 @@ http://www.springframework.org/schema/beans/spring-beans.xsd
         </bean>
     </beans>
 
+    <beans profile="h2">
+        <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+            <property name="location">
+                <value>properties/inMemoryDatabase.properties</value>
+            </property>
+        </bean>
+    </beans>
+
 </beans>
