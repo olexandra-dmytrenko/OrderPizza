@@ -1,7 +1,6 @@
 package repository;
 
 import domain.Order;
-import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -17,7 +16,6 @@ public class JPAOrderRepository implements OrderRepository{
     @Override
     @Transactional
     public Order save(Order newOrder) {
-//        em.refresh(newOrder);
         if (newOrder.getId() == null) {
             em.persist(newOrder);
         } else

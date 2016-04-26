@@ -1,21 +1,22 @@
 package repository;
 
-import java.util.Arrays;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
-import domain.*;
+import domain.Address;
+import domain.Customer;
+import domain.Order;
+import domain.PizzaAmount;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import service.OrderService;
 import service.PizzaService;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.util.Arrays;
 
 import static org.junit.Assert.assertNotNull;
 
@@ -26,7 +27,7 @@ import static org.junit.Assert.assertNotNull;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/database/DataSource.xml", "classpath:/database/Hibernate.xml",
         "classpath:/database/RepositoryContextJPA.xml" })
-@ActiveProfiles("h2")
+@ActiveProfiles("mac")
 public class JPAOrderRepositoryTest {
     @Autowired
     OrderService orderService;

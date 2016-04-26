@@ -1,13 +1,21 @@
 package service;
 
 import domain.Customer;
-import domain.Order;
+import repository.CustomerRepository;
 
 /**
  * Created by Oleksandra_Dmytrenko on 1/21/2016.
  */
-public class SimpleCustomerService {
-    public Customer createCustomer(String name) {
-        return new Customer(name);
+public class SimpleCustomerService implements CustomerService {
+
+    CustomerRepository customerRepository;
+
+    public SimpleCustomerService(CustomerRepository customerRepository) {
+        this.customerRepository = customerRepository;
+    }
+
+    @Override
+    public Customer find(String name) {
+        return customerRepository.find(name);
     }
 }

@@ -7,16 +7,23 @@
     <bean name="orderService" class="service.SimpleOrderService" abstract="false">
         <constructor-arg type="repository.OrderRepository" ref="jpaOrderRepository"/>
         <constructor-arg type="service.PizzaService" ref="pizzaService"/>
+        <constructor-arg type="service.CustomerService" ref="customerService"/>
         <lookup-method name="createNewOrder" bean="newOrder"/>
     </bean>
 
     <bean name="jpaOrderRepository" class="repository.JPAOrderRepository"/>
 
+    <bean name="pizzaRepository" class="repository.JPAPizzaRepository"/>
+
     <bean name="pizzaService" class="service.SimplePizzaService">
         <constructor-arg type="repository.PizzaRepository" ref="pizzaRepository"/>
     </bean>
 
-    <bean name="pizzaRepository" class="repository.JPAPizzaRepository"/>
+    <bean name="customerRepository" class="repository.JPACustomerRepository"/>
+
+    <bean name="customerService" class="service.SimpleCustomerService">
+        <constructor-arg type="repository.CustomerRepository" ref="customerRepository"/>
+    </bean>
 
     <bean name="newOrder" class="domain.Order" scope="prototype"/>
 

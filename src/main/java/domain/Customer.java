@@ -1,5 +1,7 @@
 package domain;
 
+import org.hibernate.annotations.NaturalId;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -83,7 +85,8 @@ public class Customer implements Serializable {
         this.id = id;
     }
 
-    @Column(name = "NAME", length = 100, nullable = false)
+    @NaturalId
+    @Column(name = "NAME", length = 100, nullable = false, unique = true)
     public String getName() {
         return name;
     }

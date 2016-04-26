@@ -1,11 +1,6 @@
 package repository;
 
-import java.sql.Statement;
-import java.util.List;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
+import domain.Pizza;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,9 +12,12 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import domain.Pizza;
 import service.PizzaService;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.sql.Statement;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -30,7 +28,7 @@ import static org.junit.Assert.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:/database/DataSource.xml", "classpath:/database/Hibernate.xml",
         "classpath:/database/RepositoryContextJPA.xml"})
-@ActiveProfiles("win")
+@ActiveProfiles("mac")
 public class JPAPizzaRepositoryTest extends AbstractTransactionalJUnit4SpringContextTests {
     @PersistenceContext
     private EntityManager em;

@@ -1,11 +1,11 @@
 package service;
 
+import domain.*;
+import repository.OrderRepository;
+
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
-
-import domain.*;
-import repository.OrderRepository;
 
 /**
  * Created by Oleksandra_Dmytrenko on 1/21/2016.
@@ -15,17 +15,23 @@ public class SimpleOrderService implements OrderService {
     Order order;
     private OrderRepository orderRepository;// = new InMemOrderRepository();
     private PizzaService simplePizzaService;// = new SimplePizzaService();
+    private CustomerService customerService;
 
-    public SimpleOrderService(OrderRepository orderRepository, PizzaService pizzaService) {
+    public SimpleOrderService(OrderRepository orderRepository, PizzaService pizzaService, CustomerService customerService) {
         this.orderRepository = orderRepository;
         this.simplePizzaService = pizzaService;
-
+        this.customerService = customerService;
     }
 
     // @Transactional
     @Override
     public Order placeNewOrder(Customer customer, List<PizzaAmount> pizzaAmountList)
             throws InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+        Customer customerFromDB = customerService.find(customer.getName());
+        if (customerFromDB != null) {
+            customer = customerFromDB;
+        }
+        ;
         List<Pizza> pizzas = new ArrayList<>();
         fillPizzasList(pizzaAmountList, pizzas);
         this.order = new Order(customer, pizzas);
@@ -41,7 +47,7 @@ public class SimpleOrderService implements OrderService {
         for (PizzaAmount pizzaAmount : pizzaAmountList) {
             for (int amount = 1; amount <= pizzaAmount.getAmount(); amount++) {
                 pizzas.add(findPizzaByID(pizzaAmount.getPizzaId())); // get Pizza from predifined
-                                                                     // in-memory list
+                // in-memory list
             }
         }
     }
