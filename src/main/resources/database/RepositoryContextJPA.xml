@@ -4,36 +4,21 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <!--<bean name="orderService" class="service.SimpleOrderService" abstract="true">-->
-        <!--<constructor-arg type="repository.OrderRepository" ref="jpaOrderRepository"/>-->
-        <!--<constructor-arg type="service.PizzaService" ref="pizzaService"/>-->
-        <!--<lookup-method name="createNewOrder" bean="newOrder"/>-->
-    <!--</bean>-->
+    <bean name="orderService" class="service.SimpleOrderService" abstract="false">
+        <constructor-arg type="repository.OrderRepository" ref="jpaOrderRepository"/>
+        <constructor-arg type="service.PizzaService" ref="pizzaService"/>
+        <lookup-method name="createNewOrder" bean="newOrder"/>
+    </bean>
 
-    <!--<bean name="jpaOrderRepository" class="repository.JPAOrderRepository"/>-->
+    <bean name="jpaOrderRepository" class="repository.JPAOrderRepository"/>
 
-    <!--<bean name="pizzaService" class="service.SimplePizzaService">-->
-        <!--<constructor-arg type="repository.PizzaRepository" ref="pizzaRepository"/>-->
-    <!--</bean>-->
+    <bean name="pizzaService" class="service.SimplePizzaService">
+        <constructor-arg type="repository.PizzaRepository" ref="pizzaRepository"/>
+    </bean>
 
-    <!--<bean name="pizzaRepository" class="repository.JPAPizzaRepository"/>-->
+    <bean name="pizzaRepository" class="repository.JPAPizzaRepository"/>
 
-    <!--<bean name="newOrder" class="domain.Order" scope="prototype"/>-->
-
-        <bean class="service.SimplePizzaService" name="pizzaService">
-            <constructor-arg ref="jpaPizzaRepository" />
-        </bean>
-
-        <bean class="service.SimpleOrderService" name="orderService" abstract="true">
-            <constructor-arg type="repository.OrderRepository" ref="jpaOrderRepository" />
-            <constructor-arg type="service.PizzaService" ref="pizzaService" />
-            <lookup-method name="createNewOrder" bean="newOrder" />
-        </bean>
-
-        <bean class="repository.JPAPizzaRepository" name="jpaPizzaRepository" />
-        <bean class="repository.JPAOrderRepository" name="jpaOrderRepository" />
-
-        <bean class="domain.Order" scope="prototype" name="newOrder" />
+    <bean name="newOrder" class="domain.Order" scope="prototype"/>
 
     <!--Automatically creates beans for needed classes in the package-->
     <!--<context:component-scan base-package="service"/>-->
