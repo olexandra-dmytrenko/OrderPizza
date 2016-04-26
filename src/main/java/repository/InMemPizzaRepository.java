@@ -47,8 +47,18 @@ public class InMemPizzaRepository implements PizzaRepository {
         return pizzas.entrySet().stream().map(Map.Entry::getValue).collect(Collectors.toList());
     }
 
+    public Pizza updateByName(Pizza pizza) {
+        pizzas.entrySet().stream().filter(p -> p.getValue().getName().equals(pizza.getName()))
+                .forEach(p -> p.getValue().setPrice(pizza.getPrice()));
+        return pizza;
+    }
+
     @Override
     public Pizza save(Pizza pizza) {
-        return pizzas.put(pizzas.size(), pizza);
+        try {
+            return updateByName(pizza);
+        } catch (NullPointerException e) {
+            return pizzas.put(pizzas.size(), pizza);
+        }
     }
 }

@@ -25,5 +25,4 @@ public interface PizzaRepository {
     Pizza find(int id);
 
     List<Pizza> findAll();
-
 }

@@ -3,10 +3,11 @@ package repository;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 import org.hibernate.Session;
-import org.springframework.stereotype.Repository;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import domain.Pizza;
@@ -28,12 +29,26 @@ public class JPAPizzaRepository implements PizzaRepository {
     @Transactional(readOnly = true)
     public List<Pizza> findAll() {
         return em.unwrap(Session.class).createCriteria(Pizza.class).list();
-//        return em.createQuery("SELECT * from PIZZA", Pizza.class).getResultList();
+        // return em.createQuery("SELECT * from PIZZA", Pizza.class).getResultList();
+    }
+
+    @Transactional
+    public Pizza updatePizzaWithId(Pizza pizza) {
+        try {
+            Pizza oldPizza = em.createQuery("FROM domain.Pizza WHERE name = :name", Pizza.class)
+                    .setParameter("name", pizza.getName()).getSingleResult();
+            pizza.setId(oldPizza.getId());
+
+        } catch (NoResultException e) {
+            LoggerFactory.getLogger(this.getClass()).info("The new {} will be created ", pizza);
+        }
+        return pizza;
     }
 
     @Override
     @Transactional
     public Pizza save(Pizza pizza) {
+        pizza = updatePizzaWithId(pizza);
         if (pizza.getId() == null) {
             em.persist(pizza);
         } else

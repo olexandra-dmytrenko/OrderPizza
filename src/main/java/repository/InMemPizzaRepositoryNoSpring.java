@@ -1,12 +1,12 @@
 package repository;
 
-import domain.BenchMark;
-import domain.Pizza;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import domain.BenchMark;
+import domain.Pizza;
 
 /**
  * Created by Oleksandra_Dmytrenko on 1/21/2016.
@@ -15,14 +15,14 @@ public class InMemPizzaRepositoryNoSpring implements PizzaRepository {
     private HashMap<Integer, Pizza> pizzas;
 
     public InMemPizzaRepositoryNoSpring() {
-        //       init();
+        // init();
     }
 
     /**
      * This method is invoked at the initialization time
      */
     public void init() {
-//        setPizzas(pizzas);
+        // setPizzas(pizzas);
         pizzas = new HashMap<>();
         pizzas.put(1, new Pizza("Sea", 1));
         pizzas.put(2, new Pizza("Meat", 2));
@@ -54,6 +54,17 @@ public class InMemPizzaRepositoryNoSpring implements PizzaRepository {
 
     @Override
     public Pizza save(Pizza pizza) {
-        return pizzas.put(pizzas.size(), pizza);
+        try {
+            return updateByName(pizza);
+        } catch (NullPointerException e) {
+            return pizzas.put(pizzas.size(), pizza);
+        }
     }
+
+    public Pizza updateByName(Pizza pizza) {
+        pizzas.entrySet().stream().filter(p -> p.getValue().getName().equals(pizza.getName()))
+                .forEach(p -> p.getValue().setPrice(pizza.getPrice()));
+        return pizza;
+    }
+
 }

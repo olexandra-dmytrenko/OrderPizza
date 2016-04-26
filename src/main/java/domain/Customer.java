@@ -12,7 +12,7 @@ import static javax.persistence.GenerationType.IDENTITY;
  */
 // @BenchMark(countTime = false, createdBy = "Also me")
 @Entity
-@Table(name = "CUSTOMER", uniqueConstraints = { @UniqueConstraint(columnNames = { "ID" }) })
+@Table(name = "CUSTOMER", uniqueConstraints = { @UniqueConstraint(columnNames = { "id", "name" }) })
 
 public class Customer implements Serializable {
 

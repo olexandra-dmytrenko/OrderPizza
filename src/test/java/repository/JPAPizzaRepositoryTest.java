@@ -1,6 +1,11 @@
 package repository;
 
-import domain.Pizza;
+import java.sql.Statement;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,25 +17,19 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import domain.Pizza;
 import service.PizzaService;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import java.sql.Statement;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * Created by Oleksandra_Dmytrenko on 4/7/2016.
  */
-@Rollback(true)
+@Rollback(false)
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:/database/DataSource.xml", "classpath:/database/Hibernate.xml",
-        "classpath:/database/RepositoryContextJPA.xml" })
+@ContextConfiguration(locations = {"classpath:/database/DataSource.xml", "classpath:/database/Hibernate.xml",
+        "classpath:/database/RepositoryContextJPA.xml"})
 @ActiveProfiles("win")
 public class JPAPizzaRepositoryTest extends AbstractTransactionalJUnit4SpringContextTests {
     @PersistenceContext
@@ -64,13 +63,29 @@ public class JPAPizzaRepositoryTest extends AbstractTransactionalJUnit4SpringCon
     }
 
     @Test
+    @Rollback(true)
+    public void testUpdate() throws Exception {
+        Pizza pizza = new Pizza("Updatable Pizza", 200.50);
+        Assert.assertNull("This is not newly created pizza and it has id" + pizza, pizza.getId());
+        Pizza result = pizzaService.save(pizza);
+        em.flush();
+        assertNotNull("Pizza wasn't saved to the DB Correctly", result.getId());
+        pizza = new Pizza("Updatable Pizza", 120.10);
+        result = pizzaService.save(pizza);
+        em.flush();
+        System.out.println(result.getPrice());
+
+        assertEquals("Pizza wasn't saved to the DB Correctly", result.getPrice(), 120.10, 0.001);
+    }
+
+    @Test
+    @Rollback(true)
     public void testSave() throws Exception {
-        Pizza pizza = new Pizza("Verona", 156.289);
-        Assert.assertNull("Pizza wasn't saved to the DB Correctly", pizza.getId());
+        Pizza pizza = new Pizza("New Pizza", 100.01);
+        Assert.assertNull("This is not newly created pizza and it has id", pizza.getId());
         Pizza result = pizzaService.save(pizza);
         em.flush();
         System.out.println(result.getId());
-
         assertNotNull("Pizza wasn't saved to the DB Correctly", result.getId());
     }
 }
