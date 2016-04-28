@@ -1,11 +1,16 @@
 package domain;
 
-import org.hibernate.annotations.NaturalId;
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -18,10 +23,23 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 public class Customer implements Serializable {
 
+    @NaturalId
+    @Column(name = "NAME", length = 100, nullable = false, unique = true)
     private String name;
+
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
+    @Column(name = "ID", nullable = false, unique = true)
     private int id;
+
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "customer", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @PrimaryKeyJoinColumn
     private PromoCard promoCard;
-    private List<Address> addresses = new ArrayList<>();
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "customer")
+    private Set<Address> addresses = new HashSet<>(1);
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer", cascade = CascadeType.ALL)
     private List<Order> orders;
 
     public Customer() {
@@ -29,7 +47,7 @@ public class Customer implements Serializable {
 
     public Customer(String name) {
         this.name = name;
-        promoCard = new PromoCard(this);
+ //       promoCard = new PromoCard(this);
     }
 
     // @OneToOne(fetch = FetchType.LAZY, mappedBy = "customer", cascade = CascadeType.ALL)
@@ -39,11 +57,10 @@ public class Customer implements Serializable {
 
     public void addAddress(Address address) {
         if (addresses == null)
-            addresses = new ArrayList<>(1);
+            addresses = new HashSet<>(1);
         addresses.add(address);
     }
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "customer", cascade = CascadeType.ALL)
     public PromoCard getPromoCard() {
 //        if (this.promoCard == null) {
 //            System.out.println(this.toString() + " doesn't have a promo card. A new one was created");
@@ -65,19 +82,15 @@ public class Customer implements Serializable {
         this.getPromoCard().setCustomer(this);
     }
 
-     @OneToMany(fetch = FetchType.EAGER, mappedBy = "customer")
+    public void setAddresses(Set<Address> addresses) {
+        this.addresses = addresses;
+    }
+
     // @JoinColumn(name = "ADDRESS_ID", nullable = false)
-     public List<Address> getAddresses() {
-     return addresses;
-     }
+    public Set<Address> getAddresses() {
+        return addresses;
+    }
 
-     public void setAddresses(List<Address> addresses) {
-     this.addresses = addresses;
-     }
-
-    @Id
-    @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "ID", nullable = false, unique = true)
     public int getId() {
         return id;
     }
@@ -86,8 +99,6 @@ public class Customer implements Serializable {
         this.id = id;
     }
 
-    @NaturalId
-    @Column(name = "NAME", length = 100, nullable = false, unique = true)
     public String getName() {
         return name;
     }
@@ -96,7 +107,6 @@ public class Customer implements Serializable {
         this.name = name;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer", cascade = CascadeType.ALL)
     public List<Order> getOrders() {
         return orders;
     }

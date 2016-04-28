@@ -52,7 +52,7 @@ public class Address {
         return country;
     }
 
-    @Required
+//    @Required
     public void setCountry(String country) {
         this.country = country;
     }

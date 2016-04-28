@@ -3,8 +3,11 @@ package domain;
 import java.time.LocalDateTime;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
-import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.*;
 
 import hibernate.LocalDateTimeAttributeConverter;
 
@@ -22,7 +25,8 @@ public class PromoCard {
     private Customer customer;
 
     @Id
-    @GenericGenerator(name = "generator", strategy = "foreign", parameters = @org.hibernate.annotations.Parameter(name = "property", value = "customer") )
+    @GenericGenerator(name = "generator", strategy = "foreign",
+            parameters = @org.hibernate.annotations.Parameter(name = "property", value = "customer") )
     @GeneratedValue(generator = "generator")
     // // @Column(name = "STOCK_ID", unique = true, nullable = false)
     // @GeneratedValue(strategy = GenerationType.IDENTITY)
