@@ -20,12 +20,13 @@ public class PromoCard {
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     private Customer customer;
+
     @Id
-//    @GenericGenerator(name = "generator", strategy = "foreign", parameters = @org.hibernate.annotations.Parameter(name = "property", value = "customer") )
-//    @GeneratedValue(generator = "generator")
-    // @Column(name = "STOCK_ID", unique = true, nullable = false)
+    @GenericGenerator(name = "generator", strategy = "foreign", parameters = @org.hibernate.annotations.Parameter(name = "property", value = "customer") )
+    @GeneratedValue(generator = "generator")
+    // // @Column(name = "STOCK_ID", unique = true, nullable = false)
     // @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID", unique = true, nullable = false, length = 11)
+    @Column(name = "ID", unique = true, nullable = false)
     private int id;
 
     @Column(name = "AMOUNT", nullable = false, length = 20)
@@ -41,10 +42,20 @@ public class PromoCard {
     public PromoCard() {
     }
 
+    public PromoCard(Customer customer) {
+        this.customer = customer;
+        initializePromoCard(0);
+    }
+
     public PromoCard(double amount) {
+        initializePromoCard(amount);
+    }
+
+    private void initializePromoCard(double amount) {
         addAmount(amount);
         localDateTime = LocalDateTime.now();
     }
+
     public void addAmount(double newBuyAmount) {
         this.amount += newBuyAmount;
     }
@@ -69,7 +80,7 @@ public class PromoCard {
 
     @Override
     public String toString() {
-        return "PromoCard{" + "numberAtomic=" + id + ", amount=" + amount + ", blockedAmount=" + blockedAmount
+        return "PromoCard{" + "id=" + id + ", customer=" + customer.getName() + ", amount=" + amount + ", blockedAmount=" + blockedAmount
                 + ", localDateTime=" + localDateTime + '}';
     }
 

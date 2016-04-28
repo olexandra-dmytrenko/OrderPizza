@@ -1,11 +1,11 @@
 package service;
 
-import domain.*;
-import repository.OrderRepository;
-
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
+
+import domain.*;
+import repository.OrderRepository;
 
 /**
  * Created by Oleksandra_Dmytrenko on 1/21/2016.
@@ -17,7 +17,8 @@ public class SimpleOrderService implements OrderService {
     private PizzaService simplePizzaService;// = new SimplePizzaService();
     private CustomerService customerService;
 
-    public SimpleOrderService(OrderRepository orderRepository, PizzaService pizzaService, CustomerService customerService) {
+    public SimpleOrderService(OrderRepository orderRepository, PizzaService pizzaService,
+            CustomerService customerService) {
         this.orderRepository = orderRepository;
         this.simplePizzaService = pizzaService;
         this.customerService = customerService;
@@ -31,7 +32,10 @@ public class SimpleOrderService implements OrderService {
         if (customerFromDB != null) {
             customer = customerFromDB;
         }
-        ;
+//        PromoCard promoCard = new PromoCard(0);
+//        promoCard.setCustomer(customer);
+//        customer.setPromoCard(promoCard);
+
         List<Pizza> pizzas = new ArrayList<>();
         fillPizzasList(pizzaAmountList, pizzas);
         this.order = new Order(customer, pizzas);

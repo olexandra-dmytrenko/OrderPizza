@@ -20,7 +20,7 @@ public class Customer implements Serializable {
 
     private String name;
     private int id;
-    private PromoCard promoCard = null;
+    private PromoCard promoCard;
     private List<Address> addresses = new ArrayList<>();
     private List<Order> orders;
 
@@ -29,6 +29,7 @@ public class Customer implements Serializable {
 
     public Customer(String name) {
         this.name = name;
+        promoCard = new PromoCard(this);
     }
 
     // @OneToOne(fetch = FetchType.LAZY, mappedBy = "customer", cascade = CascadeType.ALL)
@@ -44,11 +45,11 @@ public class Customer implements Serializable {
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "customer", cascade = CascadeType.ALL)
     public PromoCard getPromoCard() {
-        if (this.promoCard == null) {
-            System.out.println(this.toString() + " doesn't have a promo card. A new one was created");
-            this.promoCard = new PromoCard(0);
-            this.getPromoCard().setCustomer(this);
-        }
+//        if (this.promoCard == null) {
+//            System.out.println(this.toString() + " doesn't have a promo card. A new one was created");
+//            this.promoCard = new PromoCard(0);
+//            this.getPromoCard().setCustomer(this);
+//        }
         return promoCard;
     }
 
@@ -76,7 +77,7 @@ public class Customer implements Serializable {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "ID", nullable = false, unique = true, length = 11)
+    @Column(name = "ID", nullable = false, unique = true)
     public int getId() {
         return id;
     }
