@@ -18,4 +18,9 @@ public class SimpleCustomerService implements CustomerService {
     public Customer find(String name) {
         return customerRepository.find(name);
     }
+
+    @Override
+    public Customer save(Customer customer) {
+        return customerRepository.save(customer);
+    }
 }

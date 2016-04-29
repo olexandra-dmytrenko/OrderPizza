@@ -33,9 +33,9 @@ public class SimpleOrderService implements OrderService {
         if (customerFromDB != null) {
             customer = customerFromDB;
         }
-        PromoCard promoCard = new PromoCard(0);
-        promoCard.setCustomer(customer);
-        customer.setPromoCard(promoCard);
+//        PromoCard promoCard = new PromoCard(0);
+//        promoCard.setCustomer(customer);
+//        customer.setPromoCard(promoCard);
 
         List<Pizza> pizzas = new ArrayList<>();
         fillPizzasList(pizzaAmountList, pizzas);

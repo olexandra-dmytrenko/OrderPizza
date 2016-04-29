@@ -14,7 +14,7 @@ public class Address {
     @Id
     @GeneratedValue
     @Column(name = "ID", nullable = false, unique = true, length = 11)
-    private int id;
+    private Integer id;
 
     @Column(name = "CITY", length = 100, nullable = false)
     private String city;
@@ -22,8 +22,7 @@ public class Address {
     @Column(name = "COUNTRY", length = 100, nullable = false)
     private String country;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "CUSTOMER_ID", nullable = false)
     private Customer customer;
 
@@ -57,11 +56,11 @@ public class Address {
         this.country = country;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

@@ -23,20 +23,20 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 public class Customer implements Serializable {
 
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
+    @Column(name = "ID", nullable = false, unique = true)
+    private Integer id;
+
     @NaturalId
     @Column(name = "NAME", length = 100, nullable = false, unique = true)
     private String name;
 
-    @Id
-    @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "ID", nullable = false, unique = true)
-    private int id;
-
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "customer", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @PrimaryKeyJoinColumn
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "customer", cascade = {CascadeType.ALL})
+//    @PrimaryKeyJoinColumn
     private PromoCard promoCard;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "customer")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "customer", cascade = CascadeType.ALL)
     private Set<Address> addresses = new HashSet<>(1);
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer", cascade = CascadeType.ALL)
@@ -47,7 +47,7 @@ public class Customer implements Serializable {
 
     public Customer(String name) {
         this.name = name;
- //       promoCard = new PromoCard(this);
+        promoCard = new PromoCard(this);
     }
 
     // @OneToOne(fetch = FetchType.LAZY, mappedBy = "customer", cascade = CascadeType.ALL)
@@ -91,11 +91,11 @@ public class Customer implements Serializable {
         return addresses;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -118,7 +118,7 @@ public class Customer implements Serializable {
     @Override
     public String toString() {
         return "Customer: " + name
-        // + " from " + addresses == null ? addresses.get(0).toString() : "Nowhere"
-                + ", customer id = " + id + ", promo card = " + promoCard;
+         + " from " + addresses != null ? addresses.stream().toString() : "Nowhere"
+                + ", customer id = " + id + ", with promo card = " + promoCard;
     }
 }

@@ -12,12 +12,14 @@ import java.util.List;
 @Table(name = "PIZZAS")
 public class Pizza {
 
-    @Column(name = "NAME")
-    private String name;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private Integer id;
+
+    @Column(name = "NAME")
+    private String name;
+
     @Column(name = "PRICE", nullable = true, length = 20, precision = 2)
     private double price;
 

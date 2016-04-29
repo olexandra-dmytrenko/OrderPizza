@@ -20,14 +20,7 @@ public class Order implements OrderActions {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false, unique = true)
-    int id;
-
-    @ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST })
-    @JoinTable(name = "ORDER_PIZZA", joinColumns = {
-            @JoinColumn(name = "ORDER_ID", referencedColumnName = "ID") }, inverseJoinColumns = {
-                    @JoinColumn(name = "PIZZA_ID", referencedColumnName = "ID") })
-    // @JoinColumn(name = "PIZZA_ID", nullable = false)
-    List<Pizza> pizzas;
+    Integer id;
 
     @Enumerated(EnumType.STRING)
     private Status status;
@@ -36,6 +29,13 @@ public class Order implements OrderActions {
     @JoinColumn(name = "CUSTOMER_ID", nullable = false)
     private Customer customer;
     // static AtomicLong id = new AtomicLong(0);
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST })
+    @JoinTable(name = "ORDER_PIZZA", joinColumns = {
+    @JoinColumn(name = "ORDER_ID", referencedColumnName = "ID") }, inverseJoinColumns = {
+    @JoinColumn(name = "PIZZA_ID", referencedColumnName = "ID") })
+    // @JoinColumn(name = "PIZZA_ID", nullable = false)
+    List<Pizza> pizzas;
 
     public Order() {
     }

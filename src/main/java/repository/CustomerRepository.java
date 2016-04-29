@@ -8,4 +8,6 @@ import domain.Customer;
 public interface CustomerRepository {
 
     Customer find(String name);
+
+    Customer save(Customer customer);
 }

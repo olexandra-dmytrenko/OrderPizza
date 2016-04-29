@@ -17,8 +17,7 @@ public class JPAOrderRepository implements OrderRepository{
     @Transactional
     public Order save(Order newOrder) {
 
-      //  em.persist(newOrder.getCustomer());
-        if (newOrder.getId() == 0) {
+        if (newOrder.getId() == null) {
             em.persist(newOrder);
         } else
             em.merge(newOrder);

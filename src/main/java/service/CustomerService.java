@@ -7,4 +7,6 @@ import domain.Customer;
  */
 public interface CustomerService {
     Customer find(String name);
+
+    Customer save(Customer customer);
 }

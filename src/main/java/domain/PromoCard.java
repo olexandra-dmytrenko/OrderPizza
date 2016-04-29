@@ -20,10 +20,6 @@ public class PromoCard {
     public static final double TEN_PERCENT_MULTIPLIER = 0.1;
     public static final double THIRTY_PERCENT_MULTIPLIER = 0.3;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
-    private Customer customer;
-
     @Id
     @GenericGenerator(name = "generator", strategy = "foreign",
             parameters = @org.hibernate.annotations.Parameter(name = "property", value = "customer") )
@@ -31,7 +27,7 @@ public class PromoCard {
     // // @Column(name = "STOCK_ID", unique = true, nullable = false)
     // @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", unique = true, nullable = false)
-    private int id;
+    private Integer id;
 
     @Column(name = "AMOUNT", nullable = false, length = 20)
     private double amount = 0;
@@ -42,6 +38,10 @@ public class PromoCard {
     @Convert(converter = LocalDateTimeAttributeConverter.class)
     @Column(name = "CREATE_DATE", nullable = false, columnDefinition = "timestamp")
     private LocalDateTime localDateTime;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    private Customer customer;
 
     public PromoCard() {
     }
@@ -94,11 +94,11 @@ public class PromoCard {
         return this.amount;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
