@@ -21,6 +21,7 @@ public class JPAOrderRepository implements OrderRepository{
             em.persist(newOrder);
         } else
             em.merge(newOrder);
+        em.flush();
         return newOrder;
     }
 }

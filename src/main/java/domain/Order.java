@@ -25,7 +25,7 @@ public class Order implements OrderActions {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "CUSTOMER_ID", nullable = false)
     private Customer customer;
     // static AtomicLong id = new AtomicLong(0);

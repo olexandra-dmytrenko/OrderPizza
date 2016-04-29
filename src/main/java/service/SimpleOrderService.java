@@ -71,7 +71,6 @@ public class SimpleOrderService implements OrderService {
         return null;
     }
 
-    // @Transactional
     private Order saveOrder(Order newOrder) {
         return orderRepository.save(newOrder);
     }

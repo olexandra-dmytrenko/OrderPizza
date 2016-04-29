@@ -22,7 +22,7 @@ public class Address {
     @Column(name = "COUNTRY", length = 100, nullable = false)
     private String country;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "CUSTOMER_ID", nullable = false)
     private Customer customer;
 
