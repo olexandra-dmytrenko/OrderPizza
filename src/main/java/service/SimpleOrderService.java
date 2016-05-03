@@ -1,12 +1,12 @@
 package service;
 
+import domain.*;
+import repository.OrderRepository;
+
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import domain.*;
-import repository.OrderRepository;
 
 /**
  * Created by Oleksandra_Dmytrenko on 1/21/2016.
@@ -35,7 +35,7 @@ public class SimpleOrderService implements OrderService {
         }
 //        PromoCard promoCard = new PromoCard(0);
 //        promoCard.setCustomer(customer);
-//        customer.setPromoCard(promoCard);
+//       n customer.setPromoCard(promoCard);
 
         List<Pizza> pizzas = new ArrayList<>();
         fillPizzasList(pizzaAmountList, pizzas);

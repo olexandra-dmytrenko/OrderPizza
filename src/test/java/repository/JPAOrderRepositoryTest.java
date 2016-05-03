@@ -1,10 +1,9 @@
 package repository;
 
-import java.util.Arrays;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
+import domain.Address;
+import domain.Customer;
+import domain.Order;
+import domain.PizzaAmount;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,15 +11,12 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import domain.Address;
-import domain.Customer;
-import domain.Order;
-import domain.PizzaAmount;
 import service.CustomerService;
 import service.OrderService;
 
-import static org.junit.Assert.assertNotNull;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.util.Arrays;
 
 /**
  * Created by Oleksandra_Dmytrenko on 4/18/2016.
@@ -29,7 +25,7 @@ import static org.junit.Assert.assertNotNull;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/database/DataSource.xml", "classpath:/database/Hibernate.xml",
         "classpath:/database/RepositoryContextJPA.xml" })
-@ActiveProfiles("win")
+@ActiveProfiles("mac")
 public class JPAOrderRepositoryTest {
     @Autowired
     OrderService orderService;
@@ -40,7 +36,7 @@ public class JPAOrderRepositoryTest {
 
     @Test
     public void testSave() throws Exception {
-        Customer olga = new Customer("Olga14");
+        Customer olga = new Customer("Olga18");
         Address address = new Address("Kyiv", "Ukraine");
         address.setCustomer(olga);
         olga.addAddress(address);

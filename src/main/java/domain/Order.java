@@ -1,11 +1,10 @@
 package domain;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.DoubleStream;
-
-import javax.persistence.*;
 
 /**
  * Created by Oleksandra_Dmytrenko on 1/21/2016.
@@ -25,7 +24,7 @@ public class Order implements OrderActions {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "CUSTOMER_ID", nullable = false)
     private Customer customer;
     // static AtomicLong id = new AtomicLong(0);
