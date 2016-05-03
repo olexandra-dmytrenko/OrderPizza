@@ -18,6 +18,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.Arrays;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+
 /**
  * Created by Oleksandra_Dmytrenko on 4/18/2016.
  */
@@ -33,17 +36,29 @@ public class JPAOrderRepositoryTest {
     private EntityManager em;
     @Autowired
     private CustomerService customerService;
+    private Customer newCustomer = new Customer("Vasyl");
 
     @Test
-    public void testSave() throws Exception {
-        Customer olga = new Customer("Olga18");
+    @Rollback(true)
+    public void testSaveNewOrderAndCustomer() throws Exception {
         Address address = new Address("Kyiv", "Ukraine");
-        address.setCustomer(olga);
-        olga.addAddress(address);
-      /*  customerService.save(olga);
-        assertNotNull(olga.getId());
-*/
-        Order order = orderService.placeNewOrder(olga, Arrays.asList(new PizzaAmount(1, 2)));
+        address.setCustomer(newCustomer);
+        newCustomer.addAddress(address);
+        assertNull(newCustomer.getId());
+        Order order = orderService.placeNewOrder(newCustomer, Arrays.asList(new PizzaAmount(1, 2)));
+//        assertNotNull(order.getId());
+    }
+
+    @Test
+    @Rollback(true)
+    public void testSaveNewOrderAndOldCustomer() throws Exception {
+        Address address = new Address("Kyiv", "Ukraine");
+        address.setCustomer(newCustomer);
+        newCustomer.addAddress(address);
+        assertNull(newCustomer.getId());
+        customerService.save(newCustomer);
+        assertNotNull(newCustomer.getId());
+        Order order = orderService.placeNewOrder(newCustomer, Arrays.asList(new PizzaAmount(1, 2)));
 //        assertNotNull(order.getId());
     }
 }
