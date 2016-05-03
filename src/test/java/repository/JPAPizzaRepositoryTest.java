@@ -61,7 +61,7 @@ public class JPAPizzaRepositoryTest extends AbstractTransactionalJUnit4SpringCon
     }
 
     @Test
-    @Rollback(true)
+    @Rollback(false)
     public void testUpdate() throws Exception {
         Pizza pizza = new Pizza("Updatable Pizza", 200.50);
         Assert.assertNull("This is not newly created pizza and it has id" + pizza, pizza.getId());
@@ -77,7 +77,7 @@ public class JPAPizzaRepositoryTest extends AbstractTransactionalJUnit4SpringCon
     }
 
     @Test
-    @Rollback(true)
+    @Rollback(false)
     public void testSave() throws Exception {
         Pizza pizza = new Pizza("New Pizza", 100.01);
         Assert.assertNull("This is not newly created pizza and it has id", pizza.getId());

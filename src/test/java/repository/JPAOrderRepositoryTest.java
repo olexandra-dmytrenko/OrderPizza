@@ -24,11 +24,11 @@ import static org.junit.Assert.assertNull;
 /**
  * Created by Oleksandra_Dmytrenko on 4/18/2016.
  */
-@Rollback(false)
+@Rollback(true)
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/database/DataSource.xml", "classpath:/database/Hibernate.xml",
         "classpath:/database/RepositoryContextJPA.xml" })
-@ActiveProfiles("h2")
+@ActiveProfiles("mac")
 public class JPAOrderRepositoryTest {
     @Autowired
     OrderService orderService;
@@ -36,29 +36,31 @@ public class JPAOrderRepositoryTest {
     private EntityManager em;
     @Autowired
     private CustomerService customerService;
-    private Customer newCustomer = new Customer("Vasyl");
 
-    @Test
-    @Rollback(true)
-    public void testSaveNewOrderAndCustomer() throws Exception {
-        Address address = new Address("Kyiv", "Ukraine");
+    private Customer prepareCustomer() {
+        Customer newCustomer = new Customer("Vasyl3");
+        Address address = new Address("Budapest", "Hungary");
         address.setCustomer(newCustomer);
         newCustomer.addAddress(address);
         assertNull(newCustomer.getId());
-        Order order = orderService.placeNewOrder(newCustomer, Arrays.asList(new PizzaAmount(1, 2)));
-//        assertNotNull(order.getId());
+        return newCustomer;
     }
 
     @Test
     @Rollback(true)
+    public void testSaveNewOrderAndCustomer() throws Exception {
+        Customer newCustomer = prepareCustomer();
+        Order order = orderService.placeNewOrder(newCustomer, Arrays.asList(new PizzaAmount(1, 2)));
+        assertNotNull(order.getId());
+    }
+
+    @Test
+    @Rollback(false)
     public void testSaveNewOrderAndOldCustomer() throws Exception {
-        Address address = new Address("Kyiv", "Ukraine");
-        address.setCustomer(newCustomer);
-        newCustomer.addAddress(address);
-        assertNull(newCustomer.getId());
+        Customer newCustomer = prepareCustomer();
         customerService.save(newCustomer);
         assertNotNull(newCustomer.getId());
         Order order = orderService.placeNewOrder(newCustomer, Arrays.asList(new PizzaAmount(1, 2)));
-//        assertNotNull(order.getId());
+        assertNotNull(order.getId());
     }
 }

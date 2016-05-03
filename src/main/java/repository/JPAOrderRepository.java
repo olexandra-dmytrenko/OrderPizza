@@ -16,11 +16,10 @@ public class JPAOrderRepository implements OrderRepository{
     @Override
     @Transactional
     public Order save(Order newOrder) {
-
         if (newOrder.getId() == null && newOrder.getCustomer().getId() == null) {
             em.persist(newOrder);
         } else
-            em.merge(newOrder);
+            newOrder = em.merge(newOrder);
         em.flush();
         return newOrder;
     }

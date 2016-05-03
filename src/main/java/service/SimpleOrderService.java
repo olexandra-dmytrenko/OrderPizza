@@ -33,17 +33,13 @@ public class SimpleOrderService implements OrderService {
         if (customerFromDB != null) {
             customer = customerFromDB;
         }
-//        PromoCard promoCard = new PromoCard(0);
-//        promoCard.setCustomer(customer);
-//       n customer.setPromoCard(promoCard);
 
         List<Pizza> pizzas = new ArrayList<>();
         fillPizzasList(pizzaAmountList, pizzas);
-        this.order = new Order(customer, pizzas);
+        order = new Order(customer, pizzas);
         customer.setOrders(Arrays.asList(order));
-        System.out.println("ORDER = " + this.order.toString());
-        saveOrder(this.order); // set Order Id and save Order to in-memory list
-        return this.order;
+        System.out.println("ORDER = " + order.toString());
+        return saveOrder(order); // set Order Id and save Order to in-memory list
     }
 
     private void fillPizzasList(List<PizzaAmount> pizzaAmountList, List<Pizza> pizzas) {
