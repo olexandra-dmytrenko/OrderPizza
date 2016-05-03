@@ -28,7 +28,7 @@ import static org.junit.Assert.assertNull;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/database/DataSource.xml", "classpath:/database/Hibernate.xml",
         "classpath:/database/RepositoryContextJPA.xml" })
-@ActiveProfiles("mac")
+@ActiveProfiles("h2")
 public class JPAOrderRepositoryTest {
     @Autowired
     OrderService orderService;
