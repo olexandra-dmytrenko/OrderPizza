@@ -1,5 +1,7 @@
 package domain;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 import org.springframework.beans.factory.annotation.Required;
 
 import javax.persistence.*;
@@ -24,6 +26,7 @@ public class Address {
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "CUSTOMER_ID", nullable = false)
+    @NotFound(action = NotFoundAction.IGNORE)
     private Customer customer;
 
 

@@ -34,9 +34,11 @@ public class Customer implements Serializable {
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "customer", cascade = {CascadeType.ALL})
 //    @PrimaryKeyJoinColumn
+    @NotFound(action = NotFoundAction.IGNORE)
     private PromoCard promoCard;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "customer", cascade = CascadeType.ALL)
+    @NotFound(action = NotFoundAction.IGNORE)
     private Set<Address> addresses = new HashSet<>(1);
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "customer", cascade = CascadeType.ALL)

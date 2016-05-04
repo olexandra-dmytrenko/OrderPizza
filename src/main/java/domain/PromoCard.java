@@ -41,6 +41,7 @@ public class PromoCard {
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
+    @NotFound(action = NotFoundAction.IGNORE)
     private Customer customer;
 
     public PromoCard() {
