@@ -1,10 +1,10 @@
 package repository;
 
-import java.util.HashMap;
-import java.util.List;
-
 import domain.BenchMark;
 import domain.Pizza;
+
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by Oleksandra_Dmytrenko on 1/21/2016.
@@ -22,7 +22,7 @@ public interface PizzaRepository {
 
     Pizza save(Pizza pizza);
 
-    Pizza find(int id);
+    Pizza findBy(int id);
 
     List<Pizza> findAll();
 }

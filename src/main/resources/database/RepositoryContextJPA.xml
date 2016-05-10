@@ -1,36 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans.xsd">
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/data/jpa
+    http://www.springframework.org/schema/data/jpa/spring-jpa.xsd   ">
 
-    <bean name="orderService" class="service.SimpleOrderService" abstract="false">
-        <constructor-arg type="repository.OrderRepository" ref="jpaOrderRepository"/>
-        <constructor-arg type="service.PizzaService" ref="pizzaService"/>
-        <constructor-arg type="service.CustomerService" ref="customerService"/>
-        <lookup-method name="createNewOrder" bean="newOrder"/>
-    </bean>
+    <jpa:repositories base-package="repository" />
 
-    <bean name="jpaOrderRepository" class="repository.JPAOrderRepository"/>
+    <!--<bean name="orderService" class="service.SimpleOrderService" abstract="false">-->
+        <!--<constructor-arg type="repository.OrderRepository" ref="jpaOrderRepository"/>-->
+        <!--<constructor-arg type="service.PizzaService" ref="pizzaService"/>-->
+        <!--<constructor-arg type="service.CustomerService" ref="customerService"/>-->
+        <!--<lookup-method name="createNewOrder" bean="newOrder"/>-->
+    <!--</bean>-->
 
-    <bean name="pizzaRepository" class="repository.JPAPizzaRepository"/>
+    <!--<bean name="jpaOrderRepository" class="repository.JPAOrderRepository"/>-->
 
-    <bean name="pizzaService" class="service.SimplePizzaService">
-        <constructor-arg type="repository.PizzaRepository" ref="pizzaRepository"/>
-    </bean>
+    <!--<bean name="pizzaRepository" class="repository.JPAPizzaRepository"/>-->
 
-    <bean name="customerRepository" class="repository.JPACustomerRepository"/>
+    <!--<bean name="pizzaService" class="service.SimplePizzaService">-->
+        <!--<constructor-arg type="repository.PizzaRepository" ref="pizzaRepository"/>-->
+    <!--</bean>-->
 
-    <bean name="customerService" class="service.SimpleCustomerService">
-        <constructor-arg type="repository.CustomerRepository" ref="customerRepository"/>
-    </bean>
+    <!--<bean name="customerRepository" class="repository.JPACustomerRepository"/>-->
+
+    <!--<bean name="customerService" class="service.SimpleCustomerService">-->
+        <!--<constructor-arg type="repository.CustomerRepository" ref="customerRepository"/>-->
+    <!--</bean>-->
 
     <bean name="newOrder" class="domain.Order" scope="prototype"/>
 
     <!--Automatically creates beans for needed classes in the package-->
-    <!--<context:component-scan base-package="service"/>-->
-    <!--<context:component-scan base-package="repository"/>-->
-    <!--<bean id="order" class="ua.rd.delivery.domain.Order" scope="prototype" />-->
+    <context:component-scan base-package="service"/>
+    <context:component-scan base-package="repository"/>
+    <!--&lt;!&ndash;<bean id="order" class="ua.rd.delivery.domain.Order" scope="prototype" />&ndash;&gt;-->
 
     <!--<tx:annotation-driven transaction-manager="transactionManager"/>-->
 

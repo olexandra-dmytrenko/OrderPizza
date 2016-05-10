@@ -19,7 +19,8 @@ import javax.persistence.PersistenceContext;
 import java.sql.Statement;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Created by Oleksandra_Dmytrenko on 4/7/2016.
@@ -33,8 +34,10 @@ public class JPAPizzaRepositoryTest extends AbstractTransactionalJUnit4SpringCon
     @PersistenceContext
     private EntityManager em;
 
-    @Autowired
+//    @Autowired
     private PizzaService pizzaService;
+    @Autowired
+    private JPAPizzaRepository pizzaRepository;
 
     @Test
     public void testFind() throws Exception {
@@ -52,11 +55,12 @@ public class JPAPizzaRepositoryTest extends AbstractTransactionalJUnit4SpringCon
     public void testFindAll() throws Exception {
         final String insertQuery = "INSERT INTO pizzas (name, price) VALUES ('Margarita', 127.99)";
         jdbcTemplate.execute(insertQuery);
-        List<Pizza> pizzas = pizzaService.findAll();
+        List<Pizza> pizzas = pizzaRepository.findAll();
 //        em.getTransaction().commit();
-        pizzas.stream().forEach(System.out::println);
+        pizzas.forEach(System.out::println);
         Pizza insertedPizza = new Pizza("Margarita", 127.99);
-        assertTrue(pizzas.contains(insertedPizza));
+
+//        assertTrue(pizzas.forEach(el -> el.equals(insertedPizza)));
 
     }
 

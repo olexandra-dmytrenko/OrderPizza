@@ -1,23 +1,20 @@
 package repository;
 
 import domain.Customer;
-import org.hibernate.Session;
-import org.springframework.transaction.annotation.Transactional;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import org.springframework.data.repository.CrudRepository;
 
 /**
  * Created by olexandra on 4/26/16.
  */
-public class JPACustomerRepository implements CustomerRepository {
+public interface JPACustomerRepository extends  CrudRepository<Customer, Integer> {
 
+/*
     @PersistenceContext
     EntityManager em;
 
     @Override
     @Transactional
-    public Customer find(String name) {
+    public Customer findBy(String name) {
 
         // SessionFactory sessionFactory = em.unwrap(SessionFactory.class);
         Session session = em.unwrap(Session.class);
@@ -32,7 +29,7 @@ public class JPACustomerRepository implements CustomerRepository {
     @Override
     @Transactional
     public Customer save(Customer customer) {
-        Customer customerInDB = find(customer.getName());
+        Customer customerInDB = findBy(customer.getName());
         if (!em.contains(customer) && customerInDB == null) {
             em.persist(customer);
         } else if (customerInDB != null) {
@@ -54,4 +51,5 @@ public class JPACustomerRepository implements CustomerRepository {
                                                 && adFromDB.getCity().equals(address.getCity()))).findAny().get().getId())
                 );
     }
+*/
 }
