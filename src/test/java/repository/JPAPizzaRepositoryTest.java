@@ -28,7 +28,7 @@ import static org.junit.Assert.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:/database/DataSource.xml", "classpath:/database/Hibernate.xml",
         "classpath:/database/RepositoryContextJPA.xml"})
-@ActiveProfiles("win")
+@ActiveProfiles("mac")
 public class JPAPizzaRepositoryTest extends AbstractTransactionalJUnit4SpringContextTests {
     @PersistenceContext
     private EntityManager em;
