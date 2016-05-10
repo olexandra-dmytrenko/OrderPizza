@@ -29,7 +29,7 @@ import static org.junit.Assert.assertNull;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/database/DataSource.xml", "classpath:/database/Hibernate.xml",
         "classpath:/database/RepositoryContextJPA.xml" })
-@ActiveProfiles("win")
+@ActiveProfiles("mac")
 public class JPAOrderRepositoryTest {
     @Autowired
     OrderService orderService;
@@ -39,7 +39,7 @@ public class JPAOrderRepositoryTest {
     private CustomerService customerService;
 
     private Customer prepareCustomer() {
-        Customer newCustomer = new Customer("Vasyl3");
+        Customer newCustomer = new Customer("Vasyl9");
         Address address = new Address("Budapest", "Hungary");
         address.setCustomer(newCustomer);
         newCustomer.addAddress(address);
@@ -50,8 +50,10 @@ public class JPAOrderRepositoryTest {
     @Test
     @Rollback(true)
     @Ignore
+    /* This doesn't work unless customer is saved first. Because Customer has to be persisted but pizza merged */
     public void testSaveNewOrderAndCustomer() throws Exception {
         Customer newCustomer = prepareCustomer();
+//        assertNull(customerService.find(newCustomer.getName()));
         Order order = orderService.placeNewOrder(newCustomer, Arrays.asList(new PizzaAmount(1, 2)));
         assertNotNull(order.getId());
     }
