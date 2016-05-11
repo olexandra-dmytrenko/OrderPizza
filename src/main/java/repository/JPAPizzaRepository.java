@@ -9,15 +9,15 @@ import org.springframework.data.repository.CrudRepository;
 public interface JPAPizzaRepository extends PizzaRepository, CrudRepository<Pizza, Integer> {
 //
 //    @Override
-//    public default Pizza findBy(int id) {
-//        return findBy(id);
+//    public default Pizza findById(int id) {
+//        return findById(id);
 //    }
 //
-//    Pizza findBy(int id);
+//    Pizza findById(int id);
 
 //    @Override
 //    public List<Pizza> findAll() {
-//        return findBy();
+//        return findById();
 //        // return em.createQuery("SELECT * from PIZZA", Pizza.class).getResultList();
 //    }
 //

@@ -23,7 +23,7 @@ public interface PizzaRepository{
 
     Pizza save(Pizza pizza);
 
-    Pizza findBy(int id);
+    Pizza findById(int id);
 
     List<Pizza> findAll();
 }

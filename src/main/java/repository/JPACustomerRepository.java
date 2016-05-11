@@ -14,7 +14,7 @@ public interface JPACustomerRepository extends  CrudRepository<Customer, Integer
 
     @Override
     @Transactional
-    public Customer findBy(String name) {
+    public Customer findById(String name) {
 
         // SessionFactory sessionFactory = em.unwrap(SessionFactory.class);
         Session session = em.unwrap(Session.class);
@@ -29,7 +29,7 @@ public interface JPACustomerRepository extends  CrudRepository<Customer, Integer
     @Override
     @Transactional
     public Customer save(Customer customer) {
-        Customer customerInDB = findBy(customer.getName());
+        Customer customerInDB = findById(customer.getName());
         if (!em.contains(customer) && customerInDB == null) {
             em.persist(customer);
         } else if (customerInDB != null) {

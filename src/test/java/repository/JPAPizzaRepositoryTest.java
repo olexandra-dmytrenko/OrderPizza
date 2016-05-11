@@ -1,9 +1,16 @@
 package repository;
 
-import domain.Pizza;
+import java.sql.Statement;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -12,12 +19,9 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import service.PizzaService;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import java.sql.Statement;
-import java.util.List;
+import domain.Pizza;
+import service.PizzaService;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -27,10 +31,12 @@ import static org.junit.Assert.assertNotNull;
  */
 @Rollback(true)
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:/database/DataSource.xml", "classpath:/database/Hibernate.xml",
-        "classpath:/database/RepositoryContextJPA.xml"})
+@ContextConfiguration(locations = { "classpath:/database/DataSource.xml", "classpath:/database/Hibernate.xml",
+        "classpath:/database/RepositoryContextJPA.xml" })
 @ActiveProfiles("win")
 public class JPAPizzaRepositoryTest extends AbstractTransactionalJUnit4SpringContextTests {
+    private static Logger log = LoggerFactory.getLogger(JPAPizzaRepositoryTest.class);
+
     @PersistenceContext
     private EntityManager em;
 
@@ -39,14 +45,16 @@ public class JPAPizzaRepositoryTest extends AbstractTransactionalJUnit4SpringCon
 
     @Test
     public void testFind() throws Exception {
-        final String insertQuery = "INSERT INTO pizzas (name, price) VALUES ('Margarita', 127.99)";
+        final String insertQuery = "INSERT INTO pizzas (name, price) VALUES ('Margarita', 128.88)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(con -> con.prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS), keyHolder);
         Integer id = keyHolder.getKey().intValue();
-        pizzaService.find(id);
-//        em.getTransaction().commit();
-        System.out.println(id);
+        Pizza foundPizza = pizzaService.find(id);
+        log.info("Id of inserted item = {}", id);
         assertNotNull(id);
+        Pizza insertedPizza = new Pizza("Margarita", 128.88);
+        insertedPizza.setId(id);
+        assertEquals(foundPizza, insertedPizza);
     }
 
     @Test
@@ -54,11 +62,11 @@ public class JPAPizzaRepositoryTest extends AbstractTransactionalJUnit4SpringCon
         final String insertQuery = "INSERT INTO pizzas (name, price) VALUES ('Margarita', 127.99)";
         jdbcTemplate.execute(insertQuery);
         List<Pizza> pizzas = pizzaService.findAll();
-//        em.getTransaction().commit();
-        pizzas.forEach(System.out::println);
+        // em.getTransaction().commit();
+        pizzas.forEach(p -> log.info("Pizza from DB: {}", p));
         Pizza insertedPizza = new Pizza("Margarita", 127.99);
 
-//        assertTrue(pizzas.forEach(el -> el.equals(insertedPizza)));
+        // assertTrue(pizzas.forEach(el -> el.equals(insertedPizza)));
 
     }
 
