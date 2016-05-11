@@ -29,15 +29,13 @@ import static org.junit.Assert.assertNotNull;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:/database/DataSource.xml", "classpath:/database/Hibernate.xml",
         "classpath:/database/RepositoryContextJPA.xml"})
-@ActiveProfiles("mac")
+@ActiveProfiles("win")
 public class JPAPizzaRepositoryTest extends AbstractTransactionalJUnit4SpringContextTests {
     @PersistenceContext
     private EntityManager em;
 
-//    @Autowired
-    private PizzaService pizzaService;
     @Autowired
-    private JPAPizzaRepository pizzaRepository;
+    private PizzaService pizzaService;
 
     @Test
     public void testFind() throws Exception {
@@ -55,7 +53,7 @@ public class JPAPizzaRepositoryTest extends AbstractTransactionalJUnit4SpringCon
     public void testFindAll() throws Exception {
         final String insertQuery = "INSERT INTO pizzas (name, price) VALUES ('Margarita', 127.99)";
         jdbcTemplate.execute(insertQuery);
-        List<Pizza> pizzas = pizzaRepository.findAll();
+        List<Pizza> pizzas = pizzaService.findAll();
 //        em.getTransaction().commit();
         pizzas.forEach(System.out::println);
         Pizza insertedPizza = new Pizza("Margarita", 127.99);

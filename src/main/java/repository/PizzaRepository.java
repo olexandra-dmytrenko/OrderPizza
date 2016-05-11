@@ -2,6 +2,7 @@ package repository;
 
 import domain.BenchMark;
 import domain.Pizza;
+import org.springframework.data.repository.CrudRepository;
 
 import java.util.HashMap;
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.List;
 /**
  * Created by Oleksandra_Dmytrenko on 1/21/2016.
  */
-public interface PizzaRepository {
+public interface PizzaRepository{
     @BenchMark
     default String initializeMessage() {
         return "All pizzas have been initialized through init method";
