@@ -29,7 +29,7 @@ import static org.junit.Assert.assertNull;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/database/DataSource.xml", "classpath:/database/Hibernate.xml",
         "classpath:/database/RepositoryContextJPA.xml" })
-@ActiveProfiles("mac")
+@ActiveProfiles("win")
 public class JPAOrderRepositoryTest {
     @Autowired
     OrderService orderService;
@@ -39,7 +39,7 @@ public class JPAOrderRepositoryTest {
     private CustomerService customerService;
 
     private Customer prepareCustomer() {
-        Customer newCustomer = new Customer("Vasyl3");
+        Customer newCustomer = new Customer("Vasyly8");
         Address address = new Address("Budapest", "Hungary");
         address.setCustomer(newCustomer);
         newCustomer.addAddress(address);
@@ -47,17 +47,23 @@ public class JPAOrderRepositoryTest {
         return newCustomer;
     }
 
+    /**
+     * Works when there is Persist for Customer. But this Persist prevents from merging. So I've deleted it and save customer first than order or use old customer.
+     *Then I've updated the logic of saving order and it started working! :) THe test passes when the customer is both new and old.
+     * @throws Exception
+     */
     @Test
     @Rollback(true)
-    @Ignore
+//    @Ignore
     public void testSaveNewOrderAndCustomer() throws Exception {
         Customer newCustomer = prepareCustomer();
+        customerService.find(newCustomer.getName());
         Order order = orderService.placeNewOrder(newCustomer, Arrays.asList(new PizzaAmount(1, 2)));
         assertNotNull(order.getId());
     }
 
     @Test
-    @Rollback(false)
+    @Rollback(true)
     public void testSaveNewOrderAndOldCustomer() throws Exception {
         Customer newCustomer = prepareCustomer();
         customerService.save(newCustomer);

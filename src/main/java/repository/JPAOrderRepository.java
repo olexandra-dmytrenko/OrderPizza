@@ -2,12 +2,16 @@ package repository;
 
 import domain.Order;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 /**
  * Created by Oleksandra_Dmytrenko on 4/18/2016.
  */
-public interface JPAOrderRepository extends OrderRepository, CrudRepository<Order, Integer> {
-    /*@PersistenceContext
+public class JPAOrderRepository implements OrderRepository{
+    @PersistenceContext
     private EntityManager em;
 
     @Override
@@ -19,5 +23,5 @@ public interface JPAOrderRepository extends OrderRepository, CrudRepository<Orde
             newOrder = em.merge(newOrder);
         em.flush();
         return newOrder;
-    }*/
+    }
 }

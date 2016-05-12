@@ -29,7 +29,7 @@ public class Order implements OrderActions {
     private Customer customer;
     // static AtomicLong id = new AtomicLong(0);
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST })
+    @ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.REFRESH })
     @JoinTable(name = "ORDER_PIZZA", joinColumns = {
     @JoinColumn(name = "ORDER_ID", referencedColumnName = "ID") }, inverseJoinColumns = {
     @JoinColumn(name = "PIZZA_ID", referencedColumnName = "ID") })

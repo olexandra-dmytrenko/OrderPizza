@@ -7,7 +7,7 @@ import domain.Customer;
  */
 public interface CustomerRepository {
 
-    Customer find(String name);
+    Customer findByName(String name);
 
     Customer save(Customer customer);
 }

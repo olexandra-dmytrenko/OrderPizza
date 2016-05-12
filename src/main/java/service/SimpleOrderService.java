@@ -1,23 +1,33 @@
 package service;
 
-import domain.*;
-import repository.OrderRepository;
-
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import domain.*;
+import repository.OrderRepository;
 
 /**
  * Created by Oleksandra_Dmytrenko on 1/21/2016.
  */
-// put abstract infront of class
+// put abstract in front of class
+
+@Service
 public class SimpleOrderService implements OrderService {
+
+    @Autowired
     Order order;
+    @Autowired
     private OrderRepository orderRepository;// = new InMemOrderRepository();
+    @Autowired
     private PizzaService simplePizzaService;// = new SimplePizzaService();
+    @Autowired
     private CustomerService customerService;
 
+    @Autowired
     public SimpleOrderService(OrderRepository orderRepository, PizzaService pizzaService,
             CustomerService customerService) {
         this.orderRepository = orderRepository;
@@ -37,7 +47,8 @@ public class SimpleOrderService implements OrderService {
         List<Pizza> pizzas = new ArrayList<>();
         fillPizzasList(pizzaAmountList, pizzas);
         order = new Order(customer, pizzas);
-        customer.setOrders(Arrays.asList(order));
+
+        customer.addOrder(order);
         System.out.println("ORDER = " + order.toString());
         return saveOrder(order); // set Order Id and save Order to in-memory list
     }

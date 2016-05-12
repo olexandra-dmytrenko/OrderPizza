@@ -1,27 +1,33 @@
 package repository;
 
 import domain.Customer;
+import org.hibernate.Session;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 /**
  * Created by olexandra on 4/26/16.
  */
-public interface JPACustomerRepository extends  CrudRepository<Customer, Integer> {
 
-/*
+public class JPACustomerRepository implements CustomerRepository{
+
     @PersistenceContext
     EntityManager em;
 
     @Override
     @Transactional
-    public Customer findById(String name) {
+    public Customer findByName(String name) {
 
         // SessionFactory sessionFactory = em.unwrap(SessionFactory.class);
         Session session = em.unwrap(Session.class);
         // Session session = sessionFactory.openSession();
         session.beginTransaction();
 
-        Customer customer = (Customer) session.bySimpleNaturalId(Customer.class).load(name);
+        Customer customer = session.bySimpleNaturalId(Customer.class).load(name);
         System.out.println(customer);
         return customer;
     }
@@ -29,7 +35,7 @@ public interface JPACustomerRepository extends  CrudRepository<Customer, Integer
     @Override
     @Transactional
     public Customer save(Customer customer) {
-        Customer customerInDB = findById(customer.getName());
+        Customer customerInDB = findByName(customer.getName());
         if (!em.contains(customer) && customerInDB == null) {
             em.persist(customer);
         } else if (customerInDB != null) {
@@ -51,5 +57,4 @@ public interface JPACustomerRepository extends  CrudRepository<Customer, Integer
                                                 && adFromDB.getCity().equals(address.getCity()))).findAny().get().getId())
                 );
     }
-*/
 }

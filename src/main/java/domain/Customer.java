@@ -1,16 +1,16 @@
 package domain;
 
-import org.hibernate.annotations.*;
-
-import javax.persistence.*;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import javax.persistence.*;
+
+import org.hibernate.annotations.NaturalId;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -32,8 +32,8 @@ public class Customer implements Serializable {
     @Column(name = "NAME", length = 100, nullable = false, unique = true)
     private String name;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "customer", cascade = {CascadeType.ALL})
-//    @PrimaryKeyJoinColumn
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "customer", cascade = { CascadeType.ALL })
+    // @PrimaryKeyJoinColumn
     @NotFound(action = NotFoundAction.IGNORE)
     private PromoCard promoCard;
 
@@ -64,11 +64,12 @@ public class Customer implements Serializable {
     }
 
     public PromoCard getPromoCard() {
-//        if (this.promoCard == null) {
-//            System.out.println(this.toString() + " doesn't have a promo card. A new one was created");
-//            this.promoCard = new PromoCard(0);
-//            this.getPromoCard().setCustomer(this);
-//        }
+        // if (this.promoCard == null) {
+        // System.out.println(this.toString() + " doesn't have a promo card. A new one was
+        // created");
+        // this.promoCard = new PromoCard(0);
+        // this.getPromoCard().setCustomer(this);
+        // }
         return promoCard;
     }
 
@@ -84,13 +85,13 @@ public class Customer implements Serializable {
         this.getPromoCard().setCustomer(this);
     }
 
-    public void setAddresses(Set<Address> addresses) {
-        this.addresses = addresses;
-    }
-
     // @JoinColumn(name = "ADDRESS_ID", nullable = false)
     public Set<Address> getAddresses() {
         return addresses;
+    }
+
+    public void setAddresses(Set<Address> addresses) {
+        this.addresses = addresses;
     }
 
     public Integer getId() {
@@ -117,10 +118,17 @@ public class Customer implements Serializable {
         this.orders = orders;
     }
 
+    public List<Order> addOrder(Order order) {
+        if (orders != null)
+            orders.add(order);
+        else
+            setOrders(Arrays.asList(order));
+        return orders;
+    }
+
     @Override
     public String toString() {
-        return "Customer: " + name
-         + " from " + addresses != null ? addresses.stream().toString() : "Nowhere"
-                + ", customer id = " + id + ", with promo card = " + promoCard;
+        return "Customer: " + name + " from " + addresses != null ? addresses.stream().toString()
+                : "Nowhere" + ", customer id = " + id + ", with promo card = " + promoCard;
     }
 }

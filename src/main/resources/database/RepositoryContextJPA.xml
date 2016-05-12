@@ -17,7 +17,7 @@
         <!--<lookup-method name="createNewOrder" bean="newOrder"/>-->
     <!--</bean>-->
 
-    <!--<bean name="jpaOrderRepository" class="repository.JPAOrderRepository"/>-->
+    <bean name="jpaOrderRepository" class="repository.JPAOrderRepository"/>
 
     <!--<bean name="pizzaRepository" class="repository.JPAPizzaRepository"/>-->
 
@@ -25,11 +25,11 @@
         <!--<constructor-arg type="repository.PizzaRepository" ref="pizzaRepository"/>-->
     <!--</bean>-->
 
-    <!--<bean name="customerRepository" class="repository.JPACustomerRepository"/>-->
+    <bean name="customerRepository" class="repository.JPACustomerRepository"/>
 
-    <!--<bean name="customerService" class="service.SimpleCustomerService">-->
-        <!--<constructor-arg type="repository.CustomerRepository" ref="customerRepository"/>-->
-    <!--</bean>-->
+    <bean name="customerService" class="service.SimpleCustomerService">
+        <constructor-arg type="repository.CustomerRepository" ref="customerRepository"/>
+    </bean>
 
     <bean name="newOrder" class="domain.Order" scope="prototype"/>
 
