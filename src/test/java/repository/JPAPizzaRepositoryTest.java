@@ -23,8 +23,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import domain.Pizza;
 import service.PizzaService;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 /**
  * Created by Oleksandra_Dmytrenko on 4/7/2016.
@@ -59,15 +58,12 @@ public class JPAPizzaRepositoryTest extends AbstractTransactionalJUnit4SpringCon
 
     @Test
     public void testFindAll() throws Exception {
-        final String insertQuery = "INSERT INTO pizzas (name, price) VALUES ('Margarita', 127.99)";
+        final String insertQuery = "INSERT INTO pizzas (name, price) VALUES ('Margarita', 125.55)";
         jdbcTemplate.execute(insertQuery);
         List<Pizza> pizzas = pizzaService.findAll();
-        // em.getTransaction().commit();
         pizzas.forEach(p -> log.info("Pizza from DB: {}", p));
-        Pizza insertedPizza = new Pizza("Margarita", 127.99);
-
-        // assertTrue(pizzas.forEach(el -> el.equals(insertedPizza)));
-
+        Pizza insertedPizza = new Pizza("Margarita", 125.55);
+        assertTrue(pizzas.stream().anyMatch(insertedPizza::equals));
     }
 
     @Test
