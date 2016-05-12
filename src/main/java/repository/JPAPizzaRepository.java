@@ -6,7 +6,7 @@ import org.springframework.data.repository.CrudRepository;
 /**
  * Created by Oleksandra_Dmytrenko on 4/6/2016.
  */
-public interface JPAPizzaRepository extends PizzaRepository, CrudRepository<Pizza, Integer> {
+public interface JPAPizzaRepository extends PizzaRepository {
 //
 //    @Override
 //    public default Pizza findById(int id) {

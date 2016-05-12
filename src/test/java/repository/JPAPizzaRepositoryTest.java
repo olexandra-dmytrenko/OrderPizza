@@ -67,19 +67,18 @@ public class JPAPizzaRepositoryTest extends AbstractTransactionalJUnit4SpringCon
     }
 
     @Test
-    @Rollback(false)
+    @Rollback(true)
     public void testUpdate() throws Exception {
+        long pizzasAmountStart = pizzaService.count();
+        log.info("Amount of pizzas before insert = {}", pizzasAmountStart);
         Pizza pizza = new Pizza("Updatable Pizza", 200.50);
         Assert.assertNull("This is not newly created pizza and it has id" + pizza, pizza.getId());
         Pizza result = pizzaService.save(pizza);
-        em.flush();
+        long pizzasAmountEnd = pizzaService.count();
+        log.info("Amount of pizzas after insert = {}", pizzasAmountEnd);
         assertNotNull("Pizza wasn't saved to the DB Correctly", result.getId());
-        pizza = new Pizza("Updatable Pizza", 120.10);
-        result = pizzaService.save(pizza);
-        em.flush();
-        System.out.println(result.getPrice());
-
-        assertEquals("Pizza wasn't saved to the DB Correctly", result.getPrice(), 120.10, 0.001);
+        assertEquals("The amount of pizzas didn't grow on one", pizzasAmountEnd - pizzasAmountStart, 1);
+        assertEquals("Pizza wasn't saved to the DB Correctly", result.getPrice(), 200.50, 0.001);
     }
 
     @Test

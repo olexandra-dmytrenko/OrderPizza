@@ -37,4 +37,9 @@ public class SimplePizzaService implements PizzaService {
     public List<Pizza> findAll() {
         return pizzaRepository.findAll();
     }
+
+    @Override
+    public Long count() {
+        return pizzaRepository.count();
+    }
 }

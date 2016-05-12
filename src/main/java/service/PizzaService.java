@@ -11,4 +11,5 @@ public interface PizzaService {
     Pizza find(Integer id);
     Pizza save(Pizza pizza);
     List<Pizza> findAll();
+    Long count();
 }
