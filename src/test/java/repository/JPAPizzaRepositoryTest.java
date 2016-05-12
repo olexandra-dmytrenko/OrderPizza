@@ -67,6 +67,21 @@ public class JPAPizzaRepositoryTest extends AbstractTransactionalJUnit4SpringCon
     }
 
     @Test
+    @Rollback(false)
+    public void testSave() throws Exception {
+        Pizza pizza = new Pizza("New Pizza", 100.01);
+        Assert.assertNull("This is not newly created pizza and it has id", pizza.getId());
+        Pizza result = pizzaService.save(pizza);
+        em.flush();
+        System.out.println(result.getId());
+        assertNotNull("Pizza wasn't saved to the DB Correctly", result.getId());
+    }
+
+    /**
+     * Insert of pizza using Save and updating it by ID
+     * @throws Exception
+     */
+    @Test
     @Rollback(true)
     public void testUpdate() throws Exception {
         long pizzasAmountStart = pizzaService.count();
@@ -78,17 +93,14 @@ public class JPAPizzaRepositoryTest extends AbstractTransactionalJUnit4SpringCon
         log.info("Amount of pizzas after insert = {}", pizzasAmountEnd);
         assertNotNull("Pizza wasn't saved to the DB Correctly", result.getId());
         assertEquals("The amount of pizzas didn't grow on one", pizzasAmountEnd - pizzasAmountStart, 1);
-        assertEquals("Pizza wasn't saved to the DB Correctly", result.getPrice(), 200.50, 0.001);
-    }
+        assertEquals("Pizza wasn't saved to the DB Correctly", pizzaService.find(result.getId()).getPrice(), 200.50, 0.001);
 
-    @Test
-    @Rollback(false)
-    public void testSave() throws Exception {
-        Pizza pizza = new Pizza("New Pizza", 100.01);
-        Assert.assertNull("This is not newly created pizza and it has id", pizza.getId());
-        Pizza result = pizzaService.save(pizza);
-        em.flush();
-        System.out.println(result.getId());
-        assertNotNull("Pizza wasn't saved to the DB Correctly", result.getId());
+//        Update the pizza
+        result.setPrice(120.10);
+        result = pizzaService.save(pizza);
+        long pizzasAmountAfterUpdate = pizzaService.count();
+        log.info("The pizza {} prize was updated. Current number of pizzas is {}, initial is {}", result.getName(), pizzasAmountAfterUpdate, pizzasAmountStart);
+        assertEquals("Pizza wasn't saved to the DB Correctly", result.getPrice(), 120.10, 0.001);
+        assertEquals("The amount of pizzas didn't grow on one", pizzasAmountAfterUpdate - pizzasAmountStart, 1);
     }
 }
