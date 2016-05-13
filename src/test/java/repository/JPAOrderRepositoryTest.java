@@ -39,7 +39,7 @@ public class JPAOrderRepositoryTest {
     private CustomerService customerService;
 
     private Customer prepareCustomer() {
-        Customer newCustomer = new Customer("Vasyly8");
+        Customer newCustomer = new Customer("Vasyly10");
         Address address = new Address("Budapest", "Hungary");
         address.setCustomer(newCustomer);
         newCustomer.addAddress(address);
@@ -57,9 +57,10 @@ public class JPAOrderRepositoryTest {
 //    @Ignore
     public void testSaveNewOrderAndCustomer() throws Exception {
         Customer newCustomer = prepareCustomer();
-        customerService.find(newCustomer.getName());
+        assertNull(customerService.find(newCustomer.getName()));
         Order order = orderService.placeNewOrder(newCustomer, Arrays.asList(new PizzaAmount(1, 2)));
         assertNotNull(order.getId());
+        assertNotNull(newCustomer.getId());
     }
 
     @Test
